@@ -30,13 +30,13 @@ The Knowledge Graph + Search Engine bridge is fully operational locally.
     * Install **Ollama**.
     * Pull the `qwen2.5:3b` model (highly optimized for CPU-only text operations).
 3. **Pipeline Action**:
-    * Write a Python script (`anonymizer.py`) that takes mock client transactions and queries the local VM Ollama API.
+    * Write a Python script (`anonymizer.py`) that takes real client transactions provided by the user and queries the local VM Ollama API.
     * Prompt the local Qwen model to explicitly redact any Names, Addresses, Amounts, and identifying numbers (replacing them with `[REDACTED_NAME]`, etc.).
 
-### Phase 4: Final RAG Integration (Pending)
+### Phase 4: Final RAG Integration & Testing (Pending)
 1. **The RAG Pipeline**: Combine the Local capabilities.
-    * User passes a target transaction.
-    * Anonymizer locally scrubs it.
+    * The user will manually place clean, real-world examples into the `test_transactions/` directory.
+    * Anonymizer locally scrubs the real transaction.
     * ChromaDB locally searches the graph based on the scrubbed transaction's semantic meaning.
 2. **External Inference**:
     * Send the sanitized transaction + the explicitly retrieved CySEC JSON paragraph to **Kimi API** (or similar heavy LLM).
