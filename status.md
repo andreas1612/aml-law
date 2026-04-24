@@ -35,9 +35,10 @@ The Knowledge Graph + Search Engine bridge is fully operational locally.
 
 ### Phase 4: Final RAG Integration & Testing (Pending)
 1. **The RAG Pipeline**: Combine the Local capabilities.
-    * The user will manually place clean, real-world examples into the `test_transactions/` directory.
-    * Anonymizer locally scrubs the real transaction.
-    * ChromaDB locally searches the graph based on the scrubbed transaction's semantic meaning.
+    * The user will manually place clean, real-world examples (in `.docx` or `.pdf` formats) into the `test_transactions/` directory.
+    * **Document Parsing Layer**: A Python script using libraries like `pdfplumber` or `python-docx` will locally extract the raw text strings from these documents.
+    * Anonymizer locally scrubs the extracted text to remove sensitive PII.
+    * ChromaDB locally searches the graph based on the scrubbed text's semantic meaning.
 2. **External Inference**:
     * Send the sanitized transaction + the explicitly retrieved CySEC JSON paragraph to **Kimi API** (or similar heavy LLM).
     * Prompt Kimi to act as the Auditor and declare whether the transaction violates the specific provided paragraph.
