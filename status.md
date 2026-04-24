@@ -1,26 +1,43 @@
-# Project Status: AML Compliance Auditor PoC
+# AML Compliance Auditor PoC - Status & Handover
 
-**Current Phase:** Phase 1 Complete (Data Engineering / Graph Construction)
+## Project Overview
+An automated AML compliance auditor utilizing a strictly controlled Semantic JSON Knowledge Graph to enforce regulatory compliance (CySEC) against client transactions without hallucinations. The architecture enforces complete data sovereignty by utilizing a Local Vector Database and a Local Anonymizer.
 
-### Phase 1: Database Generation (DONE)
-- [x] Dump raw PDFs into `.txt` format.
-- [x] Prove that regex parsing is unviable due to deep nested legal hierarchies and OCR noise.
-- [x] Establish "One JSON per file" Graph schema.
-- [x] Extract Parts 1 through 10 into semantic JSON (`part_X.json`).
-- [x] Identify Appendix structural discrepancies.
-- [x] Extract Appendices into purpose-built schemas (form_templates, indicator_lists).
-- [x] Assemble `master_index.json` to link all 15 nodes together for RAG retrieval.
-- [x] Organize workspace into `/raw_texts` and `/json_graph`.
+## Accomplished So Far
+### Phase 1: Database Generation [COMPLETE]
+* Successfully broke down the CySEC AML Directive into a clean, hierarchical JSON Structure composed of 15 files (Parts 1-10 + Appendices 1-5).
+* Preserved explicit graph paths (e.g., `part_1.json.paragraphs.5.points.a`).
 
-### Phase 2: Vectorization & RAG Engine (PENDING)
-- [ ] Determine the embedding model to be used locally.
-- [ ] Write Python vectorization scripts that index the JSON leaves down to their absolute paths (e.g., `PART_V.paragraphs.18.subparagraphs.3.points.b`).
-- [ ] Store vectors in a lightweight local DB (Chroma, FAISS, or Postgres/pgvector).
+### Phase 2: Vectorization & Information Retrieval [COMPLETE]
+* Installed **ChromaDB** and `sentence-transformers`.
+* Created the `master_dispatcher` architecture in `vectorize.py`.
+* Due to the radical structural differences between Core Directives and Appendices, the pipeline explicitly routes logic:
+    * **Standard Paragraphs (Parts 1-10, App 4-5)**: Intelligently fragmented by sentences (no halved clauses).
+    * **Form Templates (App 1, 2)**: Translated empty dict keys into compliance statements.
+    * **Indicator Lists (App 3)**: Extracted elements of pure JSON arrays without data loss.
+* Successfully injected exactly **325 explicit legal nodes** into the persistent `chroma_db/` folder.
+* **Proved Integrity**: Wrote `audit_chunks.py` verifying that 100% of chunks map correctly without structural data loss.
 
-### Phase 3: The Anonymizer (PENDING)
-- [ ] Configure the local Qwen3-8B class model.
-- [ ] Build a pipeline to strip PII from mock client transaction profiles before passing them to the Auditor.
+## NEXT STEPS (Handover Instructions for Claude)
+The Knowledge Graph + Search Engine bridge is fully operational locally.
 
-### Phase 4: Evaluation & Reporting (PENDING)
-- [ ] Develop agentic LLM pipelines that evaluate the sanitized client profiles against retrieved Context nodes.
-- [ ] Generate HTML/PDF Compliance Reports dynamically leveraging the Jinja2 structured templates.
+### Phase 3: The Local Anonymizer (Currently Pending)
+**Goal:** We cannot allow internal client transaction data containing PII to hit an external LLM API directly. We must scrub it locally first.
+
+1. **Target Environment**: The user has an 8GB headless VM (CPU-only) exclusively intended for this step.
+2. **Setup Required**:
+    * SSH into the VM.
+    * Install **Ollama**.
+    * Pull the `qwen2.5:3b` model (highly optimized for CPU-only text operations).
+3. **Pipeline Action**:
+    * Write a Python script (`anonymizer.py`) that takes mock client transactions and queries the local VM Ollama API.
+    * Prompt the local Qwen model to explicitly redact any Names, Addresses, Amounts, and identifying numbers (replacing them with `[REDACTED_NAME]`, etc.).
+
+### Phase 4: Final RAG Integration (Pending)
+1. **The RAG Pipeline**: Combine the Local capabilities.
+    * User passes a target transaction.
+    * Anonymizer locally scrubs it.
+    * ChromaDB locally searches the graph based on the scrubbed transaction's semantic meaning.
+2. **External Inference**:
+    * Send the sanitized transaction + the explicitly retrieved CySEC JSON paragraph to **Kimi API** (or similar heavy LLM).
+    * Prompt Kimi to act as the Auditor and declare whether the transaction violates the specific provided paragraph.
