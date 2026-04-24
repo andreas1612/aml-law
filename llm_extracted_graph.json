@@ -1,0 +1,116 @@
+{
+  "PART_I": {
+    "title": "INTRODUCTORY PROVISIONS",
+    "paragraphs": {
+      "1": {
+        "title": "Short title",
+        "text": "This Directive will be cited as the Directive for the Prevention and Suppression of Money Laundering and Terrorist Financing.",
+        "marginal_references": [
+          "R.A.D. 157/2019",
+          "R.A.D. 125/2020",
+          "R.A.D. 282/2024"
+        ]
+      },
+      "2": {
+        "title": "Definitions",
+        "text": "For the purposes of this Directive, unless the context shall prescribe otherwise:",
+        "defined_terms": {
+          "ABFS": "shall mean the Advisory Body on Financial Sanctions established pursuant to a decision of the Council of Ministers, dated 25 May 2012, which is chaired by the Ministry of Finance and which deals with the examination of requests for the release of funds maintained in accounts of credit institutions, frozen pursuant to Sanctions and Restrictive measures, and which makes recommendations for their approval or rejection pursuant to a final decision to be taken by the Minister of Finance;",
+          "alternate compliance officer": "means the person referred to in paragraph 8;",
+          "board of directors": "means the board of directors of the Obliged Entity;",
+          "Commission": "means the Cyprus Securities and Exchange Commission established and operating pursuant to the Cyprus Securities and Exchange Commission (Establishment and Responsibilities) Law;",
+          "identification document": "means a document issued from a government of a Member State of the European Union or of a third country and which states the full name and birth date of the natural person and bares a photo of him;",
+          "company": "means a company of limited liability by shares, established under Company Law or a company established in another member state under the law applicable in its place of establishment or a company established under the Cooperative Societies Law;",
+          "compliance officer": "means the person referred to paragraph 9;",
+          "EU Directive": "means an act of the European Union entitled ‘Directive (EU) 2015/849 of the European Parliament and of the Council of 20 May 2015 on the prevention of the use of the financial system for the purposes of money laundering or terrorist financing, amending Regulation (EU) No 648/2012 of the European Parliament and of the Council, and repealing Directive 2005/60/EC of the European Parliament and of the Council and Commission Directive 2006/70/EC’;",
+          "Joint Guidelines": "means the guidelines on the risk factors issued by the European Securities and Markets Authority, the European Insurance and Occupational Pensions Authority and the European Banking Authority under Articles 17 and 18(4) of Directive (EU) 2015/849 on simplified and enhanced customer due diligence and the factors credit and financial institutions should consider when assessing the money laundering and terrorist financing risk associated with individual business relationships and occasional transactions, as amended;",
+          "MOKAS": "means the Unit for Combating Money Laundering established according to section 54 of the Prevention and Suppression of Money Laundering Activities Law;",
+          "Law": "means the Prevention and Suppression of Money Laundering Activities Law;",
+          "regulated market": "has the meaning attributed to this term by section 2 of the Investment Services and Activities and Regulated Markets Law;",
+          "Obliged Entity": "means the persons referred to in section 59(1)(b) of the Law;",
+          "money laundering and terrorist financing": "means the money laundering offences and terrorist financing offences defined in section 2 of the Law;",
+          "Sanctions Law": "means the Implementation of the provisions of the United Nations Security Council Resolutions or Decisions (Sanctions) and the European Union Council Decisions and Regulations (Restrictive Measures) Law 58(I) of 2016.",
+          "UIS": "shall mean the Unit for the Implementation of Sanctions in the Financial Sector established pursuant to a decision of the Council of Ministers, dated 25 February 2016, which is chaired by the Ministry of Finance and which deals with the examination of requests that fall within the financial sector, affected by Sanctions and/or Restrictive measures, and which makes recommendations for their approval or rejection pursuant to a final decision to be taken collectively or by majority by the Ministers of Finance, Foreign Affairs and Energy, Trade, Industry and Tourism, or their representatives;"
+        },
+        "additional_provisions": [
+          "Without prejudice of the abovementioned provisions, terms used in this Directive that are not interpreted differently shall have the meaning given to them by the Law.",
+          "Where in the present Directive reference is made to the Law, this includes the Regulatory Administrative Decisions issued thereof."
+        ]
+      },
+      "3": {
+        "title": "Scope",
+        "text": "This Directive applies to all Obliged Entities."
+      },
+      "4": {
+        "title": "Supervisory Authority for the application of the Directive",
+        "text": "The Supervisory Authority for the purpose of application of the present Directive is the Commission, in accordance with section 59 of the Law and section 3 of the Implementation of the provisions of the United Nations Security Council Resolutions or Decisions (Sanctions) and the European Union Council Decisions and Regulations (Restrictive Measures) Law of 2016."
+      }
+    }
+  },
+  "PART_V": {
+    "title": "CUSTOMER IDENTIFICATION AND DUE DILIGENCE PROCEDURES",
+    "paragraphs": {
+      "18": {
+        "title": "Obligation for customer identification and due diligence procedures",
+        "marginal_references": [
+          "sections 60, 61 and 62 of the Law"
+        ],
+        "subparagraphs": {
+          "1": {
+            "text": "In addition to the provisions of sections 60, 61 and 62 of the Law that refer to the obligation for customer identification and due diligence procedures, the Obliged Entity ensure that the customer identification records remain completely updated with all relevant identification data and information throughout the business relationship. The Obliged Entity examines and checks, on a regular basis, the validity and adequacy of the customer identification data and information it maintains, especially those concerning high risk customers. The procedures and controls of paragraph 9(1)(a) also determine the timeframe during which the regular review, examination and update of the customer identification is conducted. The outcome of the said review is recorded in a separate note/form which should be kept in the respective customer file."
+          },
+          "2": {
+            "text": "Despite the provisions of subparagraph (1) and taking into consideration the level of risk, if at any time during the business relationship, the Obliged Entity becomes aware that reliable or adequate data and information are missing from the identity and the economic profile of the customer, then takes all necessary action, by applying the customer identification and due diligence procedures according to the Law and the present Directive, to collect the missing data and information, the soonest possible, so as to identify the customer and update and complete the customer’s economic profile."
+          },
+          "3": {
+            "text": "In addition to the provisions of subparagraph (1) and (2), the Obliged Entity checks the adequacy of the data and information of the customer’s identity and economic profile whenever one of the following events or incidents occurs:",
+            "points": {
+              "a": {
+                "text": "an important transaction takes place which appears to be unusual and/or significant compared to the normal pattern of transactions and the economic profile of the customer;"
+              },
+              "b": {
+                "text": "a material change in the customer’s legal status and situation, such as:",
+                "subpoints": {
+                  "i": "change of directors/secretary,",
+                  "ii": "change of registered shareholders and/or beneficial owners,",
+                  "iii": "change of registered office,",
+                  "iv": "change of trustees,",
+                  "v": "change of corporate name and/or trading name,",
+                  "vi": "change of the principal trading partners and/or undertake new major business activities;"
+                }
+              },
+              "c": {
+                "text": "a material change in the way and the rules the customer’s account operates, such as:",
+                "subpoints": {
+                  "i": "Change in the persons that are authorised to operate the account,",
+                  "ii": "application for the opening of new account for the provision of new investment services and/or financial instruments."
+                }
+              }
+            }
+          }
+        }
+      },
+      "19": {
+        "title": "Transactions that favour anonymity",
+        "marginal_references": [
+          "section 66(3) of the Law"
+        ],
+        "text": "In the case of customers’ transactions via the internet, phone, fax or other electronic means where the customer is not present so as to verify the authenticity of his signature or that he is the real owner of the account or that he has been properly authorised to operate the account, the Obliged Entity applies reliable methods, procedures and control mechanisms over the access to the electronic means so as to ensure that it deals with the true owner or the authorised signatory to the account."
+      },
+      "20": {
+        "title": "Failure or refusal to submit information for the verification of customers’ identity",
+        "marginal_references": [
+          "section 62(4) of the Law"
+        ],
+        "subparagraphs": {
+          "1": {
+            "text": "Failure or refusal by a customer to submit, before the establishment of a business relationship or the execution of an occasional transaction, the requisite data and information for the verification of his identity and the creation of his economic profile, without adequate justification, constitutes elements that may lead to the creation of a suspicion that the customer is involved in money laundering or terrorist financing activities. In such an event, the Obliged Entity does not proceed with the establishment of the business relationship or the execution of the occasional transaction while at the same time the compliance officer considers whether it is justified under the circumstances to submit a report to MOKAS, according to paragraph 9(1)(g)."
+          },
+          "2": {
+            "text": "If, during the business relationship, a customer fails or refuses to submit, within a reasonable timeframe, the required verification data and information according to paragraph 18, the Obliged Entity terminates the business relationship and closes all the accounts of the customer while at the same time examines whether it is justified under the circumstances to submit a report to MOKAS, according to paragraph 9(1)(g)."
+          }
+        }
+      }
+    }
+  }
+}

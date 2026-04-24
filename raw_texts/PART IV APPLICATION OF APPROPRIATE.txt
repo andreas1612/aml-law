@@ -1,0 +1,275 @@
+PART IV APPLICATION OF APPROPRIATE MEASURES AND
+PROCEDURES ON A RISK BASED APPROACH
+Paragraph 12 Application of measures and procedures on a risk based
+approach
+Paragraph 13 Identification, recording and evaluation of risks
+Paragraph 14 Design and implementation of measures and procedures to
+manage and mitigate the risks
+Paragraph 15 Monitoring and improving the measures and procedures
+Paragraph 16 Dynamic risk management
+Paragraph 17 Relevant international organisations
+
+PART IV
+APPLICATION OF APPROPRIATE MEASURES AND
+PROCEDURES ON A RISK BASED APPROACH
+
+Application of
+measures and
+procedures on a
+risk based
+approach
+(section 61(2) of
+the Law)
+12. (1) The Obliged Entity applies appropriate measures and
+procedures, on a risk based approach, so as to focus its effort
+in those areas where the risk of money laundering and
+terrorist financing appears to be higher.
+(2) A risk-based approach:
+(a) recognises that the money laundering or terrorist
+financing threat varies across customers, countries,
+services and financial instruments;
+(b) allows the board of directors to differentiate
+between customers of the Obliged Entity in a way that
+matches the risk of their particular business;
+(c) allows the board of directors to apply its own
+approach in the formulation of policies, procedures and
+controls in response to the Obliged Entity’s particular
+circumstances and characteristics;
+(d) helps to produce a more cost effective system; and
+(e) promotes the prioritisation of effort and actions of
+the Obliged Entity in response to the likelihood of
+money laundering or terrorist financing occurring
+through the use of services provided by the Obliged
+Entity.
+(3) A risk-based approach involves specific measures and
+procedures in assessing the most cost effective and
+proportionate way to manage the money laundering and
+terrorist financing risks faced by the Obliged Entity. Such
+measures and procedures are:
+
+(a) identifying and assessing the money laundering and
+terrorist financing risks emanating from particular
+customers, financial instruments, services, and
+geographical areas of operation of the Obliged Entity
+and its customers;
+(b) documenting in the risk management and
+procedures manual of paragraph 9(1)(c), the policies,
+measures, procedures and controls to ensure their
+uniform application across the Obliged Entity by
+persons specifically appointed for that purpose by the
+board of directors;
+(c) managing and mitigating the assessed risks by the
+application of appropriate and effective measures,
+procedures and controls;
+(d) continuous monitoring and improvements in the
+effective operation of the policies, procedures and
+controls.
+(4) The Obliged Entities when assessing the money
+laundering and terrorist financing risks and when
+applying risk based measures and procedures, should
+take into account, among others, the Joint Guidelines
+and the Guidelines issued by the Financial Action Task
+Force (FATF).
+Identification,
+recording and
+evaluation of risks
+13. (1) According to paragraph 9(1)(j), the compliance officer has
+the responsibility to identify, record and evaluate all potential
+risks. The successful establishment of measures and
+procedures on a risk-based approach requires the clear 
+communication of the measures and procedures that have
+been decided across the Obliged Entity, along with robust
+mechanisms to ensure that these are implemented effectively,
+weaknesses are promptly identified and improvements are
+made wherever necessary.
+(2) A risk-based approach involves the identification,
+recording and evaluation of the risks that have to be
+managed. The Obliged Entity assesses and evaluates the risk
+it faces, for usage of the services provided for the purpose of
+money laundering or terrorist financing. The particular
+circumstances of the Obliged Entity determine the suitable
+procedures and measures that need to be applied to counter
+and manage risk.
+(3) In the cases where the services and the financial
+instruments that the Obliged Entity provides are relatively
+simple, involving relatively few customers, or customers with
+similar characteristics, then the Obliged Entity applies
+procedures that focus on those customers who fall outside the
+‘norm’.
+(4) The identification, recording and evaluation of risk that the
+Obliged Entity face presupposes the finding of answers to the
+following questions:
+(a) What risk is posed by the Obliged Entity’s
+customers? For example:
+i. complexity of ownership structure of legal persons,
+ii. companies with bearer shares,
+iii. companies incorporated in offshore centres,
+iv. politically exposed persons,
+v. customers engaged in transactions which involves
+significant amounts of cash,
+vi. customers from high risk countries or from
+countries known for high level of corruption or
+organized crime or drug trafficking;
+(b) What risk is posed by a customer’s behaviour? For
+example:
+i. customer transactions where there is no apparent
+legal financial/commercial rationale,
+ii. situations where the origin of wealth and/or source
+of funds cannot be easily verified,
+iii. unwillingness of customers to provide information
+on the beneficial owners of a legal person;
+(c) How did the customer communicate the Obliged
+Entity? For example:
+i. non face to face customer,
+ii. customer introduced by a third person;
+(d) What risk is posed by the services and financial
+instruments provided to the customer? For example:
+i. services that allow payments to third persons,
+ii. large cash deposits or withdrawals.
+(5) The application of appropriate measures and the nature
+and extent of the procedures of a risk based approach
+depends on different parameters. Indicative parameters are
+the following:
+(a) the scale and complexity of the services;
+(b) geographical spread of the services and customers;
+(c) the nature (e.g. non face to face customer) and
+economic profile of customers as well as of financial
+instruments and services offered;
+(d) the distribution channels and practices of providing
+services;
+(e) the volume and size of transactions;
+(f) the degree of risk associated with each area of
+services;
+(g) the country of origin and destination of customers’
+funds;
+(h) deviations from the anticipated level of transactions;
+(i) the nature of business transactions.
+Design and
+implementation of
+measures and
+procedures to
+manage and
+mitigate the risks
+14. (1) When the Obliged Entity identifies, according to paragraph
+13, the risks it faces, then designs and implements the
+appropriate measures and procedures for the correct
+management and mitigation, which involve the verification of
+the customers identity, the collection of information for the
+construction of their economic profile and monitoring their
+transactions and activities.
+(2) Taking into consideration the assessed risk, an Obliged
+Entity determines the type and extent of measures it adopts,
+to manage and mitigate the identified risks cost effectively.
+These measures and procedures may, for example, include:
+(a) adaptation of the customer due diligence
+procedures in respect of customers in line with their
+assessed money laundering and terrorist financing risk;
+(b) requiring the quality and extent of requisite
+identification data for each type of customer to be of a
+certain standard (e.g. documents from independent
+and reliable sources, third person information,
+documentary evidence );
+(c) obtaining additional data and information from the
+customers, where this is appropriate for the proper and
+complete understanding of their activities and source of
+wealth and for the effective management of any
+increased risk emanating from the particular business
+relationship or the occasional transaction; and
+(d) on going monitoring of high risk customers’
+transactions and activities.
+(3) The risk assessment and the implementation of the
+measures and procedures of subparagraph (2) result in the
+categorisation of customers according to paragraph 7(2)(c).
+The said categorisation is based on criteria which reflect the
+possible risk causes and each category is accompanied with
+the relevant due diligence procedures, regular monitoring and
+controls.
+(4) The category of low risk customers, according to
+paragraph 7(2)(c)(i), includes the customers that the Obliged
+Entity has determined to categorise as such according to
+section 63 of the Law.
+(5) The category of high risk customers, according to
+paragraph 7(2)(c)(iii), includes the customers prescribed as
+high risk in section 64 of the Law ,as well as, any other
+customer determined by the Obliged Entity itself to be
+classified as such.
+(6) According to paragraph 9(1)(j), lists are prepared and
+maintained for the categories of customers, which contain,
+inter alia, the customers’ names, account numbers, and date
+of commencement of business relationship. The said lists
+should be promptly updated with all new or existing customers
+that the Obliged Entity has determined, in the light of
+additional information received, that fall under the categories
+of paragraph 7(2)(c).
+(7) The Obliged Entity is, at all times, in a position to
+demonstrate to the Commission that the extent of measures
+and control procedures that applies are proportionate to the
+risk it faces for the use of services provided, for the purpose
+of money laundering or terrorist financing.
+(8) In view of this, documenting the measures and procedures
+set out in subparagraphs 2-6 above will assist the Obliged
+Entity to prove:
+(a) the ways used to identify, record and assess the
+risk of its services being used for money laundering or
+terrorist financing;
+(b) how it has determined the introduction and
+implementation of specific measures and procedures 
+for the management and mitigation of risks; and
+(c) the methods applied for monitoring and improving,
+whenever deemed necessary, the specific measures,
+procedures and controls.
+Monitoring and
+improving the
+measures and
+procedures
+15. The Obliged Entity monitors and evaluates, on an on going
+basis, the effectiveness of the measures and procedures that
+have been introduced for compliance purposes with the
+present Part.
+Dynamic risk
+management
+16. Risk management is a continuous process, carried out on a
+dynamic basis. Risk assessment is not an isolated event of a
+limited duration. Customers’ activities change as well as the
+services and financial instruments provided by the Obliged
+Entity change. The same happens to the financial instruments
+and the transactions used for money laundering or terrorist
+financing. The measures, the procedures and controls are
+kept under regular review so that risks resulting from changes
+in the characteristics of existing customers, new customers,
+services and financial instruments are managed and
+countered effectively.
+Relevant
+international
+organisations
+17. On implementing appropriate measures and procedures on a
+risk based approach, and on implementing the customer
+identification and due diligence procedures, according to Part
+V, the compliance officer, ο λειτουργός συμμόρφωσης
+should consult data, information and reports [e.g. customers
+from countries which inadequately apply Financial Action Task
+Force’s (FATF), country assessment reports] that are
+published in following relevant organisations:
+(a) FATF - www.fatf-gafi.org·
+(b) the Council of Europe Select Committee of Experts
+on the Evaluation of Anti-Money Laundering
+Measures (MONEYVAL) - www.coe.int/moneyval·
+(c) the EU Common Foreign & Security Policy (CFSP)-
+http://ec.europa.eu/external_relations/cfsp/sanctions/lis
+t/consol-list.htm·
+(d) the UN Security Council Sanctions Committees -
+www.un.org/sc/committees/·
+(e) the International Money Laundering Information
+Network (IMOLIN) - www.imolin.org·
+(f) the International Monetary Fund (IMF) –
+www.imf.org.
+(g) the Joint Committee European Supervisory
+Authorities - https://esas-joint-committee.europa.eu/
+(h) the Ministry of Foreign Affairs regarding the United
+Nations Security Council Resolutions or Decisions
+(Sanctions) or/and the European Union Council
+Decisions and Regulations (Restrictive Measures) -
+http://www.mfa.gov.cy/mfa/mfa2016.nsf/mfa35_en/mfa
+35_en?OpenDocument
+(i) the EU Sanctions Map -
+https://www.sanctionsmap.eu/#/main.

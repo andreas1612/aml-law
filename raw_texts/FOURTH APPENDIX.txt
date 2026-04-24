@@ -1,0 +1,95 @@
+FOURTH APPENDIX
+NON-EXHAUSTIVE LIST OF FACTORS OF POTENTIALLY HIGHER RISK
+AND ENHANCED DUE DILIGENCE MEASURES
+Without prejudice of the indicative (a) factors of potentially higher risk of money
+laundering and terrorist financing and (b) enhanced due diligence measures
+stated in Appendix III of the Law and the Joint Guidelines, the following indicative
+factors and measures should be taken into account by the Obliged Entities during
+the risk based approach and the application of enhanced customer due diligence
+measures:
+1. Trusts accounts
+2. Non face to face customers (paragraph 2(c) of Appendix III of the Law)
+If the Obliged Entity concludes that the non-face-to-face business relationship or
+transaction as specified in paragraph 2(c) of Appendix III of the Law, presents higher
+risk of money laundering or terrorist financing, it should apply enhanced customer
+due diligence measures. The said measures may be the following:
+i. The first payment of the operations is carried out through an account opened
+in the customer’s name with a credit institution operating and licensed in a
+country in the European Economic Area or third country, which is categorised
+by the Obliged Entity as lower risk after taking into account the Joint
+Guidelines and the Appendix II of the Law.
+ii. Α direct confirmation of the establishment of a business relationship is
+obtained through direct personal contact, as well as, the true name, address
+and identification document number of the customer, from a credit institution
+or a financial institution with which the customer cooperates, operating in a
+country in the European Economic Area or third country , which is categorised
+by the Obliged Entity as lower risk after taking into account the Joint
+Guidelines and the Appendix II of the Law (or a true copy of the
+confirmation).
+iii. Telephone contact with the customer at his home or office, on a telephone
+number which has been verified from independent and reliable sources.
+During the telephone contact, the Obliged Entity shall confirm additional
+aspects of the identity information submitted by the customer during the
+procedure of opening his account.
+iv. The use of one electronic method or a combination of such for the remoteidentification and verification of the identity of the customers, based on the
+assessment, evaluation, and mitigating of the risk for the preventing money
+laundering and combating terrorist financing.
+The Obliged Entity shall inform the Commission about the electronic method
+that will use for the remote-identification and verification of the identity of the
+customers, prior to such use
+It is provided that the Obliged Entity shall apply appropriate measures and
+procedures to:
+a. confirm and monitor both the amount of the customer’s deposit and the risk
+for money laundering or terrorist financing and take additional measures to
+verify the customer’s identity depending on the degree of the risk
+b. ensure the normal conduct of business is not interrupted where the amount
+of the deposit exceeds the amount of €2.000 per annum;
+c. warn the customer appropriately and in due time for the above procedure in
+order to obtain the customer’s express consent prior to its commencement.
+v. Communication with the customer through at an address that the Obliged
+Entity has previously verified from independent and reliable sources, in the
+form of a registered letter (For example, such communication may take the
+form of a direct mailing of account opening documentation to him, which the
+customer shall return to the Obliged Entity or the Obliged Entity may send
+security codes required by the customer to access the accounts opened
+through the internet). 
+3. Accounts in the names of companies whose shares are in bearer form
+If the Obliged Entity concludes that the business relationship or transaction with
+companies whose own shares or those of their parent companies (if any) have been
+issued in bearer form, presents higher risk of money laundering or terrorist financing,
+it should apply enhanced customer due diligence measures. The said measures may
+be the following:
+i. Takes physical custody of the bearer share certificates while the business
+relationship is maintained or obtains a confirmation from a bank operating in
+the Republic or a country of the European Economic Area that it has under
+its own custody the bearer share certificates and, in case of transferring their
+ownership to another person, shall inform the Obliged Entity accordingly.
+ii. The account is closely monitored throughout its operation. At least once a
+year, a review of the accounts’ transactions and turnover is carried out and a
+note is prepared summarising the results of the review which must be kept in
+the customer’s file.
+iii. If the opening of the account has been recommended by a third person as
+defined in paragraph 25, at least once every year, the third person who has
+introduced the customer provides a written confirmation that the capital base
+and the shareholding structure of the company or that of its holding company
+(if any) has not been altered by the issue of new bearer shares or the
+cancellation of existing ones. If the account has been opened directly by the
+company, then the written confirmation is provided by the company’s
+directors.
+iv. When there is a change to the beneficial owners, the Obliged Entity examines
+whether or not to permit the continuance of the account’s operation. 
+7 4. Customers from countries which inadequately apply Financial
+Action Task Force’s (‘FATF’) recommendations
+If the Obliged Entity concludes that the business relationship or transaction with a
+customer that is resident of a country, which applies FATF recommendations
+inadequately, presents higher risk of money laundering or terrorist financing, it
+should apply enhanced customer due diligence measures. The said measures may
+be the following:
+i. Exercises additional monitoring procedures and pays special attention to
+business relationships and transactions with the aforementioned persons. .
+ii. Transactions with persons from the said countries, for which there is no
+apparent economic or visible lawful purpose, are further examined for the
+establishment of their economic, business or investment background and
+purpose. If an Obliged Entity cannot be fully satisfied as to the legitimacy of
+a transaction, then a suspicious transaction report is filed to MOKAS,
+according to paragraph 9(1)(g)

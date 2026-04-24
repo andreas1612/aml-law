@@ -1,0 +1,58 @@
+{
+  "PART_I": {
+    "title": "INTRODUCTORY PROVISIONS",
+    "paragraphs": {
+      "1": {
+        "title": "Short title",
+        "marginal_references": [
+          "R.A.D. 157/2019",
+          "R.A.D. 125/2020",
+          "R.A.D. 282/2024"
+        ],
+        "text": "This Directive will be cited as the Directive for the Prevention and Suppression of Money Laundering and Terrorist Financing."
+      },
+      "2": {
+        "title": "Definitions",
+        "marginal_references": [
+          "64(Ι)/2001",
+          "157(I)/2002",
+          "71(I)/2004",
+          "187(I)/2004",
+          "44(Ι)/2007",
+          "R.A.D. 282/2024"
+        ],
+        "text": "For the purposes of this Directive, unless the context shall prescribe otherwise:",
+        "definitions": {
+          "ABFS": "shall mean the Advisory Body on Financial Sanctions established pursuant to a decision of the Council of Ministers, dated 25 May 2012, which is chaired by the Ministry of Finance and which deals with the examination of requests for the release of funds maintained in accounts of credit institutions, frozen pursuant to Sanctions and Restrictive measures, and which makes recommendations for their approval or rejection pursuant to a final decision to be taken by the Minister of Finance;",
+          "alternate compliance officer": "means the person referred to in paragraph 8;",
+          "board of directors": "means the board of directors of the Obliged Entity;",
+          "Commission": "means the Cyprus Securities and Exchange Commission established and operating pursuant to the Cyprus Securities and Exchange Commission (Establishment and Responsibilities) Law;",
+          "identification document": "means a document issued from a government of a Member State of the European Union or of a third country and which states the full name and birth date of the natural person and bares a photo of him;",
+          "company": "means a company of limited liability by shares, established under Company Law or a company established in another member state under the law applicable in its place of establishment or a company established under the Cooperative Societies Law;",
+          "compliance officer": "means the person referred to paragraph 9;",
+          "EU Directive": "means an act of the European Union entitled ‘Directive (EU) 2015/849 of the European Parliament and of the Council of 20 May 2015 on the prevention of the use of the financial system for the purposes of money laundering or terrorist financing, amending Regulation (EU) No 648/2012 of the European Parliament and of the Council, and repealing Directive 2005/60/EC of the European Parliament and of the Council and Commission Directive 2006/70/EC’\"",
+          "Joint Guidelines": "means the guidelines on the risk factors issued by the European Securities and Markets Authority, the European Insurance and Occupational Pensions Authority and the European Banking Authority under Articles 17 and 18(4) of Directive (EU) 2015/849 on simplified and enhanced customer due diligence and the factors credit and financial institutions should consider when assessing the money laundering and terrorist financing risk associated with individual business relationships and occasional transactions, as amended;",
+          "MOKAS": "means the Unit for Combating Money Laundering established according to section 54 of the Prevention and Suppression of Money Laundering Activities Law;",
+          "Law": "means the Prevention and Suppression of Money Laundering Activities Law;",
+          "regulated market": "has the meaning attributed to this term by section 2 of the Investment Services and Activities and Regulated Markets Law;",
+          "Obliged Entity": "means the persons referred to in section 59(1)(b) of the Law;",
+          "money laundering and terrorist financing": "means the money laundering offences and terrorist financing offences defined in section 2 of the Law;",
+          "Sanctions Law": "means the Implementation of the provisions of the United Nations Security Council Resolutions or Decisions (Sanctions) and the European Union Council Decisions and Regulations (Restrictive Measures) Law 58(I) of 2016.",
+          "UIS": "shall mean the Unit for the Implementation of Sanctions in the Financial Sector established pursuant to a decision of the Council of Ministers, dated 25 February 2016, which is chaired by the Ministry of Finance and which deals with the examination of requests that fall within the financial sector, affected by Sanctions and/or Restrictive measures, and which makes recommendations for their approval or rejection pursuant to a final decision to be taken collectively or by majority by the Ministers of Finance, Foreign Affairs and Energy, Trade, Industry and Tourism, or their representatives;"
+        },
+        "additional_provisions": [
+          "Without prejudice of the abovementioned provisions, terms used in this Directive that are not interpreted differently shall have the meaning given to them by the Law.",
+          "Where in the present Directive reference is made to the Law, this includes the Regulatory Administrative Decisions issued thereof."
+        ]
+      },
+      "3": {
+        "title": "Scope",
+        "text": "This Directive applies to all Obliged Entities."
+      },
+      "4": {
+        "title": "Supervisory Authority for the application of the Directive",
+        "text": "The Supervisory Authority for the purpose of application of the present Directive is the Commission, in accordance with section 59 of the Law and section 3 of the Implementation of the provisions of the United Nations Security Council Resolutions or Decisions (Sanctions) and the European Union Council Decisions and Regulations (Restrictive Measures) Law of 2016."
+      }
+    }
+  }
+}

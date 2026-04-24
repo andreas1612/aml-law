@@ -1,0 +1,97 @@
+{
+  "PART_VII": {
+    "title": "RECORD KEEPING",
+    "paragraphs": {
+      "31": {
+        "title": "Record keeping and time period of keeping documents/data",
+        "marginal_references": [
+          "section 68 of the Law"
+        ],
+        "subparagraphs": {
+          "1": {
+            "text": "According to section 68(1) of the Law, the Obliged Entity keeps record of the documents/data mentioned in the above section of the Law and are specialised in the present Directive, including those referred to in paragraph 9(1)(k)."
+          },
+          "2": {
+            "text": "According to section 68(2) of the Law, the documents/data of subparagraph (1), are kept for a period of at least five (5) years, which is calculated after the execution of the transactions or the termination of the business relationship.",
+            "additional_provisions": [
+              "It is provided that, the documents/data relevant to ongoing investigations are kept until MOKAS confirms that the investigation has been completed and the case has been closed."
+            ]
+          }
+        }
+      },
+      "32": {
+        "title": "Format of records",
+        "subparagraphs": {
+          "1": {
+            "text": "The retention of the documents/data, ooriginal documents or their certified true copies that are kept in a hard copy form, may be in other forms, such as electronic form, provided that the Obliged Entity is able to retrieve the relevant documents/data without undue delay and present them at any time, to the Commission or to MOKAS, after a request."
+          },
+          "2": {
+            "text": "When the Obliged Entity establishes a documents/data retention policy, takes into consideration the requirements of the Law and the present Directive and the potential needs of MOKAS and the Commission."
+          }
+        }
+      },
+      "33": {
+        "title": "Certification and language of documents",
+        "subparagraphs": {
+          "1": {
+            "text": "The documents/data obtained, for compliance with the present Directive, are the following forms:",
+            "points": {
+              "a": {
+                "text": "Original, or"
+              },
+              "b": {
+                "text": "True copy of the original, where the certification is made by the Obliged Entity in cases where it establishes the customer’s identity itself, once the original is presented thereto, or"
+              },
+              "c": {
+                "text": "True copy of the original, where the certification is made by third parties, in cases where they establish the customer’s identity, pursuant to Article 67 of the Law and the provisions of paragraph 25 of this Directive, or"
+              },
+              "d": {
+                "text": "True copy of the original, where the certification is made by a competent authority or person that, pursuant to the relevant provisions of the laws of their country, is responsible to certify the authenticity of documents or information. In this case the documents should be apostilled or notarised, or"
+              },
+              "e": {
+                "text": "Provided that at least one of the procedures referred to ther than the in paragraph (2) of the Fourth Appendix of the present Directive is followed:",
+                "subpoints": {
+                  "i": "Copy of the original, or",
+                  "ii": "Data and information collected via electronic verification in accordance with the provisions of paragraph (2) below."
+                }
+              }
+            }
+          },
+          "2": {
+            "text": "Performing an electronic verification:",
+            "points": {
+              "a": {
+                "text": "Electronic identity verification is carried out either directly by the Obliged Entity or through a third party. Both the Obliged Entity and the said third parties cumulatively satisfy the following conditions:",
+                "subpoints": {
+                  "i": "electronic databases provide access to information referred to both present and past situations showing that the person really exists and providing both positive information (at least the customer’s full name, address and date of birth) and negative information (e.g. committing of offences such as identity theft, inclusion in deceased persons records, inclusion in sanctions and restrictive measures’ list by the Council of the European Union and the UN Security Council).",
+                  "ii": "electronic databases include a wide range of sources with information from different time periods with realtime update and trigger alerts when important data alter.",
+                  "iii": "transparent procedures have been established allowing the Obliged Entity to know which information was searched, the result of such search and its significance in relation to the level of assurance as to the customer’s identity verification.",
+                  "iv": "procedures have been established allowing the Obliged Entity to record and save the information used and the result in relation to identity verification."
+                }
+              },
+              "b": {
+                "text": "Information must come from two or more sources. The electronic verification procedure shall at least satisfy the following correlation standard:",
+                "subpoints": {
+                  "i": "identification of the customer’s full name and current address from one source, and",
+                  "ii": "identification of the customer’s full name and either his current address or date of birth from a second source."
+                }
+              },
+              "c": {
+                "text": "For purposes of carrying out the electronic verification, the Obliged Entity shall establish procedures in order to satisfy the completeness, validity and reliability of the information to which it has access. It is provided that the verification procedure shall include a search of both positive and negative information."
+              },
+              "d": {
+                "text": "It is provided that the Obliged Entity evaluates the results in order the conditions of Article 61(3) of the Law to be satisfied. The Obliged Entity establishes mechanisms for the carrying out of quality controls in order to assess the quality of the information on which it intends to rely."
+              }
+            }
+          },
+          "3": {
+            "text": "A true translation is attached in the case that the documents/data of subparagraph (1) are in a language other than Greek or English.",
+            "marginal_references": [
+              "19."
+            ]
+          }
+        }
+      }
+    }
+  }
+}

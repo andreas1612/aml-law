@@ -1,0 +1,52 @@
+{
+  "appendix_id": "FIRST_APPENDIX",
+  "title": "INTERNAL SUSPICION REPORT FOR MONEY LAUNDERING AND TERRORIST FINANCING",
+  "type": "form_template",
+  "sections": {
+    "informers_details": {
+      "title": "INFORMER’S DETAILS",
+      "fields": [
+        "Name",
+        "Tel",
+        "Department",
+        "Fax",
+        "Position"
+      ]
+    },
+    "customers_details": {
+      "title": "CUSTOMER’S DETAILS",
+      "fields": [
+        "Name",
+        "Address",
+        "Date of Birth",
+        "Tel",
+        "Occupation",
+        "Fax",
+        "Details of Employer",
+        "Identification Document No.",
+        "Nationality",
+        "Other ID Details"
+      ]
+    },
+    "information_suspicion": {
+      "title": "INFORMATION/SUSPICION",
+      "fields": [
+        "Brief description of activities/transaction",
+        "Reason(s) for suspicion",
+        "Informer’s Signature",
+        "Date"
+      ]
+    },
+    "compliance_officers_use": {
+      "title": "FOR COMPLIANCE OFFICER’S USE",
+      "fields": [
+        "Date Received",
+        "Time Received",
+        "Ref",
+        "Reported to MOKAS (Yes/No)",
+        "Date Reported",
+        "Ref"
+      ]
+    }
+  }
+}

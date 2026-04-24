@@ -1,0 +1,83 @@
+{
+  "index_version": "1.0",
+  "directive": "CySEC Consolidated AML Directive (2019-2024)",
+  "parts": {
+    "PART_I": {
+      "title": "INTRODUCTORY PROVISIONS",
+      "file": "part_1.json",
+      "entities": ["Definitions", "Commission", "MOKAS", "Supervisory Authority"]
+    },
+    "PART_II": {
+      "title": "OBLIGED ENTITY’S OBLIGATIONS",
+      "file": "part_2.json",
+      "entities": ["Board of Directors", "Internal Audit", "Customer Acceptance Policy"]
+    },
+    "PART_III": {
+      "title": "COMPLIANCE OFFICER",
+      "file": "part_3.json",
+      "entities": ["Duties", "Annual Report", "Monthly Prevention Statement"]
+    },
+    "PART_IV": {
+      "title": "APPLICATION OF APPROPRIATE MEASURES AND PROCEDURES ON A RISK BASED APPROACH",
+      "file": "part_4.json",
+      "entities": ["Risk Management", "Mitigation", "FATF", "MONEYVAL"]
+    },
+    "PART_V": {
+      "title": "CUSTOMER IDENTIFICATION AND DUE DILIGENCE PROCEDURES",
+      "file": "part_5.json",
+      "entities": ["Simplified Due Diligence", "Enhanced Due Diligence", "Third Parties", "Ongoing Monitoring"]
+    },
+    "PART_VI": {
+      "title": "RECOGNITION AND REPORTING OF SUSPICIOUS TRANSACTIONS/ACTIVITIES TO MOKAS",
+      "file": "part_6.json",
+      "entities": ["MOKAS Reporting", "Suspicious Transactions"]
+    },
+    "PART_VII": {
+      "title": "RECORD KEEPING",
+      "file": "part_7.json",
+      "entities": ["Document Retention", "Electronic Verification"]
+    },
+    "PART_VIII": {
+      "title": "EMPLOYEES’ OBLIGATIONS, EDUCATION AND TRAINING",
+      "file": "part_8.json",
+      "entities": ["Staff Training", "Employee Obligations"]
+    },
+    "PART_IX": {
+      "title": "DETECTION OF ACTIONS THAT ARE IN BREACH OF SANCTIONS AND RESTRICTIVE MEASURES",
+      "file": "part_9.json",
+      "entities": ["UN Sanctions", "EU Restrictive Measures"]
+    },
+    "PART_X": {
+      "title": "GENERAL AND FINAL PROVISIONS",
+      "file": "part_10.json",
+      "entities": ["Repeal", "Entry into Force"]
+    }
+  },
+  "appendices": {
+    "FIRST_APPENDIX": {
+      "title": "INTERNAL SUSPICION REPORT",
+      "type": "form_template",
+      "file": "appendix_1.json"
+    },
+    "SECOND_APPENDIX": {
+      "title": "INTERNAL EVALUATION REPORT",
+      "type": "form_template",
+      "file": "appendix_2.json"
+    },
+    "THIRD_APPENDIX": {
+      "title": "EXAMPLES OF SUSPICIOUS TRANSACTIONS/ACTIVITIES",
+      "type": "indicator_list",
+      "file": "appendix_3.json"
+    },
+    "FOURTH_APPENDIX": {
+      "title": "FACTORS OF POTENTIALLY HIGHER RISK",
+      "type": "paragraphs",
+      "file": "appendix_4.json"
+    },
+    "FIFTH_APPENDIX": {
+      "title": "SPECIFIC CUSTOMER IDENTIFICATION ISSUES",
+      "type": "paragraphs",
+      "file": "appendix_5.json"
+    }
+  }
+}

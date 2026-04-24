@@ -1,0 +1,49 @@
+{
+  "appendix_id": "THIRD_APPENDIX",
+  "title": "EXAMPLES OF SUSPICIOUS TRANSACTIONS/ACTIVITIES RELATED TO MONEY LAUNDERING AND TERRORIST FINANCING",
+  "type": "indicator_list",
+  "sections": {
+    "money_laundering": {
+      "title": "Α. MONEY LAUNDERING",
+      "indicators": [
+        "1. Transactions with no discernible purpose or are unnecessarily complex.",
+        "2. Use of foreign accounts of companies or group of companies with complicated ownership structure which is not justified based on the needs and economic profile of the customer.",
+        "3. The transactions or the size of the transactions requested by the customer do not comply with his usual practice and business activity.",
+        "4. Large volume of transactions and/or money deposited or credited into, an account when the nature of the customer’s business activities would not appear to justify such activity.",
+        "5. The business relationship involves only one transaction or it has a short duration.",
+        "6. There is no visible justification for a customer using the services of a particular Obliged Entity. For example the customer is situated far away from the particular Obliged Entity and in a place where he could be provided services by another Obliged Entity.",
+        "7. There are frequent transactions in the same financial instrument without obvious reason and in conditions that appear unusual (churning).",
+        "8. There are frequent small purchases of a particular financial instrument by a customer who settles in cash, and then the total number of the financial instrument is sold in one transaction with settlement in cash or with the proceeds being transferred, with the customer’s instructions, in an account other than his usual account.",
+        "9. Any transaction the nature, size or frequency appear to be unusual, e.g. cancellation of an order, particularly after the deposit of the consideration.",
+        "10. Transactions which are not in line with the conditions prevailing in the market, in relation, particularly, with the size of the order and the frequency.",
+        "11. The settlement of any transaction but mainly large transactions, in cash.",
+        "12. Settlement of the transaction by a third person which is different than the customer which gave the order.",
+        "13. Instructions of payment to a third person that does not seem to be related with the instructor.",
+        "14. Transfer of funds to and from countries or geographical areas which do not apply or they apply inadequately FATF’s recommendations on money laundering and terrorist financing.",
+        "15. A customer is reluctant to provide complete information when establishes a business relationship about the nature and purpose of its business activities, anticipated account activity, prior relationships with Financial Organisations, names of its officers and directors, or information on its business location. The customer usually provides minimum or misleading information that is difficult or expensive for the Obliged Entity to verify.",
+        "16. A customer provides unusual or suspicious identification documents that cannot be readily verified.",
+        "17. A customer’s home/business telephone is disconnected.",
+        "18. A customer that makes frequent or large transactions and has no record of past or present employment experience.",
+        "19. Difficulties or delays on the submission of the financial statements or other identification documents, of a customer/legal person.",
+        "20. A customer who has been introduced by a foreign Obliged Entity, or by a third person whose countries or geographical areas of origin do not apply or they apply inadequately FATF’s recommendations on money laundering and terrorist financing.",
+        "21. Shared address for individuals involved in cash transactions, particularly when the address is also a business location and/or does not seem to correspond to the stated occupation (e.g. student, unemployed, self-employed, etc).",
+        "22. The stated occupation of the customer is not commensurate with the level or size of the executed transactions.",
+        "23. Financial transactions from non-profit or charitable organisations for which there appears to be no logical economic purpose or in which there appears to be no link between the stated activity of the organisation and the other parties in the transaction.",
+        "24. Unexplained inconsistencies arising during the process of identifying and verifying the customer (e.g. previous or current country of residence, country of issue of the identification document, countries visited according to the passport, documents furnished to confirm name, address and date of birth etc).",
+        "25. Complex trust or nominee network.",
+        "26. Transactions or company structures established or working with an unneeded commercial way. e.g. companies with bearer shares or bearer financial instruments or use of a postal box.",
+        "27. Use of general nominee documents in a way that restricts the control exercised by the company’s board of directors.",
+        "28. Changes in the lifestyle of employees of the Obliged Entity, e.g. luxurious way of life or avoiding being out of office due to holidays.",
+        "29. Changes the performance and the behaviour of the employees of the Obliged Entity"
+      ]
+    },
+    "terrorist_financing": {
+      "title": "B. TERRORIST FINANCING",
+      "indicators": [
+        "1. Sources and methods: The funding of terrorist organisations is made from both legal and illegal revenue generating activities. Criminal activities generating such proceeds include kidnappings (requiring ransom), extortion (demanding “protection” money), smuggling, thefts, robbery and narcotics trafficking. Legal fund raising methods used by terrorist groups include: i. collection of membership dues and/or subscriptions, ii. sale of books and other publications, iii. cultural and social events, iv. donations, v. community solicitations and fund raising appeals. Funds obtained from illegal sources are laundered by terrorist groups by the same methods used by criminal groups...",
+        "2. Non-profit organisations: Non–profit and charitable organisations are also used by terrorist groups as a means of raising funds and/or serving as cover for transferring funds in support of terrorist acts. The potential misuse of non-profit and charitable organisations can be made in the following ways: i. Establishing a non-profit organisation with a specific charitable purpose but which actually exists only to channel funds to a terrorist organisation. ii. A non-profit organisation with a legitimate humanitarian or charitable purpose is infiltrated by terrorists who divert funds collected for an ostensibly legitimate charitable purpose for the support of a terrorist group. iii. The non-profit organisation serves as an intermediary or cover for the movement of funds on an international basis. iv. The non-profit organisation provides administrative support to the terrorist movement.",
+        "3. Unusual characteristics of non-profit organisations indicating that the they may be used for an unlawful purpose are the following: i. Inconsistencies between the apparent sources and amount of funds raised or moved. ii. A mismatch between the type and size of financial transactions and the stated purpose and activity of the non-profit organisation. iii. A sudden increase in the frequency and amounts of financial transactions for the account of a non-profit organisation. iv. Large and unexplained cash transactions by non-profit organisations. v. The absence of contributions from donors located within the country of origin of the non-profit organisation."
+      ]
+    }
+  }
+}

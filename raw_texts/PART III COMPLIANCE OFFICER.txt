@@ -1,0 +1,320 @@
+PART III COMPLIANCE OFFICER
+Paragraph 8 Appointment of compliance officer, alternate compliance
+officer and -assistants of compliance officer
+Paragraph 9 Compliance officer’s duties
+Paragraph 10 Compliance officer’s Annual Report
+Paragraph 11 Monthly prevention statement
+
+PART ΙΙΙ
+COMPLIANCE OFFICER
+Appointment of
+compliance officer,
+alternate
+compliance officer
+and assistants of
+compliance officer
+(section 69 of the
+Law)
+8. (1) According to paragraph 5(b) a compliance officer is
+appointed, who belongs to the senior management of the
+Obliged Entity so as to command the necessary authority.
+(2) The Obliged Entity should appoint an alternate compliance
+officer, in case the compliance officer is absent, who should
+replace him temporarily, perform his duties as defined in the
+present Directive and the Law and fulfil the conditions of
+appointing a compliance officer. The Obliged Entity may
+outsource, as well, the function of the alternate compliance
+officer only if a natural person is appointed. The Obliged Entity
+records in the risk management and procedures manual
+referred to in paragraph 9(1)(c) the procedures it intends to
+apply for the said appointment.
+(3) According to paragraph 5(b), where it is deemed
+necessary due to the volume and/or the geographic spread of
+the services/activities, assistants of the compliance officer are
+appointed, by geographical district or otherwise for the
+purpose of assisting the compliance officer and passing
+internal suspicion reports to him.
+(4) The Obliged Entity communicates immediately to the
+Commission, the names, the positions, as well as, the contact
+details of the persons it appoints as compliance officer,
+alternate compliance officer and assistants of the compliance
+officer.
+Compliance
+officer’s duties
+9. (1) As a minimum, the compliance officer’s duties include the
+following:
+(a) Designs, based on the general policy principles of
+paragraph 5(a), the internal practice, measures,
+procedures and controls relevant to the prevention of
+money laundering and terrorist financing, and
+describes and explicitly allocates the appropriateness
+and the limits of responsibility of each department that
+is involved in the abovementioned.
+It is provided that, the above include measures and
+procedures for the prevention of the abuse of new
+technologies and systems providing financial services,
+for the purpose of money laundering and terrorist
+financing (e.g. services and transactions via the
+internet or the telephone), as well as measures so that
+the risk of money laundering and terrorist financing is
+appropriately considered and managed in the course of 
+daily activities of the Obliged Entity with regard to the
+development of new products and possible changes in
+the Obliged Entity’s economic profile (e.g. penetration
+into new markets).
+(b) Develops and establishes the customers’
+acceptance policy, according to paragraph 7 and
+submits it to the board of directors of the Obliged Entity
+for consideration and approval.
+(c) Prepares a risk management and procedures
+manual regarding money laundering and terrorist
+financing. The said manual includes, inter alia, the
+details referred to in paragraphs 5(a), 5(g), 7, 9(1) and
+Parts IV, V, VI and VII.
+(d) Monitors and assesses the correct and effective
+implementation of the policy, according to paragraph
+5(a), the practices, measures, procedures and controls
+of point (a) and in general the implementation of the
+risk management and procedures manual of point (c).
+In this regard, applies appropriate monitoring
+mechanisms (e.g. on-site visits to different departments
+of the Obliged Entity) which will provide him all the
+necessary information for assessing the level of
+compliance of the departments and employees of the
+Obliged Entity with the procedures and controls which
+are in force. In the event that he identifies shortcomings
+and/or weaknesses in the application of the required
+practices, measures, procedures and controls, gives
+appropriate guidance for corrective measures and
+where deems necessary informs the board of directors.
+(e) Receives information from the Obliged Entity’s
+employees, which is considered to be knowledge or
+suspicion of money laundering or terrorist financing
+activities or might be related with such activities. The
+information is received in a written report form
+(hereinafter to be referred to as "Internal Suspicion
+Report"), a specimen of such report is attached in the
+First Appendix.
+Second Appendix
+(f) Evaluates and examines the information received as
+per point (e), by reference to other relevant information
+and discusses the circumstances of the case with the
+informer and, where appropriate, with the informer’s
+superiors. The evaluation of the information of point (e)
+is been done on a report (hereinafter to be referred to
+as "Internal Evaluation Report"), a specimen of which is
+attached in the Second Appendix.
+Third Appendix
+(g) If following the evaluation described in point (f), the
+compliance officer decides to notify MOKAS, then he
+completes a report and submit it to MOKAS the
+soonest possible through the electronic page goAML
+(https://reports.mokas.law.gov.cy/live)(hereinafter to be
+referred to as "Compliance Officer's Report to the Unit
+for Combating Money Laundering”). The Obliged Entity
+should implement a system that will allow it to produce
+the said report in a printed form at any time.
+It is provided that, aafter the submission of the
+compliance officer’s report to MOKAS, the accounts
+involved and any other connected accounts, are closely
+monitored by the compliance officer and following any
+directions from MOKAS, thoroughly investigates and
+examines all the transactions of the accounts.
+(h) If following the evaluation described in point (f) the
+compliance officer decides not to notify MOKAS, then
+he fully explains the reasons for such a decision on the
+"Internal Evaluation Report" which is attached in the
+Second Appendix.
+(i) Acts as the first point of contact with MOKAS, upon
+commencement and during an investigation as a result
+of filing a report to MOKAS according to point (g).
+(ι) Ensures the preparation and maintenance of the lists
+of customers categorised following a risk based
+approach, according to paragraph 7(2), which contains,
+inter alia, the names of customers, their account
+number and the date of the commencement of the
+business relationship. Moreover, ensures the updating
+of the said lists with all new or existing customers, in
+the light of additional information obtained.
+(j) Detects, records, and evaluates, at least on an
+annual basis, all risks arising from existing and new
+customers, new financial instruments and services and
+updates and amends the systems and procedures
+applied by the Obliged Entity for the effective
+management of the aforesaid risks.
+Fourth Appendix
+(k) Verifies that the third party with whom the Obliged
+Entity intends to rely on for the application of the
+customer identification and due diligence measures as
+laid down in sub-paragraphs (a), (b) aid (c) of
+paragraph (1) of section 61 of the Law, is Obliged
+Entity, as defined in section 2A of the Law, and gives
+his/her written approval for the said reliance, which
+should be kept in the personal file of the third party. l
+(l) Ensures that the branches and subsidiaries of the
+Obliged Entity that operate in countries outside the
+European Economic Area, have taken all necessary
+measures for achieving full compliance with the
+provisions of the present Directive, in relation to
+customer identification, due diligence and record
+keeping procedures.
+(m) Provides advice and guidance to the employees of
+the Obliged Entity on subjects related to money
+laundering and terrorist financing.
+(n) Acquires the required knowledge and skills for the
+improvement of the appropriate procedures for
+recognising, preventing and obstructing any
+transactions and activities that are suspected to be
+associated with money laundering or terrorist financing.
+(o) Determines the Obliged Entity ’s departments and
+employees that need further training and education for
+the purpose of preventing money laundering and
+terrorist financing and organises appropriate training
+sessions/seminars. In this regard, prepares and applies
+an annual staff training program, according to Part VIII.
+Assesses the adequacy of the education and training
+provided.
+(p) Prepares correctly and submits timely to the
+Commission the monthly prevention statement of
+paragraph 11 and provides the necessary explanation 
+to the appropriate employees of the Obliged Entity for
+its completion.
+(q) Prepares the annual report according to paragraph
+10.
+(r) Responds to all requests and queries from MOKAS
+and the Commission, provides all requested
+information and fully cooperates with MOKAS and the
+Commission.
+(s) Maintains a registry which includes the reports of
+points (e), (f) and (g), and relevant statistical
+information (department that submitted the internal
+report, date of submission to the compliance officer,
+date of assessment, date of reporting to MOKAS), the
+evaluation reports of point (d) and all the documents
+that verify the accomplishment of his duties specified in
+the present subparagraph.
+(t) Maintains a registry with the data/information of the
+third parties, that the Obliged Entity relies on for the
+application of customer identification procedures and
+customer due diligence measures according to section
+67 of the Law, as defined in paragraph 25 of the
+Directive.
+(2) During the execution of his duties and the control of the
+compliance of the Obliged Entity with the Law and the present
+Directive, the compliance officer obtains and utilises data,
+information and reports issued by international organizations,
+as these are stated in paragraph 17.
+Compliance
+officer’s annual
+report
+10. (1) The Annual Report, prepared by the compliance officer
+according to paragraph 9(1)(q), is a significant tool for
+assessing the Obliged Entity’s level of compliance with its
+obligations laid down in the Law and the present Directive.
+(2) The Annual Report is prepared and submitted for approval
+to the board of directors, within two months from the end of
+each calendar year (the latest by the end of February).
+(3) The Annual Report, after its approval by the board of
+directors, is submitted to the Commission together with the
+minutes of the meeting, during which the Annual Report has
+been discussed and approved. It is provided that the said
+minutes include the measures decided for the correction of
+any weaknesses and/or deficiencies identified in the Annual
+Report and the implementation timeframe of these measures.
+These minutes and the Annual Report are submitted to the
+Commission within twenty days from the date of the relevant
+meeting, and not later than three months from the end of the
+calendar year.
+(4) The Annual Report deals with money laundering and
+terrorist financing preventive issues pertaining to the year
+under review and, as a minimum, covers the following:
+(a) Information for measures taken and/or procedures
+introduced for compliance with any amendments and/or
+new provisions of the Law and the present Directive
+which took place during the year under review.
+(b) Information on the inspections and reviews
+performed by the compliance officer, reporting the
+material deficiencies and weaknesses identified in the
+policy, practices, measures, procedures and controls
+that the Obliged Entity applies for the prevention of
+money laundering and terrorist financing. In this regard,
+the report outlines the seriousness of the deficiencies
+and weaknesses, the risk implications and the actions
+taken and/or recommendations made for rectifying the
+situation.
+(c) The number of internal suspicion reports submitted
+by employees of the Obliged Entity to the compliance
+officer, according to paragraph 9(1)(e), and possible
+comments/observations thereon.
+(d) The number of Reports submitted by the
+compliance officer to MOKAS, according to paragraph
+9(1)(g) with information/details on the main reasons for
+suspicion and highlights of any particular trends.
+(e) Information, details or observations regarding the
+communication with the employees on money
+laundering and terrorist financing preventive issues.
+(f) Summary figures, on an annualised basis, of
+customers' total cash deposits in Euro and other
+currencies in excess of the set limit of 10.000 Euro
+(together with comparative figures for the previous
+year) as reported in the Monthly Prevention Statement
+of paragraph 11. Any comments on material changes
+observed compared with the previous year are also
+reported.
+(g) Information on the policy, measures, practices,
+procedures and controls applied by the Obliged Entity
+in relation to high risk customers as well as the number
+and country of origin of high risk customers with whom
+a business relationship is established or an occasional
+transaction has been executed.
+(h) Information on the systems and procedures applied
+by the Obliged Entity for the ongoing monitoring of
+customer accounts and transactions.
+(i) Information on the measures taken for the
+compliance of branches and subsidiaries of the Obliged
+Entity , that operate in countries outside the European
+Economic Area, with the requirements of the present
+Directive in relation to customer identification, due
+diligence and record keeping procedures and
+comments/information on the level of their compliance
+with the said requirements.
+(j) Information on the training courses/seminars
+attended by the compliance officer and any other
+educational material received.
+(k) Information on training/education and any
+educational material provided to staff during the year,
+reporting, the number of courses/seminars organised,
+their duration, the number and the position of the
+employees attending, the names and qualifications of
+the instructors, and specifying whether the
+courses/seminars were developed in-house or by an
+external organisation or consultants.
+(l) Results of the assessment of the adequacy and
+effectiveness of staff training.
+(m) Information on the recommended next year’s
+training program.
+(n) Information on the structure and staffing of the
+department of the compliance officer as well as
+recommendations and timeframe for their
+implementation, for any additional staff and technical
+resources which may be needed for reinforcing the
+measures and procedures against money laundering
+and terrorist financing.
+Monthly prevention
+statement
+R.A.D. 282/2024
+11. The compliance officer prepares and submits to the
+Commission, according to paragraph 9(1)(p), on a monthly
+basis, the Monthly Prevention Statement, which includes
+details for the total cash deposits accepted by the Obliged
+Entity, the Internal Suspicions Reports, and the Compliance
+Officer’s Reports to MOKAS, according to paragraphs 9(1)(e)
+and 9(1)(g), respectively. The Monthly Prevention Statement
+is completed and submitted to the Commission within fifteen
+(15) days from the end of each month. The completion of the
+said Statement provides the opportunity to the Obliged Entity
+initially to evaluate and, subsequently, to reinforce its systems
+of control and monitoring of its operations, for the purpose of
+early identification and detection of transactions in cash which
+may be unusual and/or carry enhanced risk of being involved
+in money laundering and terrorist financing operations.

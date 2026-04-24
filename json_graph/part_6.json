@@ -1,0 +1,82 @@
+{
+  "PART_VI": {
+    "title": "RECOGNITION AND REPORTING OF SUSPICIOUS TRANSACTIONS/ACTIVITIES TO MOKAS",
+    "paragraphs": {
+      "27": {
+        "title": "Reporting of suspicious transactions to MOKAS",
+        "marginal_references": [
+          "sections 26, 27, 69 and 70 of the Law"
+        ],
+        "text": "Without prejudice to the provisions of section 70 of the Law, the Obliged Entity, in cases where there is an attempt of executing transactions which knows or suspects that are related to money laundering or terrorist financing, reports, through the compliance officer its suspicion to MOKAS in accordance with paragraph 9(1)(g)."
+      },
+      "28": {
+        "title": "Suspicious transactions",
+        "marginal_references": [
+          "43",
+          "Sixth Appendix"
+        ],
+        "subparagraphs": {
+          "1": {
+            "text": "The definition of a suspicious transaction as well as the types of suspicious transactions which may be used for money laundering and terrorist financing are almost unlimited. A suspicious transaction will often be one which is inconsistent with a customer's known, legitimate business or personal activities or with the normal business of the specific account, or in general with the economic profile that the Obliged Entity has created for the customer. The Obliged Entity ensures that maintains adequate information and knows enough about its customers' activities in order to recognise on time that a transaction or a series of transactions is unusual or suspicious."
+          },
+          "2": {
+            "text": "A list containing examples of what might constitute suspicious transactions/activities related to money laundering and terrorist financing is attached to the Third Appendix. The said list is not exhaustive nor includes all types of transactions that may be used, nevertheless it can assist the Obliged Entity and its employees in recognising the main methods used for money laundering and terrorist financing. The detection by the Obliged Entity of any of the transactions contained in the Third Appendix prompts further investigation and constitutes a valid cause for seeking additional information and/or explanations as to the source and origin of the funds, the nature and economic/business purpose of the underlying transaction, and the circumstances surrounding the particular activity."
+          }
+        }
+      },
+      "29": {
+        "title": "Compliance officer’s report to MOKAS",
+        "subparagraphs": {
+          "1": {
+            "text": "All the reports of the compliance officer of paragraph 9(1)(g) are send or submitted to MOKAS via the website go AML (https://reports.mokas.law.gov.cy/live)."
+          },
+          "2": {
+            "text": "After the submission of a suspicious report of paragraph 9(1)(g), the Obliged Entity may subsequently wish to terminate its relationship with the customer concerned for risk avoidance reasons. In such an event, the Obliged Entity exercises particular caution, according to section 48 of the Law, not to alert the customer concerned that a suspicious report has been submitted to MOKAS. Close liaison with MOKAS is, therefore, maintained in an effort to avoid any frustration to the investigations conducted."
+          },
+          "3": {
+            "text": "the Obliged Entity adheres to any instructions given by MOKAS and, in particular, as to whether or not to continue or suspend a particular transaction or to maintain the particular account active.",
+            "additional_provisions": [
+              "According to section 26(2)(c) of the Law, MOKAS may instruct the Obliged Entity to refrain from executing or delay the execution of a customer's transaction without such action constituting a violation of any contractual or other obligation of the Obliged Entity and its employees."
+            ]
+          },
+          "4": {
+            "text": "Furthermore, after the submission of a suspicious report of paragraph 9(1)(g), the customers’ accounts concerned as well as any other connected accounts are placed under the close monitoring of the compliance officer."
+          }
+        }
+      },
+      "30": {
+        "title": "Submission of information to MOKAS",
+        "text": "The Obliged Entity ensures that in the case of a suspicious transaction investigation by MOKAS, will be able to provide without delay the following information:",
+        "points": {
+          "a": {
+            "text": "the identity of the account holders;"
+          },
+          "b": {
+            "text": "the identity of the beneficial owners of the account;"
+          },
+          "c": {
+            "text": "the identity of the persons authorised to manage the account;"
+          },
+          "d": {
+            "text": "data of the volume of funds or level of transactions flowing through the account;"
+          },
+          "e": {
+            "text": "connected accounts;"
+          },
+          "f": {
+            "text": "in relation to specific transactions",
+            "subpoints": {
+              "i": "the origin of the funds,",
+              "ii": "the type and amount of the currency involved in the transaction,",
+              "iii": "the form in which the funds were placed or withdrawn, for example cash, cheques, wire transfers,",
+              "iv": "the identity of the person that gave the order for the transaction,",
+              "v": "the destination of the funds,",
+              "vi": "the form of instructions and authorisation that have been given,",
+              "vii": "the type and identifying number of any account involved in the transaction."
+            }
+          }
+        }
+      }
+    }
+  }
+}

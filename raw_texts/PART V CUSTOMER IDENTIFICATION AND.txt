@@ -1,0 +1,358 @@
+PART V CUSTOMER IDENTIFICATION AND DUE DILIGENCE
+PROCEDURES
+Paragraph 18 Obligation for customer identification and due diligence
+procedures
+Paragraph 19 Transactions that favour anonymity
+Paragraph 20 Failure or refusal to submit information for the verification of
+customers’ identity
+Paragraph 21 Construction of an economic profile
+Paragraph 22 Specific customer identification issues
+Paragraph 23 Simplified customer identification and due diligence
+procedures
+Paragraph 24 Enhanced customer identification and due diligence
+procedures
+Paragraph 25 Reliance on third parties for customer identification and due
+diligence purposes
+Paragraph 26 Ongoing monitoring of accounts and transactions 
+Obligation for
+customer
+identification and
+due diligence
+procedures
+(sections 60, 61
+and 62 of the Law)
+18. (1) In addition to the provisions of sections 60, 61 and 62 of
+the Law that refer to the obligation for customer identification
+and due diligence procedures, the Obliged Entity ensure that
+the customer identification records remain completely updated
+with all relevant identification data and information throughout
+the business relationship. The Obliged Entity examines and
+checks, on a regular basis, the validity and adequacy of the
+customer identification data and information it maintains,
+especially those concerning high risk customers. The
+procedures and controls of paragraph 9(1)(a) also determine
+the timeframe during which the regular review, examination
+and update of the customer identification is conducted. The
+outcome of the said review is recorded in a separate
+note/form which should be kept in the respective customer
+file.
+(2) Despite the provisions of subparagraph (1) and taking into 9.
+consideration the level of risk, if at any time during the
+business relationship, the Obliged Entity becomes aware that
+reliable or adequate data and information are missing from the
+identity and the economic profile of the customer, then takes
+all necessary action, by applying the customer identification
+and due diligence procedures according to the Law and the
+present Directive, to collect the missing data and information,
+the soonest possible, so as to identify the customer and
+update and complete the customer’s economic profile.
+(3) In addition to the provisions of subparagraph (1) and (2), 10.
+the Obliged Entity checks the adequacy of the data and
+information of the customer’s identity and economic profile
+whenever one of the following events or incidents occurs:
+(a) an important transaction takes place which appears
+to be unusual and/or significant compared to the
+normal pattern of transactions and the economic profile
+of the customer;
+(b) a material change in the customer’s legal status and
+situation, such as :
+i. change of directors/secretary,
+ii. change of registered shareholders and/or
+beneficial owners,
+iii. change of registered office,
+iv. change of trustees,
+v. change of corporate name and/or trading
+name,
+vi. change of the principal trading partners and/or
+undertake new major business activities;
+(c) a material change in the way and the rules the
+customer’s account operates, such as:
+i. Change in the persons that are authorised to
+operate the account,
+ii. application for the opening of new account for
+the provision of new investment services
+and/or financial instruments.
+Transactions that
+favour anonymity
+(section 66(3) of
+the Law)
+19. In the case of customers’ transactions via the internet, phone,
+fax or other electronic means where the customer is not
+present so as to verify the authenticity of his signature or that
+he is the real owner of the account or that he has been
+properly authorised to operate the account, the Obliged Entity
+applies reliable methods, procedures and control mechanisms
+over the access to the electronic means so as to ensure that it
+deals with the true owner or the authorised signatory to the
+account.
+Failure or refusal to
+submit information
+for the verification
+of customers’
+identity
+(section 62(4) of
+the Law)
+20. (1) Failure or refusal by a customer to submit, before the
+establishment of a business relationship or the execution of
+an occasional transaction, the requisite data and information
+for the verification of his identity and the creation of his
+economic profile, without adequate justification, constitutes
+elements that may lead to the creation of a suspicion that the
+customer is involved in money laundering or terrorist financing
+activities. In such an event, the Obliged Entity does not
+proceed with the establishment of the business relationship or
+the execution of the occasional transaction while at the same
+time the compliance officer considers whether it is justified
+under the circumstances to submit a report to MOKAS,
+according to paragraph 9(1)(g).
+(2) If, during the business relationship, a customer fails or
+refuses to submit, within a reasonable timeframe, the required
+verification data and information according to paragraph 18,
+the Obliged Entity terminates the business relationship and
+closes all the accounts of the customer while at the same time
+examines whether it is justified under the circumstances to
+submit a report to MOKAS, according to paragraph 9(1)(g).
+Construction of an
+economic profile
+(section 61(1) of
+the Law)
+21. (1) The Obliged Entity is satisfied that it’s dealing with a real
+person and, for this reason, obtains sufficient evidence of
+identity to verify that the person is who he claims to be.
+Furthermore, the Obliged Entity verifies the identity of the 
+beneficial owners of the customers’ accounts. In the cases of
+legal persons, the Obliged Entity obtains adequate data and
+information so as to understand the ownership and control
+structure of the customer. Irrespective of the customer’s type
+(e.g. natural or legal person, sole trader or partnership), the
+Obliged Entity requests and obtains sufficient data and
+information regarding the customer’s business activities and
+the expected pattern and level of transactions.
+However, it is noted that no single form of identification can be
+fully guaranteed as genuine or representing correct identity
+and, consequently, the identification process will generally
+need to be cumulative.
+(2) The verification of the customers’ identification is based on
+reliable data and information issued or obtained from
+independent and reliable sources, meaning those data, and
+information that are the most difficult to be amended or
+obtained illicitly.
+(3) A person’s residential and business address is an
+essential part of his identity and, thus, a separate procedure
+for its verification, according to point 1(c) of the Fifth
+Appendix, is followed.
+(4) It is never acceptable to use the same verification data or
+information for verifying the customer’s identity and verifying
+its home address.
+(5) Without prejudice to the provisions of section 62(2) and (3)
+of the Law, the data and information that are collected before
+the establishment of the business relationship, with the aim of
+constructing the customer’s economic profile and, as a
+minimum, include the following :
+(a) the purpose and the reason for requesting the
+establishment of a business relationship;
+(b) the anticipated account turnover, the nature of the
+transactions, the expected origin of incoming funds to
+be credited in the account and the expected destination
+of outgoing transfers/payments;
+(c) the customer’s size of wealth and annual income
+and the clear description of the main
+business/professional activities/operations.
+(6) The data and information that are used for the construction
+of the customer’s-legal person’s economic profile include,
+inter alia, the name of the company, the country of its
+incorporation, the head offices address, the names and the
+identification information of the beneficial owners, directors
+and authorised signatories, financial information, ownership
+structure of the group that the company may be a part of
+(country of incorporation of the parent company, subsidiary
+companies and associate companies, main activities and
+financial information). The said data and information are
+recorded in a separate form designed for this purpose which
+is retained in the customer’s file along with all other
+documents as well as all internal records of meetings with the
+respective customer. The said form is updated regularly or
+whenever new information emerges that needs to be added to
+the economic profile of the customer or alters existing
+information that makes up the economic profile of the
+customer. 
+Identical data and information with the abovementioned are
+obtained in the case of a customer-natural person, and in
+general, the same procedures with the abovementioned are
+followed.
+(7) Transactions executed for the customer are compared and
+evaluated against the anticipated account’s turnover, the
+usual turnover of the activities/operations of the customer and
+the data and information kept for the customer’s economic
+profile. Significant deviations are investigated and the findings
+are recorded in the respective customer’s file. Transactions
+that are not justified by the available information on the
+customer, are thoroughly examined so as to determine
+whether suspicions over money laundering or terrorist
+financing arise for the purposes of submitting an internal
+report to the compliance officer, according to paragraph
+9(1)(e), and then by the latter to MOKAS, according to
+paragraph 9(1)(g) .
+Specific customer
+identification issues
+Fifth Appendix
+22. The Fifth Appendix includes customer identification and due
+diligence procedures that the Obliged Entity applies for
+specific customer identification issues.
+Simplified customer
+identification and
+due diligence
+procedures
+(section 63 of the
+Law)
+23. (1) According to section 63 of the Law, the Obliged Entity,
+may apply simplified customer due diligence measures if the
+business relationship or the transaction presents a lower
+degree of risk. It is provided that the Obliged Entity collects
+sufficient information, so as to assess and to ascertain
+whether a business relationship or transaction presents a
+lower degree of risk. The Obliged Entity when assessing the
+abovementioned pays special attention to any activity of those
+customers or to any type of transactions, which may be
+regarded as particularly likely, by its nature, to be used or
+abused for money laundering or terrorist financing purposes.
+Enhanced
+customer
+identification and
+due diligence
+procedures
+(section 64 of the
+Law)
+24. According to section 64 of the Law, the Obliged Entity applies
+enhanced customer identification and due diligence
+procedures in respect of the customers referred to in section
+64 of the Law, as well as in other situations, that pose a high
+degree of risk for money laundering or terrorist financing and
+are categorised by the Obliged Entity as high risk on the basis
+of its customers’ acceptance policy, according to paragraph 7.
+Reliance on third
+parties for customer
+identification and
+due diligence
+purposes
+(section 67 of the
+Law)
+25. (1) Without prejudice to the provisions of section 67 of the
+Law, the Obliged Entity may rely on third parties for the
+implementation of customer identification and due diligence
+procedures, as these are prescribed in section 61(1)(a),(b)
+and (c) of the Law, provided that the third person makes
+immediately available all data and information, which must be
+certified true copies of the originals, that were collected in the
+course of applying customer identification and due diligence
+procedures.
+(2) The 11. Obliged Entity obtains data and information so as to
+verify that the third person is subject to professional
+registration in accordance with the competent law of its
+country of incorporation and/or operation as well as
+supervision for the purposes of compliance with the measures
+for the prevention of money laundering and terrorist financing.
+(3) 12. The Obliged Entity may rely on third parties only at the
+outset of establishing a business relationship or the execution
+of an occasional transaction for the purpose of verifying the
+identity of their customers. According to the degree of risk any
+additional data and information for the purpose of updating the
+customer’s economic profile or for the purpose of examining
+unusual transactions executed through the account, is
+obtained from the natural persons (directors, beneficial
+owners) who control and manage the activities of the
+customer and have the ultimate responsibility of decision
+making as regards to the management of funds and assets.
+(4) in the case 13. the Obliged Entity relies to a third party, applies
+the following additional measures/procedures :
+(a) before the establishment of the business
+relationship or the carrying out of the occasional
+transaction applies due diligence measures to the third
+party;
+(b)sign an agreement with the third party specifying the
+obligations of each party;;
+(c) maintains a separate file for every third party of the
+present paragraph, where it stores the relevant
+information
+(d) the commencement of the cooperation with the third
+party and the acceptance of customer identification
+data verified by the third party is subject to approval by
+the compliance officer, according to paragraph 9(1)(k).
+Ongoing monitoring
+of accounts and
+transactions
+(section 58(e) and
+61(1)(d) of the Law)
+26. (1) The Obliged Entity has a full understanding of normal and
+reasonable account activity of their customers as well as of
+their economic profile and have the means of identifying
+transactions which fall outside the regular pattern of an
+account’s activity or to identify complex or unusual
+transactions or transactions without obvious economic 
+purpose or clear legitimate reason. Without such knowledge,
+the Obliged Entity is not able to discharge its legal obligation
+to identify and report suspicious transactions to MOKAS,
+according to paragraphs 9(1)(g) and 27.
+(2) The procedures and intensity of monitoring accounts and 14.
+examining transactions are based on the level of risk and, as
+a minimum, achieve the following:
+(a) identifying all high risk customers according to
+paragraph 7. Therefore, the systems or the measures
+and procedures of the Obliged Entity are able to
+produce detailed lists of high risk customers so as to
+facilitate enhanced monitoring of accounts and
+transactions;
+(b) detecting of unusual or suspicious transactions that
+are inconsistent with the economic profile of the
+customer for the purposes of further investigation;
+(c) the investigation of unusual or suspicious
+transactions from the employees who have been
+appointed for that purpose; the results of the
+investigations are recorded in a separate memo and
+kept in the file of the customer concerned;
+(d) all necessary measures and actions must be taken,
+based on the investigation findings of point (c),
+including any internal reporting of suspicious
+transactions/activities to the compliance officer,
+according to paragraph 9(1)(e);
+(e) ascertaining the source and origin of the funds 
+credited to accounts.
+(3) 15. The Obliged Entity introduces and implements, where
+appropriate and proportionate, in view of the nature, scale and
+complexity of its business and the nature and range of the
+investment services and activities undertaken in the course of
+that business, adequate automated electronic management
+information systems which will be capable of supplying the
+board of directors and the compliance officer, on a timely
+basis, all the valid and necessary information for the
+identification, analysis and effective monitoring of customer
+accounts and transactions based on the assessed risk for
+money laundering or terrorist financing purposes.
+(4) 16. The monitoring of accounts and transactions are carried
+out in relation to specific types of transactions and economic
+profile, as well as by comparing periodically the actual
+movement of the account with the expected turnover as
+declared at the establishment of the business relationship.
+Furthermore, the monitoring covers customers who do not
+have a contact with the Obliged Entity as well as dormant
+accounts exhibiting unexpected movements.
+(5) The automated electronic management information
+systems may be also used to extract data and information that
+is missing regarding the customer identification and the
+construction of a customer’s economic profile.
+(6) For all accounts, automated electronic management
+information systems are able to add up the movement of all
+related accounts on a consolidated basis and detect unusual
+or suspicious activities and types of transactions. This can be
+done by setting limits for a particular type, or category of
+accounts (e.g. high risk accounts) or transactions (e.g.
+deposits and withdrawals in cash, transactions that do not
+seem reasonable based on usual business or commercial
+terms, significant movement of the account incompatible with
+the size of the account balance), taking into account the
+economic profile of the customer, the country of his origin, the
+source of the funds, the type of transaction or other risk
+factors. The Obliged Entity gives particular attention to
+transactions exceeding the abovementioned limits, which may
+indicate that a customer might be involved in unusual or
+suspicious activities. 

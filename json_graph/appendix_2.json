@@ -1,0 +1,37 @@
+{
+  "appendix_id": "SECOND_APPENDIX",
+  "title": "INTERNAL EVALUATION REPORT FOR MONEY LAUNDERING AND TERRORIST FINANCING",
+  "type": "form_template",
+  "sections": {
+    "header_details": {
+      "title": "REPORT DETAILS",
+      "fields": [
+        "Reference",
+        "Customer’s Details",
+        "Informer",
+        "Department"
+      ]
+    },
+    "inquiries_undertaken": {
+      "title": "INQUIRIES UNDERTAKEN (Brief Description)",
+      "fields": [
+        "Description Body"
+      ]
+    },
+    "attached_documents": {
+      "title": "ATTACHED DOCUMENTS",
+      "fields": [
+        "Document List"
+      ]
+    },
+    "compliance_officers_decision": {
+      "title": "COMPLIANCE OFFICER’S DECISION",
+      "fields": [
+        "Decision Body",
+        "FILE NUMBER",
+        "COMPLIANCE OFFICER’S SIGNATURE",
+        "DATE"
+      ]
+    }
+  }
+}
