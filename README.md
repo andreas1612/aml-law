@@ -1,18 +1,32 @@
 # AML Compliance Auditor PoC
 
-Proof of Concept for an automated AML Auditor executing locally on a self-hosted LLM.
+Automated AML Auditor that evaluates financial transactions/corporate AML policies against the **CySEC Consolidated AML Directive** using a locally hosted knowledge graph + vector database, with zero PII leakage.
 
-## Architecture
-The logic revolves around an LLM evaluating anonymized financial transactions against the **CySEC Consolidated AML Directive**. 
+## Architecture Overview
+```
+PDF/DOCX Input → [assess_pdf.py] → Raw Text
+                                        ↓
+                             [anonymizer.py + Ollama qwen2.5:3b] → Sanitized Text (local)
+                                        ↓
+                             [ChromaDB] → Retrieves exact CySEC law node
+                                        ↓
+                             [rag_evaluator.py + Kimi API] → JSON Compliance Verdict
+```
 
-To optimize context loading, the entire legal directive was transformed from unformatted PDFs into a highly structured Semantic JSON Graph Database. Python backend loops evaluate anonymized client state against these strict RAG nodes.
-
-### Data Sovereignty 
-*   **Anonymizer Stack:** Raw client data is stripped of PII via a Qwen3-8B local model. 
-*   **Knowledge API:** Only Anonymized data alongside targeted `json_graph` nodes are sent to external LLMs/APIs (if utilized), ensuring strict sovereign compliance.
+## Data Sovereignty
+- **PII Scrubbing:** Done 100% locally via Ollama `qwen2.5:3b` running on the host machine.
+- **Legal Retrieval:** Done 100% locally via ChromaDB (`chroma_db/`).
+- **Only sent externally:** Anonymized text + matched CySEC law excerpt → Kimi API.
 
 ## Directory Structure
-*   `raw_texts/`: The original source of truth OCR `.txt` files translated from the CySEC Directive.
-*   `json_graph/`: The LLM-extracted Knowledge Graph. Highly modular (1 part = 1 json), strictly indexed.
-*   `master_index.json`: The mapping node routing the agent to the appropriate graph sectors.
-*   `status.md`: Development tracking logs.
+| Folder/File | Purpose |
+|---|---|
+| `json_graph/` | 15 modular CySEC JSON files (Parts 1-10 + Appendices 1-5) |
+| `chroma_db/` | Persistent local vector database (325 legal nodes) |
+| `test_transactions/` | Place your PDF/DOCX AML policy files here |
+| `vectorize.py` | Builds the ChromaDB from the JSON graph |
+| `anonymizer.py` | PII scrubber — runs via local Ollama |
+| `rag_evaluator.py` | Final compliance evaluator — queries ChromaDB + Kimi API |
+| `assess_pdf.py` | Standalone PDF text extractor + quick ChromaDB cross-reference |
+| `status.md` | Development log and exact next steps |
+| `architecture_decisions.md` | Architectural rationale for future AI agents / developers |

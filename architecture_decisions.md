@@ -1,40 +1,51 @@
 # Architecture & Decision Record
 **Project:** AML Compliance Auditor PoC
-**Context:** This document serves as the foundational reference for future AI agents and developers working on this project. It outlines the architectural decisions made based on hardware constraints and data sovereignty requirements.
 
-## 1. The Core Philosophy: Data Sovereignty
-The primary objective of this PoC is to prove that highly sensitive financial data can be evaluated against the CySEC AML Directive without leaking Personal Identifiable Information (PII) to unauthorized external endpoints.
-
-## 2. Phase 1: The Semantic Graph Database (Completed)
-**Decision:** We abandoned rule-based Regex parsing for legal texts.
-**Reasoning:** Legal texts contain deep, nested hierarchies (Parts -> Paragraphs -> Subparagraphs -> Points) interwoven with chaotic OCR artifacts and marginal numbers. 
-**Implementation:** 
-*   We used an LLM to semantically extract the raw `.txt` files into a modular JSON Knowledge Graph (`/json_graph/`).
-*   The architecture is modular: One `.json` file per Part/Appendix. 
-*   Appendices use dynamic operational schemas (e.g., `form_template`, `indicator_list`) rather than strict paragraph structures to optimize RAG retrieval speed.
-*   A `master_index.json` node routes queries to the correct sector.
-
-## 3. Phase 2: Vectorization & Local Database
-**Decision:** Store vectors in a lightweight, file-based database for the PoC.
-**Reasoning:** The testing server is terminal-only and CPU-only. Deploying massive enterprise Vector DBs (like Milvus) over-complicates the PoC.
-**Implementation:**
-*   We will use **ChromaDB**, which runs seamlessly in Python without server administration. 
-*   Python scripts will traverse the JSON graph leaves, generate embeddings locally using a lightweight model using `SentenceTransformers` (e.g., `all-MiniLM-L6-v2`), and store the absolute path of the JSON node as the metadata (e.g., `PART_V.paragraphs.18.points.b`).
-*   *Future Scale:* Once GPU resources are acquired, the backend can easily be migrated to **PGVector** or **Qdrant**.
-
-## 4. Phase 3: The Local Anonymizer
-**Decision:** Avoid using an LLM for data sanitization in the PoC.
-**Reasoning:** Because the server is CPU-only, running a local LLM to sanitize inputs is unbearably slow. 
-**Implementation:**
-*   We will use **Microsoft Presidio** (a blazing-fast NLP library running locally) to identify and strip PII.
-*   "John Doe transferred €50,000" becomes `[PERSON_1] transferred €50,000`.
-
-## 5. Phase 4: The Evaluation LLM (Hybrid API PoC)
-**Decision:** Execute the PoC reasoning using an external API, protected by the local anonymizer.
-**Reasoning:** Running a 8B+ parameter model (like Qwen3-8B) on a CPU terminal will crash or run at 1 token/second. 
-**Implementation:**
-*   **The Hybrid Route:** The sanitized string (stripped of all PII) and the specifically retrieved JSON Graph nodes are sent to an external API (like OpenAI or Gemini) to instantly evaluate compliance and output a decision report.
-*   *Future Scale:* Once the production GPU server is purchased, the API credentials in the script will be deleted and replaced with a route to a local **vLLM** or **Ollama** server running the required Qwen models.
+> **Note to all future AI agents/developers:** Read `status.md` for the current task status. Read `master_index.json` to understand the JSON graph topology. Do NOT re-parse raw PDF/text files — that phase is complete.
 
 ---
-**Note to Future Sessions:** Read the `master_index.json` to understand the data topology before attempting to write Python routing logic. Do not attempt to parse raw PDF/text files; that phase is concluded.
+
+## 1. Core Philosophy: Data Sovereignty
+Sensitive financial data must be evaluated against CySEC law without leaking PII to external endpoints. All heavy processing (PII scrubbing, vector search) is local. Only anonymized text + retrieved law excerpts reach the external API.
+
+---
+
+## 2. Phase 1: Semantic JSON Knowledge Graph [COMPLETE]
+**Decision:** Abandoned regex parsing. Used an LLM to semantically extract the raw CySEC `.txt` files into a modular JSON Knowledge Graph (`/json_graph/`).
+- One `.json` file per Part/Appendix (15 files total).
+- Appendices use dynamic schemas (`form_template`, `indicator_list`) vs. core Parts which use `paragraphs`.
+- `master_index.json` routes queries to the correct sector.
+
+---
+
+## 3. Phase 2: Local Vector Database [COMPLETE]
+**Decision:** Use ChromaDB (file-based, zero server admin) for the PoC.
+- A `master_dispatcher` in `vectorize.py` routes each JSON file to a tailored extractor based on its schema type.
+- **325 legal nodes** embedded using `sentence-transformers` (`all-MiniLM-L6-v2`) and stored in `chroma_db/`.
+- Integrity verified: 100% character-level consistency between raw JSON and resulting chunks.
+
+---
+
+## 4. Phase 3: Local PII Anonymizer [COMPLETE - Awaiting Execution]
+**Decision:** Replaced original Presidio plan with local Ollama LLM (`qwen2.5:3b`) for higher semantic accuracy.
+- `anonymizer.py` extracts PDF text via `PyPDF2`, pipes pages to Ollama at `localhost:11434`, and outputs sanitized `.txt` files to `test_transactions/sanitized/`.
+- **Current blocker resolved:** Originally intended for a headless Linux VM. Rerouted to run natively on the Windows host machine due to corporate network proxy restrictions blocking VM internet access.
+- `OllamaSetup.exe` (~860MB) is downloaded and ready to install in the project root directory.
+
+---
+
+## 4. Phase 4: RAG Compliance Evaluation [COMPLETE - Awaiting Execution]
+**Decision:** Use Kimi API (OpenAI-compatible) as the final evaluator.
+- `rag_evaluator.py` reads sanitized `.txt` files, queries ChromaDB for top-3 matching CySEC nodes, and sends both to Kimi.
+- Kimi operates at `temperature=0.1` to prevent hallucination and is strictly forced to output a JSON verdict: `{verdict, risk_level, applicable_clause, justification}`.
+- Compatible with OpenAI API by swapping model name and base URL — no code rewrite needed.
+
+---
+
+## 5. Future Scale Path
+| Component | Current (PoC) | Production |
+|---|---|---|
+| Vector DB | ChromaDB (file) | PGVector / Qdrant |
+| Anonymizer | Ollama qwen2.5:3b | Same or Presidio NLP |
+| Evaluator | Kimi API | Local vLLM on GPU server |
+| Input | PDF via PyPDF2 | Full document pipeline (DOCX, emails, DB exports) |

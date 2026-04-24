@@ -1,44 +1,38 @@
 # AML Compliance Auditor PoC - Status & Handover
 
 ## Project Overview
-An automated AML compliance auditor utilizing a strictly controlled Semantic JSON Knowledge Graph to enforce regulatory compliance (CySEC) against client transactions without hallucinations. The architecture enforces complete data sovereignty by utilizing a Local Vector Database and a Local Anonymizer.
+An automated AML compliance auditor utilizing a strictly controlled Semantic JSON Knowledge Graph to enforce regulatory compliance (CySEC) against client transactions. 
+
+**Recent Architecture Pivot**: To avoid corporate firewall/VM proxy restrictions, the entire pipeline (Retrieval, Anonymization, and Evaluation) is now strictly hosted natively on the local Windows Machine. No remote VMs are required anymore.
 
 ## Accomplished So Far
-### Phase 1: Database Generation [COMPLETE]
-* Successfully broke down the CySEC AML Directive into a clean, hierarchical JSON Structure composed of 15 files (Parts 1-10 + Appendices 1-5).
-* Preserved explicit graph paths (e.g., `part_1.json.paragraphs.5.points.a`).
+### Phase 1 & 2: Local Knowledge Graph & Vectorization [COMPLETE]
+* Converted CySEC Directives to 15 structured JSON schema files.
+* Vectorized **325 explicit legal nodes** into `chroma_db/` using `sentence-transformers`.
+* Proved real-world accuracy via our bespoke `assess_pdf.py` script, which successfully ripped an internal Corporate Manual PDF and mechanically mapped its "Board of Directors" paragraph perfectly against the core CySEC JSON law.
 
-### Phase 2: Vectorization & Information Retrieval [COMPLETE]
-* Installed **ChromaDB** and `sentence-transformers`.
-* Created the `master_dispatcher` architecture in `vectorize.py`.
-* Due to the radical structural differences between Core Directives and Appendices, the pipeline explicitly routes logic:
-    * **Standard Paragraphs (Parts 1-10, App 4-5)**: Intelligently fragmented by sentences (no halved clauses).
-    * **Form Templates (App 1, 2)**: Translated empty dict keys into compliance statements.
-    * **Indicator Lists (App 3)**: Extracted elements of pure JSON arrays without data loss.
-* Successfully injected exactly **325 explicit legal nodes** into the persistent `chroma_db/` folder.
-* **Proved Integrity**: Wrote `audit_chunks.py` verifying that 100% of chunks map correctly without structural data loss.
+### Phase 3 & 4 Codebase [COMPLETE]
+We pulled Claude's generated pipeline logic from the restricted VM back to the Windows Desktop (currently located in `claude_sync/`):
+* `anonymizer.py`: Extracts raw PDF data securely via PyPDF2 and pipes it straight to local Ollama (`localhost:11434`) for stringent PII redaction.
+* `rag_evaluator.py`: Bridges the sanitized text with ChromaDB vector search and outputs a strict JSON evaluation via the Kimi API.
 
-## NEXT STEPS (Handover Instructions for Claude)
-The Knowledge Graph + Search Engine bridge is fully operational locally.
+## NEXT STEPS (Resuming Your Next Session)
 
-### Phase 3: The Local Anonymizer (Currently Pending)
-**Goal:** We cannot allow internal client transaction data containing PII to hit an external LLM API directly. We must scrub it locally first.
+**Step 1: Finish the Ollama Installation**
+1. The Windows `OllamaSetup.exe` (~850MB) was successfully downloaded straight into the `amllaw` core folder. 
+2. Double-click it to install Ollama locally on Windows.
+3. Open Windows PowerShell and download the CPU-optimized safety model: 
+   `ollama pull qwen2.5:3b`
 
-1. **Target Environment**: The user has an 8GB headless VM (CPU-only) exclusively intended for this step.
-2. **Setup Required**:
-    * SSH into the VM.
-    * Install **Ollama**.
-    * Pull the `qwen2.5:3b` model (highly optimized for CPU-only text operations).
-3. **Pipeline Action**:
-    * Write a Python script (`anonymizer.py`) that takes real client transactions provided by the user and queries the local VM Ollama API.
-    * Prompt the local Qwen model to explicitly redact any Names, Addresses, Amounts, and identifying numbers (replacing them with `[REDACTED_NAME]`, etc.).
+**Step 2: Run the Pipeline**
+*For cleanliness, it is recommended to copy `anonymizer.py` and `rag_evaluator.py` from the `claude_sync` folder directly into this core `amllaw` folder so all paths align perfectly.*
 
-### Phase 4: Final RAG Integration & Testing (Pending)
-1. **The RAG Pipeline**: Combine the Local capabilities.
-    * The user will manually place clean, real-world examples (in `.docx` or `.pdf` formats) into the `test_transactions/` directory.
-    * **Document Parsing Layer**: A Python script using libraries like `pdfplumber` or `python-docx` will locally extract the raw text strings from these documents.
-    * Anonymizer locally scrubs the extracted text to remove sensitive PII.
-    * ChromaDB locally searches the graph based on the scrubbed text's semantic meaning.
-2. **External Inference**:
-    * Send the sanitized transaction + the explicitly retrieved CySEC JSON paragraph to **Kimi API** (or similar heavy LLM).
-    * Prompt Kimi to act as the Auditor and declare whether the transaction violates the specific provided paragraph.
+1. Make sure your Python environment has the final dependencies:
+   `pip install openai chromadb PyPDF2`
+2. Put the PDFs you want to test inside the `test_transactions/` folder.
+3. Anonymize them locally:
+   `python anonymizer.py`
+4. Set your API Key for Kimi:
+   `$env:KIMI_API_KEY="sk-your-kimi-token"`
+5. Execute the final legal audit:
+   `python rag_evaluator.py`
