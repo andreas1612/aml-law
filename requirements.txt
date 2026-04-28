@@ -1,0 +1,65 @@
+# AML Compliance Auditor — Python Dependencies
+#
+# Install all at once:
+#   pip install -r requirements.txt
+#
+# Runtime environment:
+#   Python 3.9+
+#   Ollama running locally (see setup below)
+#
+# ─── Core Pipeline ────────────────────────────────────────────────────────────
+
+PyPDF2==3.0.1
+# Purpose: Extract raw text from client AML policy PDFs, page by page.
+# Used in: Phase 1 — extract_pages()
+
+chromadb==0.6.3
+# Purpose: Local vector database holding 325 CySEC legal nodes.
+#          Performs semantic similarity search (all-MiniLM-L6-v2 embeddings).
+#          Runs entirely on-device — raw text never leaves the machine here.
+# Used in: Phase 1 — detect_violations()
+# Note:    On first run, chromadb auto-downloads the ONNX embedding model (~79MB).
+
+requests==2.32.3
+# Purpose: (1) HTTP calls to local Ollama API for PII anonymization.
+#          (2) HTTP call to external LLM API (Kimi / OpenAI-compatible) for final verdict.
+# Used in: Phase 3 — _anonymize_via_ollama()
+#          Phase 4 — call_verdict_api()
+
+# ─── Future Enhancement (NLP Anonymizer — not yet active) ─────────────────────
+#
+# spacy==3.8.2
+# Purpose: Named Entity Recognition for fast deterministic PII stripping.
+#          Replaces Ollama for anonymization: PERSON, ORG, GPE entities via NER,
+#          IBAN/email/phone/account numbers via regex patterns.
+#          Reduces anonymization time from ~4s/page to ~0.05s/page on CPU.
+#          Add when PoC is validated — see architecture_decisions.md.
+#
+# After installing spacy, also run:
+#   python -m spacy download en_core_web_trf
+#
+
+# ─── Ollama Setup (not a pip package) ─────────────────────────────────────────
+#
+# Ollama is a local model server. Install separately:
+#   Windows: run OllamaSetup.exe (included in repo root, gitignored)
+#   Linux/Mac: curl -fsSL https://ollama.com/install.sh | sh
+#
+# Then pull the anonymizer model:
+#   X1 Carbon 32GB (PoC):   ollama pull llama3:latest
+#   GPU Workstation:         ollama pull qwen2.5:14b-instruct-q4_K_M
+#
+# Ollama must be running before executing rag_evaluator.py.
+# Test it is up: curl http://localhost:11434/api/tags
+#
+
+# ─── External LLM API ─────────────────────────────────────────────────────────
+#
+# The final verdict call uses a Kimi (Moonshot) or OpenAI-compatible API.
+# Set your key as an environment variable — NEVER hardcode or commit it:
+#   export KIMI_API_KEY="sk-..."        (Linux/Mac)
+#   set KIMI_API_KEY=sk-...             (Windows cmd)
+#   $env:KIMI_API_KEY = "sk-..."        (Windows PowerShell)
+#
+# The endpoint and model are configured in client_config.json.
+#

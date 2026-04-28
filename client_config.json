@@ -1,0 +1,10 @@
+{
+  "client_id":        "poc_client_001",
+  "regulated_under":  ["cysec_aml_rules"],
+  "chroma_threshold": 0.55,
+  "window_size":      3,
+  "ollama_model":     "llama3:latest",
+  "ollama_url":       "http://localhost:11434",
+  "kimi_model":       "moonshot-v1-128k",
+  "kimi_base_url":    "https://api.moonshot.ai/v1"
+}
