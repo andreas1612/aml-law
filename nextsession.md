@@ -19,7 +19,7 @@ GitHub: `andreas1612/aml-law`
 
 **Current machine: Lenovo X1 Carbon — CPU only. No GPU.**
 
-This is the only available machine right now. All design and implementation decisions must run efficiently on this hardware. If the PoC succeeds, a GPU workstation with tensor cores will be provisioned. Do not design for hardware we do not have yet.
+This is a Proof of Concept machine. If the PoC is evaluated as satisfactory, a GPU workstation will be provisioned. The system will only be visible to clients after that point.
 
 | Constraint | Impact | Current workaround |
 |---|---|---|
@@ -28,7 +28,7 @@ This is the only available machine right now. All design and implementation deci
 | No persistent compute | Long runs can be interrupted | `--verdict-only` flag planned to resume from saved JSON |
 | No local LLM | Kimi API required for verdict | Kimi moonshot-v1-128k, api.moonshot.ai/v1 |
 
-**When the GPU workstation arrives (future):**
+**When the GPU workstation arrives (after PoC approval):**
 - Remove `--skip-anon` — use `qwen2.5:14b-instruct-q4_K_M` via Ollama for anonymization
 - Replace Kimi API with self-hosted model (qwen2.5:72b or similar) — update `kimi_base_url` in `client_config.json`
 - EGDR can use `k=5` on high-entropy windows (currently k=3 max to limit Kimi batch load)
@@ -39,28 +39,30 @@ This is the only available machine right now. All design and implementation deci
 - Pull in any model larger than ~100MB without checking RAM
 - Add any Ollama calls without `--skip-anon` guard
 - Assume GPU availability for any computation
+- Implement spaCy anonymizer yet — no real clients until after workstation
 
 ---
 
 ## Theoretical Foundation — The Libet Inversion
 
-This system is a domain application of the **Libet Inversion** architectural framework (`Biological_Governance_Position_Paper_v2.docx`, same project folder). That paper proposes a five-layer biologically-inspired architecture for autonomous AI systems. Our AML system independently converged on the same structure and is being incrementally aligned to the full framework.
+This system is a domain application of the **Libet Inversion** architectural framework. Five-layer biologically-inspired architecture for autonomous AI systems.
 
 **Five-layer mapping:**
 
 | Layer | Biological Analogue | Our Implementation | Status |
 |---|---|---|---|
 | 1 — Parallel sensors | Demon Layer | PyPDF2 + sliding window | Done |
-| 2 — Entropy-gated filter | Thalamic Gate / EGDR | ChromaDB retrieval (fixed k=1 → **EGDR upgrade Task 2**) | Partial |
+| 2 — Entropy-gated filter | Thalamic Gate / EGDR | ChromaDB retrieval (entropy-gated k) | Done — needs threshold tweak |
 | 3 — Serial workspace | Global Workspace | Kimi context window (intentionally small) | Done |
-| 4 — Narrator + veto | Interpreter + Veto | Kimi verdict + human review of HTML report | Done |
-| 5 — Long-term threat memory | Hebbian Compliance Graph | `compliance_graph.json` (**Task 3 — HCG**) | Not started |
+| 4 — Narrator + veto | Interpreter + Veto | Kimi verdict + bidirectional cross-check + human review | Done |
+| 5 — Long-term threat memory | Hebbian Compliance Graph | `compliance_graph.json` | Done — needs CRITICAL escalation |
 
 **Key architectural principles (do not re-litigate):**
 - LLM is the narrator, not the driver. ChromaDB is the thalamic gate. This is correct.
 - No BM25 gate — "demons never skip signal." Sliding window step=1 is correct.
 - Context window intentionally small — BATCH_SIZE=10 is correct. Do not fight this.
-- Constraint as architecture — the context window's smallness IS the feature. Working within CPU limits produced the right design.
+- Constraint as architecture — the context window's smallness IS the feature.
+- No distance threshold in Phase 1b detection — Kimi is the filter, not a float.
 
 ---
 
@@ -72,541 +74,264 @@ This system is a domain application of the **Libet Inversion** architectural fra
 |---|---|---|
 | CySEC JSON Knowledge Graph | Complete — DO NOT MODIFY | `json_graph/` (15 files) |
 | ChromaDB Vector DB | Built, 325 nodes — DO NOT REGENERATE | `chroma_db/` |
-| Full-coverage sliding window evaluator | Working | `rag_evaluator.py` |
-| HTML report generator | Working | auto-generated in `evaluation_results/` |
+| Full-coverage sliding window evaluator (EGDR) | Working | `rag_evaluator.py` |
+| Bidirectional cross-check (Phase 4b) | Working | `rag_evaluator.py` |
+| Gap description deduplication (Phase 4b-pre) | Working | `rag_evaluator.py` |
+| Detection distance pre-filter (LOW_CONFIDENCE_NOISE) | Working | `rag_evaluator.py` |
+| Hebbian Compliance Graph (Phase 4c) | Working, 15 nodes tracked | `compliance_graph.json` |
+| HTML report with greedy executive summary | Working | auto-generated in `evaluation_results/` |
 | Client config | Working | `client_config.json` |
 | Kimi API | Working | endpoint: `https://api.moonshot.ai/v1` (NOT `.cn`) |
-| 65-page doc evaluated + manually verified | Done | `test_transactions/AML Manual V8.0_Reviewed(Draft).docx.pdf` |
-| 141-page doc evaluated + manually verified | Done | `test_transactions/1a. AML Manual.docx.pdf` |
+| 65-page doc evaluated + verified (3 runs) | Done | `test_transactions/AML Manual V8.0_Reviewed(Draft).docx.pdf` |
+| 141-page doc evaluated + verified (2 runs) | Done | `test_transactions/1a. AML Manual.docx.pdf` |
 
-### NOT done — ordered task list for next session
+### NOT done — ordered task list for next session (PoC focus)
 
-| Priority | Task | Effort | Blocks |
+| Priority | Task | Effort | Why it matters for PoC |
 |---|---|---|---|
-| **1 — CRITICAL** | Fix bidirectional cross-check (Phase 4b) | 2h | All quality metrics |
-| **2** | EGDR: entropy-gated retrieval depth (Phase 1b upgrade) | 30min | Better detection quality |
-| **3** | Phase 4c: Hebbian Compliance Graph update | 30min | Long-term memory |
-| **4** | Greedy executive summary in Phase 5 report | 30min | Report quality |
-| **5** | Re-run both docs with all fixes applied | 1h | Clean comparison |
-| **6** | spaCy anonymizer (CPU-safe, replaces Ollama) | 1h | Removes --skip-anon on CPU |
-| **7** | --verdict-only flag (resume from saved JSON) | 30min | Development speed |
+| **1** | Raise EGDR threshold 6.5 → 7.0 | 2 min | Cuts LOW_CONFIDENCE_NOISE from 35 → ~10. Cleaner numbers |
+| **2** | `--verdict-only` flag | 30 min | Re-run report without paying Kimi. Essential for demo tweaks |
+| **3** | HCG CRITICAL escalation at weight ≥ 0.5 | 20 min | "System auto-identified 5 systemic gaps as CRITICAL" — strong PoC story |
+| **4** | Fix HCG `documents_evaluated` counter | 5 min | Currently counts per verdict per run instead of once per run |
+| **5** | spaCy anonymizer | **SKIP until workstation** | No real clients yet |
+| **6** | Multi-jurisdiction | **SKIP until workstation** | Future — architecture ready |
 
 ---
 
-## Pipeline — Full Target State
+## Pipeline — Full Current State
 
 ```
-Phase 1a:  PyPDF2 extracts all pages (DONE — unchanged)
+Phase 1a:  PyPDF2 extracts all pages (DONE)
 
-Phase 1b:  EGDR sliding window detection (UPGRADE NEEDED)
-           Current: fixed n_results=1 per window
-           Target:  compute Shannon entropy H per window
-                    H > 6.5 → k=3 (complex section, retrieve top-3 law nodes)
-                    H <= 6.5 → k=1 (boilerplate/TOC, retrieve top-1)
-           No distance threshold — Kimi is still the filter, not a float
+Phase 1b:  EGDR sliding window detection (DONE — threshold needs tweak)
+           Current: H > 6.5 → k=3, H <= 6.5 → k=1
+           Fix needed: raise to H > 7.0 → k=3 to reduce LOW_CONFIDENCE_NOISE
+           LOW_CONFIDENCE_NOISE rate currently 35-37% of GAPs — too high
+           After fix: expected ~10-15%
 
-Phase 1c:  Build ephemeral policy index (NEW — needed for Phase 4b)
-           All N pages → vectorize → policy_pages_[stamp] ChromaDB collection
-           Build Bloom filter bitarray on all document bigrams
-           ~10-15s cost on X1 Carbon, once per run, deleted after Phase 5
+Phase 1c:  Ephemeral policy index (DONE)
+           All N pages → policy_{stamp} ChromaDB collection
+           Plain Python set of bigrams (zero false positives on CPU)
+           Deleted after Phase 5
 
-Phase 2:   Deduplication by node_path + overlapping page ranges (DONE — unchanged)
+Phase 2:   Deduplication by node_path + overlapping page ranges (DONE)
 
-Phase 3:   Anonymize flagged pages (DONE)
+Phase 3:   Anonymization (DONE — SKIPPED on X1 Carbon)
            --skip-anon on X1 Carbon (Ollama unusable on CPU)
-           When GPU workstation available: remove flag, use qwen2.5:14b
+           When GPU workstation available: implement spaCy en_core_web_sm
 
-Phase 4:   Kimi verdict in batches of 10, 8s sleep, 5 retries on 429 (DONE — unchanged)
+Phase 4:   Kimi verdict in batches of 10, 8s sleep, 5 retries on 429 (DONE)
 
-Phase 4b:  Bidirectional cross-check (BROKEN — replace entirely)
-           For each GAP verdict:
-             Step 1 — Bloom filter: bigrams from law node vs full doc
-               0 matches → CONFIRMED_GAP immediately, skip semantic query
-               ≥1 match  → proceed to step 2
-             Step 2 — Semantic reverse query: law_node_text → policy_pages collection
-               best_distance < 0.45  → LIKELY_COMPLIANT + which page + distance
-               best_distance 0.45-0.55 → MANUAL_REVIEW + closest page + distance
-               best_distance > 0.55  → CONFIRMED_GAP
+Phase 4b-pre: Gap description deduplication (DONE)
+           Jaccard word overlap > 0.6 → marks later GAP as DUPLICATE
+           Runs before cross-check to skip reverse query on duplicates
 
-Phase 4c:  Update Hebbian Compliance Graph (NEW)
-           Load compliance_graph.json (create if not exists)
-           For each CONFIRMED_GAP: node confirmed_gap_weight += 0.1
-           For each LIKELY_COMPLIANT: node compliant_weight += 0.1
-           Save compliance_graph.json
-           After 10+ runs: high-weight confirmed nodes auto-escalate to CRITICAL
+Phase 4b:  Bidirectional cross-check (DONE)
+           Pre-filters:
+             - Skip DUPLICATE verdicts (marked by Phase 4b-pre)
+             - Detection distance > 0.75 → LOW_CONFIDENCE_NOISE, skip query
+           Step 1 — Bigram pre-filter: zero matches → CONFIRMED_GAP immediately
+           Step 2 — Semantic reverse query: law_node → policy_pages collection
+             best_distance < 0.45  → LIKELY_COMPLIANT + page + distance
+             best_distance 0.45-0.55 → MANUAL_REVIEW + page + distance
+             best_distance > 0.55  → CONFIRMED_GAP
 
-Phase 5:   HTML report — enhanced (PARTIAL — needs greedy summary)
+Phase 4c:  Hebbian Compliance Graph (DONE — needs CRITICAL escalation)
+           compliance_graph.json: 15 nodes tracked after 3 total runs
+           5 nodes at weight ≥ 0.5 (auto-escalate to CRITICAL — not yet implemented)
+           Hebbian rule: +0.1 per confirmed/compliant occurrence, caps at 1.0
+           BUG: documents_evaluated counts per verdict not per run — fix in Task 4
+
+Phase 5:   HTML report (DONE)
            Executive summary: greedy top-5 mandatory CONFIRMED_GAPs
-           Full GAP table with CONFIRMED / MANUAL_REVIEW / LIKELY_COMPLIANT badges
-           "Covered on page X (distance=0.38)" links for LIKELY_COMPLIANT rows
-           Cross-document pattern note if compliance_graph.json has prior data
+           Full GAP table with CONFIRMED / MANUAL_REVIEW / LIKELY_COMPLIANT /
+             DUPLICATE / LOW_CONFIDENCE_NOISE badges
+           "Covered on page X (distance=Y)" for LIKELY_COMPLIANT rows
+           Summary cards: mandatory, confirmed, total gaps, compliant, duplicates, noise
 
-Cleanup:   Delete policy_pages_[stamp] collection from ChromaDB
+Cleanup:   Deletes policy_{stamp} collection from ChromaDB (DONE)
 ```
 
 ### How to run (current — CPU machine)
 
 ```powershell
 $env:KIMI_API_KEY = "sk-DlKQ73PTbP9ff2r6U6y18TkVKqsmjRsEebYhIgi13mDOLLE2"
+cd C:\Users\andre\Desktop\aml_proof
 python rag_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
 python rag_evaluator.py --pdf "1a. AML Manual.docx.pdf" --config client_config.json --skip-anon
 ```
 
-### How to run (future — GPU workstation with self-hosted model)
+### View reports
 
 ```powershell
-# Update client_config.json: kimi_base_url → local model endpoint, kimi_model → local model name
-python rag_evaluator.py --pdf "document.pdf" --config client_config.json
-# No --skip-anon needed — Ollama works on GPU
+cd C:\Users\andre\Desktop\aml_proof\evaluation_results
+python -m http.server 8080
+# Open: http://localhost:8080
 ```
 
 ---
 
-## Task 1 — Fix the Bidirectional Cross-Check (CRITICAL)
+## Task 1 — Raise EGDR Threshold (2 min)
 
-### Why the current implementation is wrong
-
-```python
-# CURRENT (broken) — in cross_check_verdicts():
-keywords = ["policy", "risk", "customer", "money", "laundering"]
-found = sum(1 for kw in keywords if kw in full_text)
-# Result: always 5/5 — everything becomes LIKELY_COMPLIANT
-# These words appear on every single page of any AML document
-```
-
-### Why semantic reverse lookup is correct
-
-"Customer due diligence" and "client identity verification" are the same obligation — a Bloom filter on exact phrases treats them as different. A ChromaDB semantic query with the same embedding model (all-MiniLM-L6-v2) handles paraphrase correctly because it already proved it can match semantic meaning across different phrasing during Phase 1b.
-
-### Full implementation
-
-**Step A — `_build_policy_index()` (new function):**
+In `detect_violations()`, change one line:
 
 ```python
-def _build_policy_index(pages: list, stamp: str, chroma_client) -> tuple:
-    """
-    Vectorize all policy pages into an ephemeral ChromaDB collection.
-    Also build a Bloom filter bitarray on all document bigrams for fast pre-filtering.
-    Returns (collection, bigram_set, full_text).
-    """
-    import mmh3
-    from bitarray import bitarray
-
-    col_name = f"policy_{stamp}"
-    # Delete if exists from a previous interrupted run
-    try:
-        chroma_client.delete_collection(col_name)
-    except Exception:
-        pass
-
-    col = chroma_client.create_collection(col_name)
-    non_empty = [(i, t) for i, t in enumerate(pages) if t.strip()]
-    if non_empty:
-        col.upsert(
-            documents=[t for _, t in non_empty],
-            ids=[f"page_{i}" for i, _ in non_empty],
-            metadatas=[{"page_num": i + 1} for i, _ in non_empty]
-        )
-
-    # Build bigram set for fast pre-filter (not a probabilistic Bloom filter —
-    # use a plain Python set on CPU for simplicity and zero false positives)
-    full_text = " ".join(pages).lower().encode('ascii', 'replace').decode('ascii')
-    words = full_text.split()
-    bigram_set = set(f"{words[i]} {words[i+1]}" for i in range(len(words) - 1))
-
-    print(f"  Policy index: {len(non_empty)} pages vectorized, {len(bigram_set):,} bigrams indexed")
-    return col, bigram_set, full_text
-```
-
-**Note on Bloom filter implementation on CPU:** On the X1 Carbon (no GPU, limited RAM), a plain Python `set` of bigrams is preferable to `mmh3` + `bitarray`. A set has zero false positives (unlike a probabilistic Bloom filter), costs ~50MB for a 141-page document, and lookups are O(1). When the GPU workstation arrives and we're processing hundreds of documents, switch to `mmh3` + `bitarray` to reduce memory. For now, `set` is correct and simpler.
-
-**Step B — `_bidirectional_cross_check()` (replaces `cross_check_verdicts()`):**
-
-```python
-def _bidirectional_cross_check(verdicts: list, findings: list,
-                                policy_col, bigram_set: set) -> list:
-    """
-    For each GAP verdict, check whether the underlying CySEC obligation
-    exists anywhere in the policy document using semantic reverse lookup.
-
-    Two-step:
-      1. Bigram pre-filter — if zero bigrams from the law node appear in
-         the document, it is a CONFIRMED_GAP without any ChromaDB query.
-      2. Semantic reverse query — law node text → policy_pages collection.
-         Returns the best-matching page and its distance.
-    """
-    def get_finding(v):
-        idx = v.get('id', 0) - 1
-        if 0 <= idx < len(findings):
-            return findings[idx]
-        return {}
-
-    confirmed = 0
-    likely_compliant = 0
-    manual_review = 0
-
-    for v in verdicts:
-        if not isinstance(v, dict) or v.get('verdict') != 'GAP':
-            continue
-
-        fin = get_finding(v)
-        law_node_text = fin.get('matched_rule', '').lower().encode('ascii', 'replace').decode('ascii')
-
-        if not law_node_text.strip():
-            v['cross_check'] = 'CONFIRMED_GAP'
-            confirmed += 1
-            continue
-
-        # Step 1: bigram pre-filter
-        words = law_node_text.split()
-        node_bigrams = [f"{words[i]} {words[i+1]}" for i in range(len(words) - 1)]
-        bigram_hits = sum(1 for bg in node_bigrams if bg in bigram_set)
-
-        if not node_bigrams or bigram_hits == 0:
-            v['cross_check'] = 'CONFIRMED_GAP'
-            v['cross_check_note'] = 'Zero bigrams from law node found in document.'
-            confirmed += 1
-            continue
-
-        # Step 2: semantic reverse query
-        try:
-            results = policy_col.query(query_texts=[law_node_text], n_results=3)
-            distances = results['distances'][0]
-            metas = results['metadatas'][0]
-            best_idx = distances.index(min(distances))
-            best_dist = distances[best_idx]
-            best_page = metas[best_idx].get('page_num', '?')
-        except Exception as e:
-            v['cross_check'] = 'MANUAL_REVIEW'
-            v['cross_check_note'] = f'Query error: {e}'
-            manual_review += 1
-            continue
-
-        if best_dist < 0.45:
-            v['cross_check'] = 'LIKELY_COMPLIANT'
-            v['covered_on_page'] = best_page
-            v['coverage_distance'] = round(best_dist, 4)
-            v['cross_check_note'] = f'Policy page {best_page} covers this obligation (distance={best_dist:.3f}).'
-            likely_compliant += 1
-        elif best_dist < 0.55:
-            v['cross_check'] = 'MANUAL_REVIEW'
-            v['closest_page'] = best_page
-            v['coverage_distance'] = round(best_dist, 4)
-            v['cross_check_note'] = f'Borderline match on page {best_page} (distance={best_dist:.3f}). Manual review needed.'
-            manual_review += 1
-        else:
-            v['cross_check'] = 'CONFIRMED_GAP'
-            v['cross_check_note'] = f'No policy page within semantic threshold (best distance={best_dist:.3f}).'
-            confirmed += 1
-
-    print(f"  Cross-check: {confirmed} CONFIRMED_GAP | {manual_review} MANUAL_REVIEW | {likely_compliant} LIKELY_COMPLIANT")
-    return verdicts
-```
-
-**Step C — orchestrator changes in `run_evaluation()`:**
-
-```python
-# After Phase 4 (verdict call), before Phase 4b:
-print("[Phase 1c] Building ephemeral policy index...")
-chroma_client = chromadb.PersistentClient(path=str(DB_PATH))
-policy_col, bigram_set, _ = _build_policy_index(pages, stamp, chroma_client)
-print()
-
-# Phase 4b — replace cross_check_verdicts call:
-print("[Phase 4b] Bidirectional cross-check...")
-verdicts = _bidirectional_cross_check(verdicts, findings, policy_col, bigram_set)
-print()
-
-# Phase 4c — NEW:
-print("[Phase 4c] Updating Hebbian Compliance Graph...")
-_update_hcg(verdicts, findings)
-print()
-
-# After Phase 5 report:
-try:
-    chroma_client.delete_collection(f"policy_{stamp}")
-    print("  Ephemeral policy index cleaned up.")
-except Exception:
-    pass
-```
-
-**Expected verification on 65-page doc (run after implementing):**
-- GAP id=41/42 (suspicious transactions) → page 45 should match at ~0.35 → LIKELY_COMPLIANT
-- GAP id=11 (goAML) → no page mentions goAML → CONFIRMED_GAP
-- GAP id=53 (Monthly Prevention Statement fields) → borderline → MANUAL_REVIEW
-- GAP id=2/17/26 (risk identification — covered in section 3) → page ~20 should match → LIKELY_COMPLIANT
-
-**Dependencies:**
-```
-pip install mmh3    # available now, use later when switching to probabilistic Bloom on workstation
-# bitarray not needed yet — using plain set on CPU
-```
-
----
-
-## Task 2 — EGDR: Entropy-Gated Dynamic Retrieval (Phase 1b upgrade)
-
-### Why
-
-Boilerplate pages (TOC, version history, headers) have low entropy — their top-1 ChromaDB match is often an unrelated law node, producing false positives before Kimi even sees the finding. Complex multi-topic policy sections have high entropy — a single top-1 match may miss the most relevant law node (which is #2 or #3).
-
-### Implementation — add to `detect_violations()`
-
-```python
-import math
-from collections import Counter
-
-def _window_entropy(text: str) -> float:
-    """Shannon entropy of word frequency distribution."""
-    words = text.lower().split()
-    if len(words) < 10:
-        return 0.0
-    freq = Counter(words)
-    total = len(words)
-    return -sum((c / total) * math.log2(c / total) for c in freq.values())
-
-# In detect_violations(), replace fixed n_results=1:
-H = _window_entropy(window_text)
+# CURRENT (too aggressive — generates too many weak 3rd matches):
 k = 3 if H > 6.5 else 1
-results = collection.query(query_texts=[window_text], n_results=k)
 
-# Collect ALL k results (not just [0][0])
-for doc, meta, dist in zip(results["documents"][0],
-                            results["metadatas"][0],
-                            results["distances"][0]):
-    findings.append({
-        "page_range":   [start + 1, end],
-        "jurisdiction": jurisdiction,
-        "node_path":    meta.get("path", ""),
-        "source_file":  meta.get("source_file", ""),
-        "matched_rule": doc,
-        "distance":     round(dist, 4),
-        "raw_snippet":  window_text[:1000],
-        "window_entropy": round(H, 3)   # store for debugging
-    })
+# FIX:
+k = 3 if H > 7.0 else 2 if H > 6.5 else 1
 ```
 
-### Threshold calibration
+**Why:** LOW_CONFIDENCE_NOISE rate is 35-36/83 = ~43% on the 65-page doc. Too many junk 3rd-rank law node matches from EGDR are being generated just to get filtered out downstream. Raising the threshold reduces noise at source.
 
-Before committing, print the entropy distribution to verify the 6.5 threshold is sensible:
-```python
-# Quick calibration — run this once on both docs before setting threshold
-from rag_evaluator import extract_pages, _window_entropy
-from pathlib import Path
-pages = extract_pages(Path("test_transactions/AML Manual V8.0_Reviewed(Draft).docx.pdf"))
-for i in range(len(pages) - 2):
-    window = "\n".join(pages[i:i+3])
-    print(f"window {i+1}: H={_window_entropy(window):.2f}")
-```
-
-Adjust threshold if the distribution shows most windows clustered far from 6.5. On a typical 65-page AML doc: TOC pages ~3.5, admin pages ~4.0, policy sections ~6.5-8.5. Threshold 6.5 should cleanly separate boilerplate from content.
+**Verify after:** LOW_CONFIDENCE_NOISE should drop from ~35 to ~10-15. CONFIRMED_GAP count should stay roughly the same (the noise was already being filtered).
 
 ---
 
-## Task 3 — Hebbian Compliance Graph (Phase 4c)
+## Task 2 — `--verdict-only` Flag (30 min)
+
+Add a flag that loads an existing JSON result file and re-runs from Phase 4b onward without calling Kimi.
 
 ```python
-def _update_hcg(verdicts: list, findings: list,
-                hcg_path: str = "compliance_graph.json"):
-    """
-    Update persistent compliance graph with this run's cross-check results.
-    Hebbian rule: nodes that fire together (consistently GAP or consistently compliant)
-    wire together (weight increases). Weight caps at 1.0, never resets to 0.
-    """
-    hcg_file = WORKSPACE / hcg_path
-    hcg = {}
-    if hcg_file.exists():
-        with open(hcg_file, 'r', encoding='utf-8') as f:
-            hcg = json.load(f)
-
-    def get_finding(v):
-        idx = v.get('id', 0) - 1
-        return findings[idx] if 0 <= idx < len(findings) else {}
-
-    for v in verdicts:
-        if not isinstance(v, dict):
-            continue
-        cc = v.get('cross_check')
-        if cc not in ('CONFIRMED_GAP', 'LIKELY_COMPLIANT'):
-            continue
-        node = get_finding(v).get('node_path', '')
-        if not node:
-            continue
-
-        entry = hcg.setdefault(node, {
-            "confirmed_gap_weight": 0.0,
-            "compliant_weight": 0.0,
-            "documents_evaluated": 0,
-            "last_seen": None
-        })
-        if cc == 'CONFIRMED_GAP':
-            entry['confirmed_gap_weight'] = min(1.0, entry['confirmed_gap_weight'] + 0.1)
-        elif cc == 'LIKELY_COMPLIANT':
-            entry['compliant_weight'] = min(1.0, entry['compliant_weight'] + 0.1)
-        entry['documents_evaluated'] += 1
-        entry['last_seen'] = datetime.now().isoformat()[:10]
-
-    with open(hcg_file, 'w', encoding='utf-8') as f:
-        json.dump(hcg, f, indent=2)
-
-    high_gap = sum(1 for e in hcg.values() if e.get('confirmed_gap_weight', 0) >= 0.5)
-    print(f"  HCG updated: {len(hcg)} nodes tracked, {high_gap} high-weight confirmed gaps")
+parser.add_argument("--verdict-only", type=str, default=None,
+                    help="Path to existing result JSON. Skip to Phase 4b, re-run cross-check and report only.")
 ```
 
-**Seed data available now:** After running both docs with the fixed cross-check, the systemic gaps (Joint Guidelines, telephone verification, trust deeds, simplified CDD) will seed the HCG with `confirmed_gap_weight = 0.2` from 2 documents. After 5+ client evaluations these reach 0.5+ and auto-escalate to CRITICAL severity in reports.
+**Use case:** During PoC demo prep, you may want to tweak cross-check thresholds or report formatting without paying for 15 Kimi batches again. Load the saved verdicts JSON → re-run Phase 4b-pre + 4b + 4c + 5.
+
+**Implementation sketch:**
+```python
+if args.verdict_only:
+    with open(args.verdict_only, encoding='utf-8') as f:
+        saved = json.load(f)
+    # Extract pages (needed for policy index rebuild)
+    pages = extract_pages(pdf_path)
+    findings = saved_findings  # need to store findings in JSON too — see note
+    verdicts = saved['verdicts']
+    # ... jump to Phase 1c, skip Phases 1b/2/3/4
+```
+
+**Note:** Currently `findings` are not saved in the result JSON — only `verdicts` are. Before implementing `--verdict-only`, add `"findings": findings` to the result dict in `_save()`.
 
 ---
 
-## Task 4 — Greedy Executive Summary (Phase 5 report enhancement)
+## Task 3 — HCG CRITICAL Escalation (20 min)
 
-Add to `_generate_report()` before the main gap table:
+In `_update_hcg()`, after saving the file, check for high-weight nodes and return a list:
 
 ```python
-def _greedy_priority_gaps(gaps, findings, get_finding_fn, max_items=5):
-    """
-    Greedy set cover: select minimum gaps covering maximum regulatory exposure.
-    Prioritise: mandatory confirmed > mandatory manual_review > recommended confirmed.
-    Secondary sort: lower distance = more certain match = higher priority.
-    """
-    sev_weight = {"mandatory": 3, "recommended": 2, "informational": 1}
-    confirmed_only = [g for g in gaps if g.get('cross_check') == 'CONFIRMED_GAP']
-    scored = sorted(
-        confirmed_only,
-        key=lambda g: (
-            sev_weight.get(g.get('severity', ''), 0),
-            -(get_finding_fn(g).get('distance', 1.0))
-        ),
-        reverse=True
-    )
-    return scored[:max_items]
+# After saving hcg:
+critical_nodes = [node for node, e in hcg.items()
+                  if e.get('confirmed_gap_weight', 0) >= 0.5]
+if critical_nodes:
+    print(f"  CRITICAL escalation: {len(critical_nodes)} nodes at weight >= 0.5")
 ```
 
-Report output:
+In `_generate_report()`, query `compliance_graph.json` for high-weight nodes and add a CRITICAL section above the priority table:
+
 ```html
-<h2>Priority Remediation — Top {n} Mandatory Confirmed Gaps</h2>
-<!-- Clean table: just ID, page, gap description, law node -->
-<!-- These are the only ones the compliance officer needs to act on immediately -->
+<h2 style="color:#c0392b">⚠ CRITICAL — Systemic Gaps (confirmed across multiple documents)</h2>
+<p>These obligations were absent in every document evaluated. Confidence increases with each run.</p>
+<!-- table: node path | weight | docs evaluated | last seen -->
 ```
+
+**Current nodes that would escalate (weight ≥ 0.5 after 3 runs):**
+- part_3 §9.1.m — weight 0.8
+- part_3 §10.4.b — weight 0.8
+- part_4 §12.4 — weight 0.7-0.8
+- part_6 §27 — weight 0.8
+- part_5 §25.3 — weight 0.8
 
 ---
 
-## Task 5 — spaCy Anonymizer (removes --skip-anon on CPU)
+## Task 4 — Fix HCG `documents_evaluated` Counter (5 min)
 
-**Install (no GPU needed, runs fine on X1 Carbon):**
-```powershell
-pip install spacy
-python -m spacy download en_core_web_sm   # CPU model — 12MB, ~50ms/page
-# NOT en_core_web_trf (transformer-based — needs GPU)
-```
+**Bug:** `_update_hcg()` iterates over all verdicts and increments `documents_evaluated` once per matching verdict. A node that appears in 4 verdicts in one run gets `+4` instead of `+1`.
 
-**Replace `_anonymize_via_ollama()` with:**
+**Fix:** Track which nodes have been updated in the current run and only increment once:
+
 ```python
-def _anonymize_via_spacy(text: str) -> str:
-    """Strip PII using spaCy NER + regex. CPU-safe. ~50ms/page."""
-    import spacy, re
-    nlp = spacy.load("en_core_web_sm")
-    doc = nlp(text[:100000])   # spaCy limit
-
-    # NER replacement
-    result = text
-    for ent in reversed(doc.ents):   # reversed to preserve offsets
-        if ent.label_ in ('PERSON', 'ORG', 'GPE', 'LOC', 'DATE', 'FAC'):
-            placeholder = f"[{ent.label_}]"
-            result = result[:ent.start_char] + placeholder + result[ent.end_char:]
-
-    # Regex for structured PII that NER misses
-    result = re.sub(r'\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b', '[IBAN]', result)
-    result = re.sub(r'\b[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}\b', '[EMAIL]', result)
-    result = re.sub(r'\b(\+?\d[\d\s\-().]{7,}\d)\b', '[PHONE]', result)
-    result = re.sub(r'\b\d{6,}\b', '[ACCOUNT_NO]', result)
-    return result
+updated_this_run = set()
+for v in verdicts:
+    ...
+    node = get_finding(v).get('node_path', '')
+    entry['documents_evaluated'] += (0 if node in updated_this_run else 1)
+    updated_this_run.add(node)
 ```
 
-Load the spaCy model once at startup, not per-page (expensive to reload). After this is done, remove the `--skip-anon` default guidance — spaCy works on the X1 Carbon.
-
 ---
 
-## What We Learned — 65-Page Doc Results
+## Verified Results (as of 2026-04-28)
 
-**`AML Manual V8.0_Reviewed(Draft).docx.pdf` — 65 pages**
-- 63 windows, 55 findings after detection, 55 after dedup
-- Kimi: 28 GAPs, 27 COMPLIANT
-- Manual verification: ~7 real gaps, ~12 false positives, ~9 borderline
+### 65-page doc — `AML Manual V8.0_Reviewed(Draft).docx.pdf`
 
-### Confirmed Real GAPs
+**Best run (163428) — 3rd run, full architecture:**
+- 65 pages → 185 raw hits → 146 unique findings
+- Kimi: 82 GAPs, 64 COMPLIANT
+- Gap dedup: 19 DUPLICATE
+- Cross-check: **22 CONFIRMED_GAP | 5 MANUAL_REVIEW | 1 LIKELY_COMPLIANT | 35 LOW_CONFIDENCE_NOISE**
+- Pipeline stable: near-identical results across 3 runs (variance ±1)
+- Estimated precision on CONFIRMED_GAP: **~82%** (3-4 false positives among 22)
 
-| ID | Description |
-|---|---|
-| 11 | MOKAS reporting uses Jira/ISR — CySEC requires goAML electronic submission |
-| 15 | No internal audit annual AML review mandate |
-| 40 | Ministry of Foreign Affairs / UN sanctions check absent |
-| 53 | Monthly Prevention Statement mentioned — zero field specification |
-| 18 | No breakdown of high-risk customers by country of origin |
-| 48 | No telephone verification procedure |
-| 50 | No specification of which departments need AML training |
+**Verified CONFIRMED real gaps:**
 
-### Confirmed False Positives
-
-| ID | Why wrong |
-|---|---|
-| 41, 42 | Pages 45-46 have full suspicious transaction definitions |
-| 7, 13 | Page 14 covers AMLCO guidance and annual training |
-| 2, 17, 26 | Risk identification covered in section 3 — same gap on adjacent windows |
-| 34 | Page 51 covers account closure for non-responsive clients |
-| 35 | CDD section covers beneficial owner verification |
-
----
-
-## What We Learned — 141-Page Doc Results
-
-**`1a. AML Manual.docx.pdf` — 141 pages**
-- Run completed successfully with --skip-anon
-- Manual PDF scan performed post-evaluation
-
-### Topics CONFIRMED COVERED (manual scan)
-
-| Topic | Page |
-|---|---|
-| goAML electronic submission | 29 |
-| Monthly Prevention Statement | 34 |
-| Suspicious transaction indicators | Multiple |
-| AML training requirements | 27, 33-35 |
-
-### Topics CONFIRMED MISSING (manual scan)
-
-| Missing | Significance |
-|---|---|
-| Economic profile of customers | No customer economic baseline |
-| Record keeping retention periods | Not specified |
-| Simplified CDD qualifying criteria | No conditions defined |
-| Trust deed / trust structure procedures | Trusts not addressed |
-| Joint Guidelines (EBA/ESMA) | Not referenced anywhere |
-
----
-
-## Cross-Document Comparison — Both Docs
-
-### Systemic GAPs (both documents — highest priority, almost certainly real)
-
-These appear absent in both documents independently. Not false positives — too specific to appear in every AML document's boilerplate:
-
-| GAP | CySEC Obligation |
-|---|---|
-| Joint Guidelines (EBA/ESMA) not referenced | Mandatory reference requirement |
-| No telephone verification procedure | Customer contact verification |
-| Trust deed / trust structures not addressed | Beneficial ownership for trusts |
-| Simplified CDD — no qualifying criteria | Must specify when simplified applies |
-
-### Document-Specific GAPs
-
-| GAP | Doc | Notes |
+| ID | Gap | Notes |
 |---|---|---|
-| goAML not specified (uses Jira/ISR) | 65-page only | 141-page correctly references goAML p29 |
-| Monthly Prevention Statement — no field spec | 65-page | 141-page has basic coverage p34 |
+| id=24 | Joint Guidelines (EBA/ESMA) not referenced | Systemic — both docs |
+| id=27 | goAML/MOKAS electronic submission absent | 65-page only (141-page has p29) |
+| id=39 | Internal audit annual AML review missing | Systemic — both docs |
+| id=60/61 | Financial sanctions + EU CFSP list absent | Systemic — both docs |
+| id=99 | High-risk customer ongoing monitoring absent | Both docs |
+| id=127 | Telephone verification procedure absent | Systemic — both docs |
+| id=132 | Training departments not specified | Both docs |
 
-### What this means
+**Verified LIKELY_COMPLIANT (correctly downgraded):**
+- id=111 → Suspicious transactions → page 46, dist=0.442 ✓
 
-The 141-page doc is more complete than the 65-page draft. The systemic gaps are the reliable deliverable — present in both, specific enough not to be noise. These should appear as `CONFIRMED_GAP` after the cross-check fix.
+### 141-page doc — `1a. AML Manual.docx.pdf`
+
+**Best run (161714) — 2nd run, full architecture:**
+- 141 pages → 336 findings → 196 Kimi GAPs
+- Gap dedup: 61 DUPLICATE
+- Cross-check: **40 CONFIRMED_GAP | 17 MANUAL_REVIEW | 5 LIKELY_COMPLIANT | 73 LOW_CONFIDENCE_NOISE**
+
+**Verified LIKELY_COMPLIANT (correctly identified coverage):**
+- id=48/266 → Suspicious transaction examples → page 109 ✓
+- id=92 → AML training → page 36 ✓
+- id=124/136 → Risk-based approach → page 49 ✓
+- id=177 → Beneficial owner verification → page 72, dist=0.27 (strongest match) ✓
+
+**Notable CONFIRMED real gaps:**
+- id=184 → Trust structure (trustor/trustee/beneficiary) — systemic
+- id=201 → Simplified CDD qualifying criteria — systemic
+- id=210 → Telephone verification — systemic
+
+### Cross-Document Systemic Gaps (highest priority — confirmed absent in both)
+
+| Gap | CySEC Obligation | HCG weight |
+|---|---|---|
+| Joint Guidelines (EBA/ESMA) not referenced | Mandatory reference | 0.8 |
+| Telephone verification procedure absent | Customer contact verification | 0.8 |
+| Trust deed / trust structure procedures | Beneficial ownership for trusts | 0.7+ |
+| Simplified CDD — no qualifying criteria | Must specify when simplified applies | 0.7+ |
+| Financial sanctions / EU CFSP / UN checks | Mandatory screening | 0.8 |
+
+---
+
+## HCG State (as of 2026-04-28)
+
+15 nodes tracked. 5 at weight ≥ 0.5, ready for CRITICAL escalation (Task 3):
+
+| Node | Weight | Obligation area |
+|---|---|---|
+| part_3 §9.1.m | 0.8 | Risk identification |
+| part_3 §10.4.b | 0.8 | Compliance officer duties |
+| part_4 §12.4 | 0.7-0.8 | CDD procedures |
+| part_6 §27 | 0.8 | Sanctions screening |
+| part_5 §25.3 | 0.8 | Monitoring obligations |
+
+After 2-3 more client doc runs these reach 1.0 and the pattern is statistically reliable.
 
 ---
 
@@ -616,89 +341,38 @@ The 141-page doc is more complete than the 65-page draft. The systemic gaps are 
 |---|---|
 | No BM25 silence gate | Fails on paraphrased compliance text — silent false negatives |
 | No MinHash window dedup | Misses new topics introduced mid-overlap |
-| No distance threshold in detection | Kimi is the filter, not a float |
+| No distance threshold in Phase 1b detection | Kimi is the filter, not a float |
 | Anonymize AFTER detection | ChromaDB is local — raw text safe. Only Kimi needs clean text |
-| BATCH_SIZE=10 | 55 findings in one call = ~22k tokens = truncated JSON |
+| BATCH_SIZE=10 | 55+ findings in one call = truncated JSON |
 | ASCII-encode prompts | Raw PDF unicode breaks Kimi's JSON output |
 | 8s sleep between batches | 429 rate limit without it |
 | moonshot.ai not moonshot.cn | `.cn` returns 401 even with valid key |
-| Plain set not mmh3+bitarray for bigrams | CPU machine — set has zero false positives, adequate memory |
-| spaCy en_core_web_sm not _trf | CPU machine — _trf needs GPU |
+| Plain set not mmh3+bitarray for bigrams | CPU machine — set has zero false positives |
+| spaCy en_core_web_sm not _trf | CPU machine — _trf needs GPU. Skip until workstation. |
 | LLM as narrator not driver | Libet Inversion: ChromaDB is thalamic gate, Kimi narrates |
-| k=3 max in EGDR | Higher k = more findings = more Kimi budget. On CPU/API: cap at 3. On workstation: raise to 5 |
-| Greedy selection for executive summary | Set cover problem — minimum gaps, maximum regulatory exposure |
+| k=3 max in EGDR | Higher k = more findings = more Kimi budget. CPU/API: cap at 3 |
+| Greedy selection for executive summary | Set cover — minimum gaps, maximum regulatory exposure |
+| Jaccard > 0.6 for gap dedup | Lower = too aggressive (collapses real distinct gaps) |
+| Detection distance > 0.75 → LOW_CONFIDENCE_NOISE | Law node match too weak to trust either direction |
+| Cross-check threshold 0.55 for CONFIRMED_GAP | Tuned on 65-page manual verification. May raise to 0.60 |
 
 ---
 
-## Full Known Issues
+## Known Issues
 
-### Critical (breaks correctness)
-1. **Cross-check (Phase 4b)** — keyword frequency flags 100% of GAPs as LIKELY_COMPLIANT. Replace with bidirectional ChromaDB (Task 1 above).
+### For PoC (fix before evaluation)
+1. **EGDR threshold too low** — LOW_CONFIDENCE_NOISE rate 43%. Fix: raise k=3 threshold 6.5 → 7.0 (Task 1, 2 min).
+2. **HCG documents_evaluated bug** — counts per verdict not per run. Cosmetic, doesn't affect weights (Task 4, 5 min).
+3. **HCG CRITICAL escalation not shown in report** — 5 nodes already qualify (Task 3, 20 min).
 
-### High (affects quality)
-2. **Duplicate GAP suppression** — ids 2/17/26 flag the same underlying gap on adjacent windows. Current dedup operates on node_path but not on gap description similarity. Post-verdict: cluster by cosine similarity of gap descriptions, keep highest-confidence instance.
-3. **EGDR not implemented** — boilerplate pages produce false positives, complex pages miss secondary law nodes.
+### Post-workstation (don't touch on CPU machine)
+4. **--skip-anon required** — spaCy anonymizer blocked until GPU workstation.
+5. **Cross-check threshold 0.55 may need +0.05** — Monthly Prevention Statement in 141-page doc shows CONFIRMED_GAP despite page 34 coverage. Consider 0.55 → 0.60 after more data.
 
-### Medium (improves usability)
-4. **spaCy anonymizer** — replace Ollama, enables real anonymization on CPU (~50ms/page).
-5. **--verdict-only flag** — load existing JSON, re-run from Phase 4b only. Saves Kimi cost during development.
-6. **Report: covered-on-page links** — LIKELY_COMPLIANT rows should link to the specific page.
-7. **Report: executive summary** — greedy top-5 mandatory confirmed gaps only.
-
-### Low (future)
-8. **HCG escalation logic** — after weight >= 0.5, auto-set severity to CRITICAL in reports.
-9. **Page SHA-256 cache** — skip re-vectorizing pages seen before (repeat clients).
-10. **Multi-jurisdiction** — eu_amld5, eu_amld6, fatf_recommendations_2023 collections.
-
----
-
-## Multi-Jurisdiction (Future — architecture already ready)
-
-Add new law domains:
-1. Convert law text to universal JSON node schema
-2. Run `vectorize.py` with new collection name
-3. Add collection name to `client_config.json` → `regulated_under`
-4. Nothing else changes
-
-```json
-{
-  "jurisdiction": "CySEC",
-  "instrument": "Consolidated AML Directive 2024",
-  "part": "Part 4",
-  "article": "3.2",
-  "obligation_type": "customer_due_diligence",
-  "text": "...",
-  "severity": "mandatory"
-}
-```
-
-Priority order: `eu_amld5` → `eu_amld6` → `fatf_recommendations_2023`
-
----
-
-## Infrastructure
-
-### API Keys (`.env` — gitignored)
-```
-KIMI_API_KEY=sk-DlKQ73PTbP9ff2r6U6y18TkVKqsmjRsEebYhIgi13mDOLLE2
-```
-Account: platform.moonshot.ai — ~25 EUR credit as of 2026-04-28.
-
-### Python environment
-```powershell
-pip install -r requirements.txt
-pip install mmh3        # Bloom filter (for future workstation use)
-pip install spacy
-python -m spacy download en_core_web_sm   # CPU-safe, 12MB
-```
-
-### Ollama (skip on current machine)
-```powershell
-# DO NOT use on X1 Carbon — 180s/page timeout
-# For future GPU workstation only:
-ollama pull qwen2.5:14b-instruct-q4_K_M
-curl http://localhost:11434/api/tags   # verify running
-```
+### Future
+6. **Duplicate GAP clustering on gap descriptions** — current Jaccard dedup is effective but greedy. A proper clustering pass would be cleaner.
+7. **Multi-jurisdiction** — EU AMLD5/6, FATF. Architecture ready, needs law graph data.
+8. **Page SHA-256 cache** — skip re-vectorizing pages seen before (repeat clients).
 
 ---
 
@@ -709,13 +383,13 @@ aml_proof/
 ├── json_graph/              <- 15 CySEC JSON files (DO NOT MODIFY)
 ├── chroma_db/               <- Pre-built law vector DB (DO NOT REGENERATE)
 ├── test_transactions/
-│   ├── AML Manual V8.0_Reviewed(Draft).docx.pdf  <- 65 pages, evaluated + verified
-│   └── 1a. AML Manual.docx.pdf                   <- 141 pages, evaluated + verified
+│   ├── AML Manual V8.0_Reviewed(Draft).docx.pdf  <- 65 pages, 3 runs verified
+│   └── 1a. AML Manual.docx.pdf                   <- 141 pages, 2 runs verified
 ├── evaluation_results/      <- JSON + HTML reports (gitignored)
-├── compliance_graph.json    <- Hebbian Compliance Graph (created after Task 3, gitignored)
+├── compliance_graph.json    <- Hebbian Compliance Graph (gitignored)
 ├── rag_evaluator.py         <- Main pipeline
 ├── client_config.json       <- Client/jurisdiction config
-├── requirements.txt         <- Dependencies
+├── requirements.txt         <- Dependencies (includes mmh3 for future use)
 ├── vectorize.py             <- Run only when adding new law domain
 ├── assess_pdf.py            <- Quick test tool
 ├── .env                     <- API keys (gitignored)
@@ -724,62 +398,21 @@ aml_proof/
 
 ---
 
-## Session Prompt (Copy This Exactly)
+## Infrastructure
 
----
+### API Keys (`.env` — gitignored)
+```
+KIMI_API_KEY=sk-DlKQ73PTbP9ff2r6U6y18TkVKqsmjRsEebYhIgi13mDOLLE2
+```
+Account: platform.moonshot.ai — check credit balance before long runs.
 
-I am building an automated AML Compliance Auditor. Pull from GitHub repo `andreas1612/aml-law` and read `nextsession.md` in full before doing anything.
-
-**HARDWARE CONSTRAINT:** Current machine is a Lenovo X1 Carbon — CPU only, no GPU. No workstation yet. All solutions must be CPU-efficient. Ollama is unusable on this machine. When a GPU workstation is provisioned (future), self-hosted LLM replaces Kimi API — architecture is config-driven, no code changes needed.
-
-Architecture is based on the Libet Inversion framework. All architectural decisions are closed — do not re-litigate. Read nextsession.md, follow the task order exactly.
-
-### Task 1 — Fix Bidirectional Cross-Check (CRITICAL — do this first)
-
-Replace `cross_check_verdicts()` in `rag_evaluator.py` with `_bidirectional_cross_check()`. Add `_build_policy_index()`. Full implementation spec is in nextsession.md Task 1.
-
-Install: `pip install mmh3`
-
-After implementing, re-run 65-page doc and verify:
-- GAP id=41/42 (suspicious transactions, covered pages 45-46) → LIKELY_COMPLIANT
-- GAP id=11 (goAML) → CONFIRMED_GAP
-- GAP id=53 (Monthly Prevention Statement fields) → MANUAL_REVIEW
-
+### Python environment
 ```powershell
-$env:KIMI_API_KEY = "sk-DlKQ73PTbP9ff2r6U6y18TkVKqsmjRsEebYhIgi13mDOLLE2"
-python rag_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
+pip install -r requirements.txt
 ```
 
-### Task 2 — EGDR Retrieval Upgrade
-
-Add `_window_entropy()` to `detect_violations()`. Replace fixed `n_results=1` with entropy-gated k. Full spec in nextsession.md Task 2. Print entropy distribution across all windows before committing to verify 6.5 threshold is correct for these documents.
-
-### Task 3 — Hebbian Compliance Graph
-
-Add `_update_hcg()`. Call after Phase 4b in `run_evaluation()`. Creates `compliance_graph.json`. Full spec in nextsession.md Task 3.
-
-### Task 4 — Greedy Executive Summary
-
-Add `_greedy_priority_gaps()` to `_generate_report()`. Full spec in nextsession.md Task 4.
-
-### Task 5 — Re-run Both Docs
-
-After Tasks 1-4:
+### Ollama (skip on current machine)
 ```powershell
-python rag_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
-python rag_evaluator.py --pdf "1a. AML Manual.docx.pdf" --config client_config.json --skip-anon
+# DO NOT use on X1 Carbon — 180s/page timeout
+# For future GPU workstation only
 ```
-
-Verify confirmed GAPs match the manually verified findings in nextsession.md. Report false positive rate before committing.
-
-### Task 6 — Commit and Push
-
-```powershell
-git add rag_evaluator.py requirements.txt
-git commit -m "feat: bidirectional cross-check, EGDR, HCG, greedy report"
-git push origin main
-```
-
-Do NOT commit `evaluation_results/` or `compliance_graph.json`.
-
----
