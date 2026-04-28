@@ -366,6 +366,63 @@ def call_verdict_api(findings: list, config: dict) -> list:
 
     return all_verdicts
 
+# ─── Phase 4b: Post-Verdict Cross-Check ──────────────────────────────────────
+
+def _keywords_from_gap(gap_text: str) -> list:
+    """Extract meaningful keywords from a GAP description to search in full doc."""
+    import re
+    # Strip common filler words, keep legal/procedural terms
+    stopwords = {'policy','does','not','the','a','an','of','and','or','in','to',
+                 'is','that','for','with','as','on','at','by','be','are','it',
+                 'its','this','from','have','has','was','were','which','must',
+                 'shall','should','include','contain','provide','specify','address',
+                 'mention','define','cover','lack','no','without'}
+    words = re.findall(r'[a-zA-Z]{4,}', gap_text.lower())
+    return [w for w in words if w not in stopwords][:6]
+
+def cross_check_verdicts(verdicts: list, pages: list) -> list:
+    """
+    For each GAP verdict, search the full document for keywords from the gap
+    description. If strong keyword evidence is found in the full doc (not just
+    the matched window), downgrade to LIKELY_COMPLIANT and flag for review.
+
+    This catches false positives where policy covers the requirement in a
+    different chapter than the window that triggered the match.
+    """
+    full_text = " ".join(pages).lower().encode('ascii','replace').decode('ascii')
+
+    for v in verdicts:
+        if not isinstance(v, dict) or v.get('verdict') != 'GAP':
+            continue
+
+        gap_text = v.get('gap', '')
+        if not gap_text:
+            continue
+
+        keywords = _keywords_from_gap(gap_text)
+        if not keywords:
+            continue
+
+        # Count how many keywords appear in the full document
+        found = sum(1 for kw in keywords if kw in full_text)
+        coverage = found / len(keywords) if keywords else 0
+
+        # If >60% of gap keywords appear in the full doc, policy likely covers it
+        if coverage > 0.6:
+            v['cross_check'] = 'LIKELY_COMPLIANT'
+            v['cross_check_note'] = (
+                f'{found}/{len(keywords)} gap keywords found in full document. '
+                'Policy may address this requirement in a different section. Manual review recommended.'
+            )
+        else:
+            v['cross_check'] = 'CONFIRMED_GAP'
+            v['cross_check_note'] = (
+                f'Only {found}/{len(keywords)} gap keywords found in full document. '
+                'Gap appears genuine.'
+            )
+
+    return verdicts
+
 # ─── Orchestrator ─────────────────────────────────────────────────────────────
 
 def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
@@ -422,6 +479,14 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
     # ── Phase 4: verdict ──────────────────────────────────────────
     print("[Phase 4] Requesting verdict from external LLM...")
     verdicts = call_verdict_api(findings, config)
+    print()
+
+    # ── Phase 4b: cross-check GAPs against full document ─────────
+    print("[Phase 4b] Cross-checking GAPs against full document...")
+    verdicts = cross_check_verdicts(verdicts, pages)
+    gaps_confirmed  = sum(1 for v in verdicts if isinstance(v,dict) and v.get('cross_check') == 'CONFIRMED_GAP')
+    gaps_downgraded = sum(1 for v in verdicts if isinstance(v,dict) and v.get('cross_check') == 'LIKELY_COMPLIANT')
+    print(f"  Confirmed gaps: {gaps_confirmed}  |  Likely false positives: {gaps_downgraded}")
     print()
 
     result = {
@@ -511,6 +576,12 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
                 flags.append('<span class="flag dup">DUPLICATE</span>')
             if dist > 0.75:
                 flags.append(f'<span class="flag lowconf">LOW CONFIDENCE dist={dist:.2f}</span>')
+            cc   = g.get('cross_check', '')
+            note = g.get('cross_check_note', '')
+            if cc == 'LIKELY_COMPLIANT':
+                flags.append(f'<span class="flag likelyfp" title="{note}">LIKELY FALSE POSITIVE</span>')
+            elif cc == 'CONFIRMED_GAP':
+                flags.append('<span class="flag confirmed">CONFIRMED</span>')
             flag_html = " ".join(flags)
             rows.append(f"""
             <tr>
@@ -568,8 +639,10 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
              color: #fff; font-size: 0.75rem; font-weight: 600; }}
   .flag   {{ display: inline-block; padding: 1px 6px; border-radius: 3px;
              font-size: 0.72rem; font-weight: 600; margin-left: 4px; }}
-  .dup    {{ background: #e67e22; color: #fff; }}
-  .lowconf{{ background: #95a5a6; color: #fff; }}
+  .dup      {{ background: #e67e22; color: #fff; }}
+  .lowconf  {{ background: #95a5a6; color: #fff; }}
+  .likelyfp {{ background: #c0392b; color: #fff; cursor: help; }}
+  .confirmed{{ background: #27ae60; color: #fff; }}
   .mistakes {{ background: #fff8e1; border: 1px solid #f39c12;
                border-radius: 6px; padding: 16px 20px; margin-top: 16px; }}
   .mistakes li {{ margin: 8px 0; line-height: 1.5; }}
