@@ -440,15 +440,30 @@ def _bidirectional_cross_check(verdicts: list, findings: list,
             return findings[idx]
         return {}
 
-    confirmed        = 0
-    likely_compliant = 0
-    manual_review    = 0
+    confirmed          = 0
+    likely_compliant   = 0
+    manual_review      = 0
+    low_conf_noise     = 0
 
     for v in verdicts:
         if not isinstance(v, dict) or v.get('verdict') != 'GAP':
             continue
 
+        # Skip verdicts already marked DUPLICATE by _deduplicate_gap_descriptions()
+        if v.get('cross_check') == 'DUPLICATE':
+            continue
+
         fin           = get_finding(v)
+
+        # Pre-filter: detection distance > 0.75 means the Phase 1b match was weak.
+        # The law node barely matched the policy window — not worth a reverse query.
+        detection_dist = fin.get('distance', 0)
+        if detection_dist > 0.75:
+            v['cross_check']      = 'LOW_CONFIDENCE_NOISE'
+            v['cross_check_note'] = f'Detection distance {detection_dist:.3f} > 0.75 — law node match too weak for reverse query.'
+            low_conf_noise += 1
+            continue
+
         law_node_text = fin.get('matched_rule', '').lower().encode('ascii', 'replace').decode('ascii')
 
         if not law_node_text.strip():
@@ -498,7 +513,7 @@ def _bidirectional_cross_check(verdicts: list, findings: list,
             v['cross_check_note'] = f'No policy page within semantic threshold (best distance={best_dist:.3f}).'
             confirmed += 1
 
-    print(f"  Cross-check: {confirmed} CONFIRMED_GAP | {manual_review} MANUAL_REVIEW | {likely_compliant} LIKELY_COMPLIANT")
+    print(f"  Cross-check: {confirmed} CONFIRMED_GAP | {manual_review} MANUAL_REVIEW | {likely_compliant} LIKELY_COMPLIANT | {low_conf_noise} LOW_CONFIDENCE_NOISE")
     return verdicts
 
 # ─── Phase 4c: Hebbian Compliance Graph ───────────────────────────────────────
@@ -810,6 +825,8 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
                 flags.append('<span class="flag confirmed">CONFIRMED GAP</span>')
             elif cc == 'DUPLICATE':
                 flags.append('<span class="flag dup">SEMANTIC DUPLICATE</span>')
+            elif cc == 'LOW_CONFIDENCE_NOISE':
+                flags.append(f'<span class="flag lowconf" title="{note}">LOW CONFIDENCE NOISE</span>')
             flag_html = " ".join(flags)
             rows.append(f"""
             <tr>
