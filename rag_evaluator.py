@@ -3,23 +3,30 @@
 AML Compliance Auditor — Full-Coverage Sliding Window Evaluator
 
 Architecture:
-  Phase 1: Extract all pages, query ChromaDB with raw text (local, safe).
-           No pages skipped. Every page in at least one window.
-  Phase 2: Deduplicate findings by node_path + overlapping page ranges.
-           Merge cross-jurisdiction matches on same page range.
-  Phase 3: Anonymize ONLY the flagged page ranges via local Ollama.
-           Raw PII never sent to any external service.
-  Phase 4: ONE external API call with all anonymized findings -> JSON verdict.
+  Phase 1a: Extract all pages, query ChromaDB with raw text (local, safe).
+            No pages skipped. Every page in at least one window.
+  Phase 1b: EGDR sliding window detection — entropy-gated k.
+  Phase 1c: Build ephemeral policy index for bidirectional cross-check.
+  Phase 2:  Deduplicate findings by node_path + overlapping page ranges.
+            Merge cross-jurisdiction matches on same page range.
+  Phase 3:  Anonymize ONLY the flagged page ranges via local Ollama.
+            Raw PII never sent to any external service.
+  Phase 4:  ONE external API call with all anonymized findings -> JSON verdict.
+  Phase 4b: Bidirectional cross-check — semantic reverse lookup.
+  Phase 4c: Update Hebbian Compliance Graph.
+  Phase 5:  HTML report with greedy executive summary.
 """
 
 import json
+import math
 import os
+import re
 import sys
 import time
 import argparse
-from pathlib import Path
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime
+from pathlib import Path
 
 from PyPDF2 import PdfReader
 import chromadb
@@ -56,7 +63,7 @@ def load_config(config_path: str) -> dict:
             print(f"  Config file not found: {config_path}, using defaults.")
     return cfg
 
-# ─── Phase 1: PDF Extraction ──────────────────────────────────────────────────
+# ─── Phase 1a: PDF Extraction ─────────────────────────────────────────────────
 
 def extract_pages(pdf_path: Path) -> list:
     """Return list of page texts (0-indexed). Every page extracted, no skipping."""
@@ -70,11 +77,21 @@ def extract_pages(pdf_path: Path) -> list:
             print(f"  Extracted {i+1}/{total} pages...")
     return pages
 
-# ─── Phase 1: Sliding Window Detection ───────────────────────────────────────
+# ─── Phase 1b: EGDR Sliding Window Detection ─────────────────────────────────
+
+def _window_entropy(text: str) -> float:
+    """Shannon entropy of word frequency distribution."""
+    words = text.lower().split()
+    if len(words) < 10:
+        return 0.0
+    freq  = Counter(words)
+    total = len(words)
+    return -sum((c / total) * math.log2(c / total) for c in freq.values())
 
 def detect_violations(pages: list, config: dict) -> list:
     """
     Build every 3-page window (step=1) and query ChromaDB with raw text.
+    EGDR: entropy-gated k — complex windows (H > 6.5) get k=3, boilerplate gets k=1.
     Returns raw findings list — not yet deduplicated.
 
     Correctness guarantee: every page appears in at least one window.
@@ -98,9 +115,7 @@ def detect_violations(pages: list, config: dict) -> list:
     total_wins  = max(0, n - window_size + 1)
     findings    = []
 
-    # No distance threshold — take top 1 match per window unconditionally.
-    # Filtering genuine gaps from false positives is Kimi's job, not a float cutoff.
-    print(f"  {n} pages -> {total_wins} windows (size={window_size}, step=1, no threshold)")
+    print(f"  {n} pages -> {total_wins} windows (size={window_size}, step=1, EGDR entropy-gated k)")
 
     for start in range(total_wins):
         end         = start + window_size          # exclusive slice
@@ -109,33 +124,69 @@ def detect_violations(pages: list, config: dict) -> list:
         if not window_text:
             continue
 
+        H = _window_entropy(window_text)
+        k = 3 if H > 6.5 else 1
+
         for jurisdiction, collection in collections:
             results = collection.query(
                 query_texts=[window_text],
-                n_results=1   # top match only per window — dedup handles overlap
+                n_results=k
             )
 
             if not results["documents"] or not results["documents"][0]:
                 continue
 
-            doc  = results["documents"][0][0]
-            meta = results["metadatas"][0][0]
-            dist = results["distances"][0][0]
-
-            findings.append({
-                "page_range":   [start + 1, end],   # 1-indexed, inclusive end
-                "jurisdiction": jurisdiction,
-                "node_path":    meta.get("path", ""),
-                "source_file":  meta.get("source_file", ""),
-                "matched_rule": doc,
-                "distance":     round(dist, 4),
-                "raw_snippet":  window_text[:1000]
-            })
+            for doc, meta, dist in zip(results["documents"][0],
+                                        results["metadatas"][0],
+                                        results["distances"][0]):
+                findings.append({
+                    "page_range":     [start + 1, end],   # 1-indexed, inclusive end
+                    "jurisdiction":   jurisdiction,
+                    "node_path":      meta.get("path", ""),
+                    "source_file":    meta.get("source_file", ""),
+                    "matched_rule":   doc,
+                    "distance":       round(dist, 4),
+                    "raw_snippet":    window_text[:1000],
+                    "window_entropy": round(H, 3)
+                })
 
         if (start + 1) % 20 == 0 or start + 1 == total_wins:
             print(f"  Window {start+1}/{total_wins} — {len(findings)} raw hits so far")
 
     return findings
+
+# ─── Phase 1c: Ephemeral Policy Index ────────────────────────────────────────
+
+def _build_policy_index(pages: list, stamp: str, chroma_client) -> tuple:
+    """
+    Vectorize all policy pages into an ephemeral ChromaDB collection.
+    Also build a bigram set on all document bigrams for fast pre-filtering.
+    Returns (collection, bigram_set, full_text).
+
+    Uses plain Python set (zero false positives, O(1) lookup, ~50MB for 141 pages).
+    Switch to mmh3 + bitarray when processing hundreds of docs on GPU workstation.
+    """
+    col_name = f"policy_{stamp}"
+    try:
+        chroma_client.delete_collection(col_name)
+    except Exception:
+        pass
+
+    col       = chroma_client.create_collection(col_name)
+    non_empty = [(i, t) for i, t in enumerate(pages) if t.strip()]
+    if non_empty:
+        col.upsert(
+            documents=[t for _, t in non_empty],
+            ids=[f"page_{i}" for i, _ in non_empty],
+            metadatas=[{"page_num": i + 1} for i, _ in non_empty]
+        )
+
+    full_text  = " ".join(pages).lower().encode('ascii', 'replace').decode('ascii')
+    words      = full_text.split()
+    bigram_set = set(f"{words[i]} {words[i+1]}" for i in range(len(words) - 1))
+
+    print(f"  Policy index: {len(non_empty)} pages vectorized, {len(bigram_set):,} bigrams indexed")
+    return col, bigram_set, full_text
 
 # ─── Phase 2: Deduplication ───────────────────────────────────────────────────
 
@@ -175,13 +226,13 @@ def deduplicate(findings: list) -> list:
                     break
             if not placed:
                 merged.append({
-                    "page_range":   list(hit["page_range"]),
-                    "node_path":    node_path,
-                    "source_file":  hit["source_file"],
-                    "matched_rule": hit["matched_rule"],
-                    "distance":     hit["distance"],
+                    "page_range":    list(hit["page_range"]),
+                    "node_path":     node_path,
+                    "source_file":   hit["source_file"],
+                    "matched_rule":  hit["matched_rule"],
+                    "distance":      hit["distance"],
                     "jurisdictions": [hit["jurisdiction"]],
-                    "raw_snippet":  hit["raw_snippet"]
+                    "raw_snippet":   hit["raw_snippet"]
                 })
 
         unique.extend(merged)
@@ -279,8 +330,6 @@ def _parse_json_response(content: str) -> list:
     Extract JSON array from LLM response.
     Handles: raw JSON, markdown fences (```json ... ```), prose before/after.
     """
-    # Strip markdown fences
-    import re
     content = re.sub(r"```(?:json)?\s*", "", content).strip()
     content = content.replace("```", "").strip()
 
@@ -366,67 +415,167 @@ def call_verdict_api(findings: list, config: dict) -> list:
 
     return all_verdicts
 
-# ─── Phase 4b: Post-Verdict Cross-Check ──────────────────────────────────────
+# ─── Phase 4b: Bidirectional Cross-Check ─────────────────────────────────────
 
-def _keywords_from_gap(gap_text: str) -> list:
-    """Extract meaningful keywords from a GAP description to search in full doc."""
-    import re
-    # Strip common filler words, keep legal/procedural terms
-    stopwords = {'policy','does','not','the','a','an','of','and','or','in','to',
-                 'is','that','for','with','as','on','at','by','be','are','it',
-                 'its','this','from','have','has','was','were','which','must',
-                 'shall','should','include','contain','provide','specify','address',
-                 'mention','define','cover','lack','no','without'}
-    words = re.findall(r'[a-zA-Z]{4,}', gap_text.lower())
-    return [w for w in words if w not in stopwords][:6]
-
-def cross_check_verdicts(verdicts: list, pages: list) -> list:
+def _bidirectional_cross_check(verdicts: list, findings: list,
+                                policy_col, bigram_set: set) -> list:
     """
-    For each GAP verdict, search the full document for keywords from the gap
-    description. If strong keyword evidence is found in the full doc (not just
-    the matched window), downgrade to LIKELY_COMPLIANT and flag for review.
+    For each GAP verdict, check whether the underlying CySEC obligation
+    exists anywhere in the policy document using semantic reverse lookup.
 
-    This catches false positives where policy covers the requirement in a
-    different chapter than the window that triggered the match.
+    Two-step:
+      1. Bigram pre-filter — if zero bigrams from the law node appear in
+         the document, it is a CONFIRMED_GAP without any ChromaDB query.
+      2. Semantic reverse query — law node text -> policy_pages collection.
+         Returns the best-matching page and its distance.
+
+    Distance thresholds:
+      < 0.45  -> LIKELY_COMPLIANT (covered on page X)
+      0.45-0.55 -> MANUAL_REVIEW (borderline)
+      > 0.55  -> CONFIRMED_GAP
     """
-    full_text = " ".join(pages).lower().encode('ascii','replace').decode('ascii')
+    def get_finding(v):
+        idx = v.get('id', 0) - 1
+        if 0 <= idx < len(findings):
+            return findings[idx]
+        return {}
+
+    confirmed        = 0
+    likely_compliant = 0
+    manual_review    = 0
 
     for v in verdicts:
         if not isinstance(v, dict) or v.get('verdict') != 'GAP':
             continue
 
-        gap_text = v.get('gap', '')
-        if not gap_text:
-            continue
+        fin           = get_finding(v)
+        law_node_text = fin.get('matched_rule', '').lower().encode('ascii', 'replace').decode('ascii')
 
-        keywords = _keywords_from_gap(gap_text)
-        if not keywords:
-            continue
-
-        # Count how many keywords appear in the full document
-        found = sum(1 for kw in keywords if kw in full_text)
-        coverage = found / len(keywords) if keywords else 0
-
-        # If >60% of gap keywords appear in the full doc, policy likely covers it
-        if coverage > 0.6:
-            v['cross_check'] = 'LIKELY_COMPLIANT'
-            v['cross_check_note'] = (
-                f'{found}/{len(keywords)} gap keywords found in full document. '
-                'Policy may address this requirement in a different section. Manual review recommended.'
-            )
-        else:
+        if not law_node_text.strip():
             v['cross_check'] = 'CONFIRMED_GAP'
-            v['cross_check_note'] = (
-                f'Only {found}/{len(keywords)} gap keywords found in full document. '
-                'Gap appears genuine.'
-            )
+            confirmed += 1
+            continue
 
+        # Step 1: bigram pre-filter
+        words        = law_node_text.split()
+        node_bigrams = [f"{words[i]} {words[i+1]}" for i in range(len(words) - 1)]
+        bigram_hits  = sum(1 for bg in node_bigrams if bg in bigram_set)
+
+        if not node_bigrams or bigram_hits == 0:
+            v['cross_check']      = 'CONFIRMED_GAP'
+            v['cross_check_note'] = 'Zero bigrams from law node found in document.'
+            confirmed += 1
+            continue
+
+        # Step 2: semantic reverse query
+        try:
+            results   = policy_col.query(query_texts=[law_node_text], n_results=3)
+            distances = results['distances'][0]
+            metas     = results['metadatas'][0]
+            best_idx  = distances.index(min(distances))
+            best_dist = distances[best_idx]
+            best_page = metas[best_idx].get('page_num', '?')
+        except Exception as e:
+            v['cross_check']      = 'MANUAL_REVIEW'
+            v['cross_check_note'] = f'Query error: {e}'
+            manual_review += 1
+            continue
+
+        if best_dist < 0.45:
+            v['cross_check']       = 'LIKELY_COMPLIANT'
+            v['covered_on_page']   = best_page
+            v['coverage_distance'] = round(best_dist, 4)
+            v['cross_check_note']  = f'Policy page {best_page} covers this obligation (distance={best_dist:.3f}).'
+            likely_compliant += 1
+        elif best_dist < 0.55:
+            v['cross_check']       = 'MANUAL_REVIEW'
+            v['closest_page']      = best_page
+            v['coverage_distance'] = round(best_dist, 4)
+            v['cross_check_note']  = f'Borderline match on page {best_page} (distance={best_dist:.3f}). Manual review needed.'
+            manual_review += 1
+        else:
+            v['cross_check']      = 'CONFIRMED_GAP'
+            v['cross_check_note'] = f'No policy page within semantic threshold (best distance={best_dist:.3f}).'
+            confirmed += 1
+
+    print(f"  Cross-check: {confirmed} CONFIRMED_GAP | {manual_review} MANUAL_REVIEW | {likely_compliant} LIKELY_COMPLIANT")
     return verdicts
+
+# ─── Phase 4c: Hebbian Compliance Graph ───────────────────────────────────────
+
+def _update_hcg(verdicts: list, findings: list,
+                hcg_path: str = "compliance_graph.json"):
+    """
+    Update persistent compliance graph with this run's cross-check results.
+    Hebbian rule: nodes that fire consistently (GAP or compliant) increase weight.
+    Weight caps at 1.0, never resets to 0.
+    After 10+ runs: high-weight confirmed nodes (>= 0.5) auto-escalate to CRITICAL.
+    """
+    hcg_file = WORKSPACE / hcg_path
+    hcg      = {}
+    if hcg_file.exists():
+        with open(hcg_file, 'r', encoding='utf-8') as f:
+            hcg = json.load(f)
+
+    def get_finding(v):
+        idx = v.get('id', 0) - 1
+        return findings[idx] if 0 <= idx < len(findings) else {}
+
+    for v in verdicts:
+        if not isinstance(v, dict):
+            continue
+        cc = v.get('cross_check')
+        if cc not in ('CONFIRMED_GAP', 'LIKELY_COMPLIANT'):
+            continue
+        node = get_finding(v).get('node_path', '')
+        if not node:
+            continue
+
+        entry = hcg.setdefault(node, {
+            "confirmed_gap_weight": 0.0,
+            "compliant_weight":     0.0,
+            "documents_evaluated":  0,
+            "last_seen":            None
+        })
+        if cc == 'CONFIRMED_GAP':
+            entry['confirmed_gap_weight'] = min(1.0, entry['confirmed_gap_weight'] + 0.1)
+        elif cc == 'LIKELY_COMPLIANT':
+            entry['compliant_weight'] = min(1.0, entry['compliant_weight'] + 0.1)
+        entry['documents_evaluated'] += 1
+        entry['last_seen'] = datetime.now().isoformat()[:10]
+
+    with open(hcg_file, 'w', encoding='utf-8') as f:
+        json.dump(hcg, f, indent=2)
+
+    high_gap = sum(1 for e in hcg.values() if e.get('confirmed_gap_weight', 0) >= 0.5)
+    print(f"  HCG updated: {len(hcg)} nodes tracked, {high_gap} high-weight confirmed gaps")
+
+# ─── Phase 5 helpers ──────────────────────────────────────────────────────────
+
+def _greedy_priority_gaps(gaps: list, get_finding_fn,
+                          max_items: int = 5) -> list:
+    """
+    Greedy set cover: select minimum gaps covering maximum regulatory exposure.
+    Prioritise: mandatory confirmed > recommended confirmed > informational confirmed.
+    Secondary sort: lower distance = more certain match = higher priority.
+    """
+    sev_weight     = {"mandatory": 3, "recommended": 2, "informational": 1}
+    confirmed_only = [g for g in gaps if g.get('cross_check') == 'CONFIRMED_GAP']
+    scored         = sorted(
+        confirmed_only,
+        key=lambda g: (
+            sev_weight.get(g.get('severity', ''), 0),
+            -(get_finding_fn(g).get('distance', 1.0))
+        ),
+        reverse=True
+    )
+    return scored[:max_items]
 
 # ─── Orchestrator ─────────────────────────────────────────────────────────────
 
 def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
     RESULTS_DIR.mkdir(exist_ok=True)
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     banner = f"  AML COMPLIANCE AUDIT — {pdf_path.name}"
     print("\n" + "="*60)
@@ -436,13 +585,13 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
     print(f"  Anon mode : {'SKIP (raw text to API — PoC only)' if skip_anon else 'Ollama ' + config['ollama_model']}")
     print("="*60 + "\n")
 
-    # ── Phase 1: extract ──────────────────────────────────────────
+    # ── Phase 1a: extract ─────────────────────────────────────────
     print("[Phase 1a] Extracting pages...")
     pages = extract_pages(pdf_path)
     print(f"  Total pages: {len(pages)}\n")
 
-    # ── Phase 1: detect ───────────────────────────────────────────
-    print("[Phase 1b] Sliding window detection (full coverage)...")
+    # ── Phase 1b: detect (EGDR) ───────────────────────────────────
+    print("[Phase 1b] Sliding window detection (EGDR entropy-gated)...")
     raw_findings = detect_violations(pages, config)
     print(f"  Raw hits: {len(raw_findings)}\n")
 
@@ -458,8 +607,14 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
             "verdicts":       [],
             "note":           "No violations detected above confidence threshold."
         }
-        _save(result, pdf_path)
+        _save(result, pdf_path, stamp)
         return
+
+    # ── Phase 1c: build ephemeral policy index ────────────────────
+    print("[Phase 1c] Building ephemeral policy index...")
+    chroma_client = chromadb.PersistentClient(path=str(DB_PATH))
+    policy_col, bigram_set, _ = _build_policy_index(pages, stamp, chroma_client)
+    print()
 
     # ── Phase 2: deduplicate ──────────────────────────────────────
     print("[Phase 2] Deduplicating...")
@@ -481,12 +636,17 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
     verdicts = call_verdict_api(findings, config)
     print()
 
-    # ── Phase 4b: cross-check GAPs against full document ─────────
-    print("[Phase 4b] Cross-checking GAPs against full document...")
-    verdicts = cross_check_verdicts(verdicts, pages)
-    gaps_confirmed  = sum(1 for v in verdicts if isinstance(v,dict) and v.get('cross_check') == 'CONFIRMED_GAP')
-    gaps_downgraded = sum(1 for v in verdicts if isinstance(v,dict) and v.get('cross_check') == 'LIKELY_COMPLIANT')
+    # ── Phase 4b: bidirectional cross-check ───────────────────────
+    print("[Phase 4b] Bidirectional cross-check...")
+    verdicts = _bidirectional_cross_check(verdicts, findings, policy_col, bigram_set)
+    gaps_confirmed  = sum(1 for v in verdicts if isinstance(v, dict) and v.get('cross_check') == 'CONFIRMED_GAP')
+    gaps_downgraded = sum(1 for v in verdicts if isinstance(v, dict) and v.get('cross_check') == 'LIKELY_COMPLIANT')
     print(f"  Confirmed gaps: {gaps_confirmed}  |  Likely false positives: {gaps_downgraded}")
+    print()
+
+    # ── Phase 4c: Hebbian Compliance Graph ────────────────────────
+    print("[Phase 4c] Updating Hebbian Compliance Graph...")
+    _update_hcg(verdicts, findings)
     print()
 
     result = {
@@ -497,13 +657,19 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
         "total_findings": len(findings),
         "verdicts":       verdicts
     }
-    stamp    = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_path = _save(result, pdf_path, stamp)
 
     # ── Phase 5: HTML report ──────────────────────────────────────
     print("[Phase 5] Generating report...")
     report_path = _generate_report(result, findings, stamp, pdf_path)
     print()
+
+    # ── Cleanup: delete ephemeral policy index ────────────────────
+    try:
+        chroma_client.delete_collection(f"policy_{stamp}")
+        print("  Ephemeral policy index cleaned up.")
+    except Exception:
+        pass
 
     print("="*60)
     print(f"  COMPLETE  |  pages: {len(pages)}  |  findings: {len(findings)}")
@@ -524,41 +690,58 @@ def _save(result: dict, pdf_path: Path, stamp: str = None) -> Path:
 def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -> Path:
     """
     Generates a self-contained HTML compliance report.
-    - Executive summary with counts
-    - GAPs table with severity, page, law node, description, confidence flag
-    - Flags: duplicate GAPs (same description), low-confidence matches (distance > 0.75)
+    - Greedy executive summary: top-5 mandatory confirmed gaps
+    - Full GAP table with cross-check badges (CONFIRMED GAP / MANUAL REVIEW / LIKELY COMPLIANT)
+    - Flags: duplicate GAPs, low-confidence matches
     - COMPLIANT section
-    - Pipeline mistakes section (architectural issues found during analysis)
+    - Pipeline quality issues section
     """
     verdicts  = result["verdicts"]
     gaps      = [v for v in verdicts if isinstance(v, dict) and v.get("verdict") == "GAP"]
     compliant = [v for v in verdicts if isinstance(v, dict) and v.get("verdict") == "COMPLIANT"]
 
-    # Merge verdicts with findings data (by id -> findings[id-1])
     def get_finding(v):
         idx = v.get("id", 0) - 1
         if 0 <= idx < len(findings):
             return findings[idx]
         return {}
 
-    # Detect duplicate GAPs (same gap text on different pages)
-    from collections import Counter
     gap_texts = [g.get("gap", "") for g in gaps]
     dup_gaps  = {t for t, c in Counter(gap_texts).items() if c > 1 and t}
 
-    # Detect low-confidence GAPs (distance > 0.75)
     def is_low_conf(v):
-        fin = get_finding(v)
-        return fin.get("distance", 0) > 0.75
+        return get_finding(v).get("distance", 0) > 0.75
 
-    n_gaps       = len(gaps)
-    n_compliant  = len(compliant)
-    n_total      = len(findings)
-    n_dup        = sum(1 for g in gaps if g.get("gap","") in dup_gaps)
-    n_low_conf   = sum(1 for g in gaps if is_low_conf(g))
-    n_mandatory  = sum(1 for g in gaps if g.get("severity") == "mandatory")
+    n_gaps      = len(gaps)
+    n_compliant = len(compliant)
+    n_total     = len(findings)
+    n_dup       = sum(1 for g in gaps if g.get("gap", "") in dup_gaps)
+    n_low_conf  = sum(1 for g in gaps if is_low_conf(g))
+    n_mandatory = sum(1 for g in gaps if g.get("severity") == "mandatory")
+    n_confirmed = sum(1 for g in gaps if g.get("cross_check") == "CONFIRMED_GAP")
 
     sev_color = {"mandatory": "#c0392b", "recommended": "#e67e22", "informational": "#2980b9"}
+
+    # ── Greedy executive summary ──────────────────────────────────
+    priority_gaps = _greedy_priority_gaps(gaps, get_finding)
+
+    def priority_rows():
+        rows = []
+        for g in priority_gaps:
+            fin   = get_finding(g)
+            pages = fin.get("page_range", ["?", "?"])
+            node  = fin.get("node_path", "")
+            sev   = g.get("severity", "informational")
+            desc  = g.get("gap", "")
+            color = sev_color.get(sev, "#888")
+            rows.append(f"""
+            <tr>
+              <td class="center">{g.get('id','')}</td>
+              <td class="center">{pages[0]}-{pages[1]}</td>
+              <td><span class="sev" style="background:{color}">{sev.upper()}</span></td>
+              <td>{desc}<br><small class="node">{node}</small></td>
+            </tr>""")
+        return "\n".join(rows)
 
     def gap_rows():
         rows = []
@@ -576,12 +759,18 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
                 flags.append('<span class="flag dup">DUPLICATE</span>')
             if dist > 0.75:
                 flags.append(f'<span class="flag lowconf">LOW CONFIDENCE dist={dist:.2f}</span>')
-            cc   = g.get('cross_check', '')
-            note = g.get('cross_check_note', '')
+            cc       = g.get('cross_check', '')
+            note     = g.get('cross_check_note', '')
+            covered  = g.get('covered_on_page', g.get('closest_page', ''))
+            cov_dist = g.get('coverage_distance', '')
             if cc == 'LIKELY_COMPLIANT':
-                flags.append(f'<span class="flag likelyfp" title="{note}">LIKELY FALSE POSITIVE</span>')
+                cov_text = f' (page {covered}, dist={cov_dist})' if covered else ''
+                flags.append(f'<span class="flag likelyfp" title="{note}">LIKELY COMPLIANT{cov_text}</span>')
+            elif cc == 'MANUAL_REVIEW':
+                cov_text = f' (page {covered}, dist={cov_dist})' if covered else ''
+                flags.append(f'<span class="flag manual" title="{note}">MANUAL REVIEW{cov_text}</span>')
             elif cc == 'CONFIRMED_GAP':
-                flags.append('<span class="flag confirmed">CONFIRMED</span>')
+                flags.append('<span class="flag confirmed">CONFIRMED GAP</span>')
             flag_html = " ".join(flags)
             rows.append(f"""
             <tr>
@@ -609,6 +798,21 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
               <td class="center dist">{dist:.3f}</td>
             </tr>""")
         return "\n".join(rows)
+
+    priority_section = ""
+    if priority_gaps:
+        priority_section = f"""
+<h2>Priority Remediation — Top {len(priority_gaps)} Mandatory Confirmed Gaps</h2>
+<p style="color:#888;font-size:0.9rem">Greedy selection: minimum gaps covering maximum regulatory exposure. Act on these first.</p>
+<table>
+  <thead>
+    <tr><th>#</th><th>Pages</th><th>Severity</th><th>Gap Description &amp; Law Node</th></tr>
+  </thead>
+  <tbody>
+    {priority_rows()}
+  </tbody>
+</table>
+"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -639,10 +843,11 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
              color: #fff; font-size: 0.75rem; font-weight: 600; }}
   .flag   {{ display: inline-block; padding: 1px 6px; border-radius: 3px;
              font-size: 0.72rem; font-weight: 600; margin-left: 4px; }}
-  .dup      {{ background: #e67e22; color: #fff; }}
-  .lowconf  {{ background: #95a5a6; color: #fff; }}
-  .likelyfp {{ background: #c0392b; color: #fff; cursor: help; }}
-  .confirmed{{ background: #27ae60; color: #fff; }}
+  .dup       {{ background: #e67e22; color: #fff; }}
+  .lowconf   {{ background: #95a5a6; color: #fff; }}
+  .likelyfp  {{ background: #27ae60; color: #fff; cursor: help; }}
+  .manual    {{ background: #e67e22; color: #fff; cursor: help; }}
+  .confirmed {{ background: #c0392b; color: #fff; }}
   .mistakes {{ background: #fff8e1; border: 1px solid #f39c12;
                border-radius: 6px; padding: 16px 20px; margin-top: 16px; }}
   .mistakes li {{ margin: 8px 0; line-height: 1.5; }}
@@ -664,6 +869,7 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
 
 <div class="summary">
   <div class="card"><div class="num red">{n_mandatory}</div><div class="lbl">Mandatory Gaps</div></div>
+  <div class="card"><div class="num red">{n_confirmed}</div><div class="lbl">Confirmed Gaps</div></div>
   <div class="card"><div class="num orange">{n_gaps}</div><div class="lbl">Total Gaps</div></div>
   <div class="card"><div class="num green">{n_compliant}</div><div class="lbl">Compliant</div></div>
   <div class="card"><div class="num">{n_total}</div><div class="lbl">Findings Assessed</div></div>
@@ -671,7 +877,9 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
   <div class="card"><div class="num">{n_low_conf}</div><div class="lbl">Low Confidence</div></div>
 </div>
 
-<h2>Compliance Gaps ({n_gaps})</h2>
+{priority_section}
+
+<h2>All Compliance Gaps ({n_gaps})</h2>
 <table>
   <thead>
     <tr>

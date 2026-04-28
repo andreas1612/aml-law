@@ -26,6 +26,11 @@ requests==2.32.3
 # Used in: Phase 3 — _anonymize_via_ollama()
 #          Phase 4 — call_verdict_api()
 
+mmh3==5.0.1
+# Purpose: MurmurHash3 for probabilistic Bloom filter on bigrams.
+#          Currently unused — plain Python set is used on CPU (zero false positives).
+#          Switch to mmh3 + bitarray when processing 100s of docs on GPU workstation.
+
 # ─── Future Enhancement (NLP Anonymizer — not yet active) ─────────────────────
 #
 # spacy==3.8.2
