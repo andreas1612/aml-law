@@ -49,7 +49,7 @@ DEFAULT_CONFIG = {
     "ollama_model":     "llama3:latest",
     "ollama_url":       "http://localhost:11434",
     "kimi_model":       "moonshot-v1-8k",
-    "kimi_base_url":    "https://api.moonshot.cn/v1"
+    "kimi_base_url":    "https://api.moonshot.ai/v1"
 }
 
 def load_config(config_path: str) -> dict:
@@ -550,6 +550,37 @@ def _update_hcg(verdicts: list, findings: list,
     high_gap = sum(1 for e in hcg.values() if e.get('confirmed_gap_weight', 0) >= 0.5)
     print(f"  HCG updated: {len(hcg)} nodes tracked, {high_gap} high-weight confirmed gaps")
 
+# ─── Post-Kimi Gap Description Deduplication ─────────────────────────────────
+
+def _deduplicate_gap_descriptions(verdicts: list) -> list:
+    """
+    Cluster GAP verdicts by description similarity (Jaccard on word sets).
+    If two GAP descriptions overlap > 60%, mark the later one as DUPLICATE.
+    DUPLICATE gaps still appear in the report but don't count toward confirmed total.
+    This collapses the inflation caused by EGDR k=3 matching the same obligation
+    across multiple law nodes on adjacent windows.
+    """
+    gaps = [v for v in verdicts if isinstance(v, dict) and v.get('verdict') == 'GAP']
+    seen = []
+    dupes = 0
+    for g in gaps:
+        desc    = g.get('gap', '').lower().strip()
+        matched = False
+        for s in seen:
+            s_words = set(s.split())
+            g_words = set(desc.split())
+            if s_words and g_words:
+                overlap = len(s_words & g_words) / max(len(s_words), len(g_words))
+                if overlap > 0.6:
+                    g['cross_check'] = 'DUPLICATE'
+                    matched = True
+                    dupes += 1
+                    break
+        if not matched:
+            seen.append(desc)
+    print(f"  Gap dedup: {len(gaps)} GAPs -> {len(gaps) - dupes} unique ({dupes} duplicates marked)")
+    return verdicts
+
 # ─── Phase 5 helpers ──────────────────────────────────────────────────────────
 
 def _greedy_priority_gaps(gaps: list, get_finding_fn,
@@ -636,6 +667,11 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
     verdicts = call_verdict_api(findings, config)
     print()
 
+    # ── Phase 4b-pre: deduplicate gap descriptions ────────────────
+    print("[Phase 4b-pre] Deduplicating gap descriptions...")
+    verdicts = _deduplicate_gap_descriptions(verdicts)
+    print()
+
     # ── Phase 4b: bidirectional cross-check ───────────────────────
     print("[Phase 4b] Bidirectional cross-check...")
     verdicts = _bidirectional_cross_check(verdicts, findings, policy_col, bigram_set)
@@ -719,6 +755,7 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
     n_low_conf  = sum(1 for g in gaps if is_low_conf(g))
     n_mandatory = sum(1 for g in gaps if g.get("severity") == "mandatory")
     n_confirmed = sum(1 for g in gaps if g.get("cross_check") == "CONFIRMED_GAP")
+    n_dupes     = sum(1 for g in gaps if g.get("cross_check") == "DUPLICATE")
 
     sev_color = {"mandatory": "#c0392b", "recommended": "#e67e22", "informational": "#2980b9"}
 
@@ -771,6 +808,8 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
                 flags.append(f'<span class="flag manual" title="{note}">MANUAL REVIEW{cov_text}</span>')
             elif cc == 'CONFIRMED_GAP':
                 flags.append('<span class="flag confirmed">CONFIRMED GAP</span>')
+            elif cc == 'DUPLICATE':
+                flags.append('<span class="flag dup">SEMANTIC DUPLICATE</span>')
             flag_html = " ".join(flags)
             rows.append(f"""
             <tr>
@@ -873,7 +912,8 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
   <div class="card"><div class="num orange">{n_gaps}</div><div class="lbl">Total Gaps</div></div>
   <div class="card"><div class="num green">{n_compliant}</div><div class="lbl">Compliant</div></div>
   <div class="card"><div class="num">{n_total}</div><div class="lbl">Findings Assessed</div></div>
-  <div class="card"><div class="num orange">{n_dup}</div><div class="lbl">Duplicate Flags</div></div>
+  <div class="card"><div class="num orange">{n_dup}</div><div class="lbl">Exact Duplicates</div></div>
+  <div class="card"><div class="num orange">{n_dupes}</div><div class="lbl">Semantic Duplicates</div></div>
   <div class="card"><div class="num">{n_low_conf}</div><div class="lbl">Low Confidence</div></div>
 </div>
 
