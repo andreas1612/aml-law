@@ -1,38 +1,92 @@
-# AML Compliance Auditor PoC - Status & Handover
+# AML Compliance Auditor — Current Status
 
-## Project Overview
-An automated AML compliance auditor utilizing a strictly controlled Semantic JSON Knowledge Graph to enforce regulatory compliance (CySEC) against client transactions. 
+> Last updated: 2026-04-29. Read `nextsession.md` for full context and implementation details.
 
-**Recent Architecture Pivot**: To avoid corporate firewall/VM proxy restrictions, the entire pipeline (Retrieval, Anonymization, and Evaluation) is now strictly hosted natively on the local Windows Machine. No remote VMs are required anymore.
+---
 
-## Accomplished So Far
-### Phase 1 & 2: Local Knowledge Graph & Vectorization [COMPLETE]
-* Converted CySEC Directives to 15 structured JSON schema files.
-* Vectorized **325 explicit legal nodes** into `chroma_db/` using `sentence-transformers`.
-* Proved real-world accuracy via our bespoke `assess_pdf.py` script, which successfully ripped an internal Corporate Manual PDF and mechanically mapped its "Board of Directors" paragraph perfectly against the core CySEC JSON law.
+## What's Built and Working
 
-### Phase 3 & 4 Codebase [COMPLETE]
-We pulled Claude's generated pipeline logic from the restricted VM back to the Windows Desktop (currently located in `claude_sync/`):
-* `anonymizer.py`: Extracts raw PDF data securely via PyPDF2 and pipes it straight to local Ollama (`localhost:11434`) for stringent PII redaction.
-* `rag_evaluator.py`: Bridges the sanitized text with ChromaDB vector search and outputs a strict JSON evaluation via the Kimi API.
+| Component | Status | Notes |
+|---|---|---|
+| CySEC JSON Knowledge Graph | **Complete** | 15 files, 325 legal nodes — DO NOT MODIFY |
+| ChromaDB Vector DB | **Complete** | Built, persistent, all-MiniLM-L6-v2 embeddings — DO NOT REGENERATE |
+| PDF extraction (Phase 1) | **Working** | PyPDF2, all pages |
+| Ephemeral policy index (Phase 1c) | **Working** | Per-run ChromaDB collection + bigram set |
+| Sliding window EGDR (Phase 1b) | **Working but limited** | Only touches 28% of law graph — being replaced by B1 |
+| Deduplication (Phase 2) | **Working** | Not needed in obligation-first architecture |
+| Kimi verdict (Phase 4) | **Working** | Batches of 10, 8s sleep, 5 retries on 429 |
+| Bidirectional cross-check (Phase 4b) | **Working** | Moves into main pipeline in obligation-first |
+| Hebbian Compliance Graph (Phase 4c) | **Working** | 15 nodes tracked, bug in counter (see Known Issues) |
+| HTML report (Phase 5) | **Working** | Collapsible sections, KPI bars, law node references |
+| `compare_gaps.py` | **New** | Ground truth comparison vs XLSX human audit |
 
-## NEXT STEPS (Resuming Your Next Session)
+---
 
-**Step 1: Finish the Ollama Installation**
-1. The Windows `OllamaSetup.exe` (~850MB) was successfully downloaded straight into the `amllaw` core folder. 
-2. Double-click it to install Ollama locally on Windows.
-3. Open Windows PowerShell and download the CPU-optimized safety model: 
-   `ollama pull qwen2.5:3b`
+## Validated Performance (65-page Capital.com Manual)
 
-**Step 2: Run the Pipeline**
-*For cleanliness, it is recommended to copy `anonymizer.py` and `rag_evaluator.py` from the `claude_sync` folder directly into this core `amllaw` folder so all paths align perfectly.*
+Evaluated against human expert audit (CCSV AML_KYC.xlsx — 66 confirmed findings, same document):
 
-1. Make sure your Python environment has the final dependencies:
-   `pip install openai chromadb PyPDF2`
-2. Put the PDFs you want to test inside the `test_transactions/` folder.
-3. Anonymize them locally:
-   `python anonymizer.py`
-4. Set your API Key for Kimi:
-   `$env:KIMI_API_KEY="sk-your-kimi-token"`
-5. Execute the final legal audit:
-   `python rag_evaluator.py`
+| Metric | Result |
+|---|---|
+| System CONFIRMED_GAPs | 22 |
+| Recall on policy-level gaps | **36% (16/45)** |
+| Independently confirmed gaps | 3 clean matches (sys[126], sys[69], sys[115]) |
+| False positives confirmed | 0 (no contradictions with human audit) |
+| Operational gaps (out of scope) | 21 — require CRM/client file review |
+
+**Precision looks solid. Recall is the problem.** Every missed gap maps to a law node the sliding window never touched.
+
+---
+
+## Test Documents
+
+| File | Company | Pages | Runs | Status |
+|---|---|---|---|---|
+| `AML Manual V8.0_Reviewed(Draft).docx.pdf` | Capital Com SV Investments Ltd | 65 | 3 | Ground truth validated via XLSX |
+| `1a. AML Manual.docx.pdf` | PM MTF Ltd | 141 | 2 | No ground truth available |
+
+Ground truth files (in Downloads — do not move):
+- `CCSV - AML_KYC.xlsx` — 2025 human audit of Capital.com, 66 gaps
+- `Capital Com - AML Health Check 09.02.2022.docx` — 2022 health check, same company
+
+---
+
+## Known Issues
+
+| Issue | Severity | Fix | Track |
+|---|---|---|---|
+| 28% law graph coverage (sliding window) | **Critical** | Build obligation-first sweep (B1) | B |
+| 36% recall on policy gaps | **Critical** | B1 fixes this | B |
+| EGDR threshold 6.5 → needs 7.0 | Medium | 2-min change in `detect_violations()` | A1 |
+| HCG `documents_evaluated` counts per verdict not per run | Low | 5-min fix in `_update_hcg()` | A4 |
+| HCG CRITICAL escalation not in report | Low | 5 nodes qualify at weight ≥ 0.5 | A3 |
+| Kimi context too thin (policy snippet only) | Medium | Add obligation text + top-3 sections (B2) | B |
+| Anonymization skipped on CPU machine | Known | `--skip-anon` flag; fix when GPU arrives | Post-PoC |
+
+---
+
+## Immediate Next Session
+
+1. Build `obligation_first_evaluator.py` (Track B, step B1) — see `nextsession.md` for full implementation sketch
+2. Rerun `compare_gaps.py` to measure recall improvement
+3. Track A patches (A1-A4) can be done in parallel — small and independent
+
+---
+
+## How To Run (CPU machine)
+
+```powershell
+# Set API key (load from .env — never paste key in terminal history if screen-sharing)
+cd C:\Users\andre\Desktop\aml_proof
+
+# Current pipeline (sliding window)
+python rag_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
+
+# Ground truth comparison
+python compare_gaps.py
+
+# View reports
+cd evaluation_results
+python -m http.server 8080
+# Open: http://localhost:8080
+```

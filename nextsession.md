@@ -238,11 +238,11 @@ Document these — do not forget them. Solving them requires more client data.
 
 ## Immediate Steps — What To Build Next
 
-**Two tracks. Track A patches the current PoC. Track B starts the new architecture.**
+**Ground truth comparison (session 2026-04-29) confirmed: recall is 36%. B1 is now the priority.**
 
-### Track A — PoC Patch (do these first, current codebase)
+Two tracks. Track A has small PoC patches. Track B is the architectural fix validated by the comparison.
 
-These are still valid and needed for the current demo:
+### Track A — PoC Patches (fast wins, current codebase)
 
 | Priority | Task | Effort | Code location |
 |---|---|---|---|
@@ -251,16 +251,101 @@ These are still valid and needed for the current demo:
 | **A3** | HCG CRITICAL escalation in report | 20 min | `_update_hcg()` + `_generate_report()` |
 | **A4** | Fix HCG `documents_evaluated` counter | 5 min | `_update_hcg()` loop |
 
-See original task implementation sketches below — they are unchanged.
+Do Track A first if a quick demo is needed. None of these block Track B.
 
-### Track B — New Architecture (after Track A complete)
+### Track B — New Architecture (ground-truth-validated priority)
 
-| Step | What | Why first |
-|---|---|---|
-| **B1** | Obligation-first sweep function | Fixes the 28% recall problem. Replace `detect_violations()`. Keep same ChromaDB infrastructure. |
-| **B2** | Richer Kimi context | Better evidence → better verdicts. Change the prompt to include obligation text + top-3 policy sections. Independent of B1. |
-| **B3** | HCG tier field | Add `evaluation_tier` to compliance_graph.json schema. Drives queue ordering in B1. |
-| **B4** | 325-row report table | Show all obligations with status, not just hits. |
+| Step | What | Why | Effort |
+|---|---|---|---|
+| **B1** | `obligation_first_evaluator.py` | 36% → target 70%+ recall. Fixes every missed policy gap. | ~2 hrs |
+| **B2** | Richer Kimi context | Obligation text + top-3 policy sections → better verdict quality | ~30 min |
+| **B3** | HCG tier field | Add `evaluation_tier` to schema, drive queue ordering in B1 | ~20 min |
+| **B4** | 325-row report table | Show all 325 obligations with status | ~1 hr |
+| **B5** | Rerun compare_gaps.py | Validate recall improvement against XLSX ground truth | ~5 min |
+
+**B1 is the entry point. B2 and B3 feed into B1. B4 and B5 follow.**
+
+### How to build B1
+
+Write `obligation_first_evaluator.py` as a new file. Do not modify `rag_evaluator.py` — keep the old pipeline intact until B1 is validated.
+
+B1 core loop (150 lines, uses existing ChromaDB infrastructure unchanged):
+
+```python
+def obligation_sweep(policy_stamp: str, config: dict, hcg: dict) -> list:
+    """
+    For each of 325 law nodes, query the ephemeral policy collection.
+    Returns one candidate finding per node, sorted worst-distance-first.
+    HCG sympathetic nodes (confirmed_gap_weight >= 0.5) go first.
+    """
+    chroma_client = chromadb.PersistentClient(path=str(DB_PATH))
+    policy_col = chroma_client.get_collection(f"policy_{policy_stamp}")
+    law_col    = chroma_client.get_collection(config['regulated_under'][0])
+
+    all_nodes = law_col.get(include=['documents', 'metadatas'])
+    findings  = []
+
+    for doc, meta in zip(all_nodes['documents'], all_nodes['metadatas']):
+        results   = policy_col.query(query_texts=[doc], n_results=3)
+        distances = results['distances'][0]
+        best_dist = min(distances)
+        findings.append({
+            'node_path':    meta.get('path', ''),
+            'matched_rule': doc,
+            'distance':     round(best_dist, 4),
+            'top_sections': [
+                {'page': m.get('page_num'), 'text': t, 'distance': round(d, 4)}
+                for t, m, d in zip(
+                    results['documents'][0],
+                    results['metadatas'][0],
+                    results['distances'][0]
+                )
+            ]
+        })
+
+    # Worst distance first — most likely gaps go to Kimi first.
+    # HCG sympathetic nodes (high confirmed_gap_weight) jump to front of queue.
+    findings.sort(key=lambda f: (
+        0 if hcg.get(f['node_path'], {}).get('evaluation_tier') == 'sympathetic' else 1,
+        -f['distance']
+    ))
+    return findings
+```
+
+B2 Kimi prompt (replace `_VERDICT_PROMPT`):
+
+```python
+_VERDICT_PROMPT_V2 = """\
+You are a senior AML compliance officer doing a regulatory gap analysis.
+
+For each item you are given:
+  - The exact legal obligation from the CySEC Consolidated AML Directive
+  - The top 3 most semantically relevant sections found in the client policy
+
+Decide: does the policy satisfy this obligation?
+
+Return ONLY a JSON array. One object per item.
+SCHEMA: [{"id":1,"verdict":"GAP","severity":"mandatory","missing":"one sentence — what specific element is absent"}]
+verdict: GAP or COMPLIANT
+severity: mandatory, recommended, or informational
+missing: null if COMPLIANT, one sentence if GAP
+
+ITEMS:
+{findings_json}
+"""
+```
+
+### After B1 is built — validate
+
+```powershell
+# Run on Capital.com 65-page manual
+python obligation_first_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
+
+# Compare against XLSX ground truth
+python compare_gaps.py
+```
+
+Expected outcome: recall improves from 36% to 60-75%. Paraphrase distance problems will limit further gains without a legal-domain embedding model.
 
 **B1 and B2 are independent — either can be done first.**
 
@@ -393,6 +478,92 @@ for v in verdicts:
     entry['documents_evaluated'] += (0 if node in updated_this_run else 1)
     updated_this_run.add(node)
 ```
+
+---
+
+## Ground Truth Validation — Session 2026-04-29
+
+**This section is new. It changes the priority order of Track B. Read before starting the next build session.**
+
+### What was discovered
+
+Two professional human audit documents for the Capital.com (CCSV) AML Manual were found in Downloads:
+
+| File | What it is | Relevance |
+|---|---|---|
+| `CCSV - AML_KYC.xlsx` | 2025 professional compliance audit of Capital.com by external firm | **Ground truth for the 65-page test PDF** — same company, same document evaluated |
+| `Capital Com - AML Health Check 09.02.2022.docx` | 2022 AML Health Check of same company by K. Treppides & Co Ltd | Earlier audit — shows what changed over 3 years |
+
+**Critical point:** The 65-page test PDF (`AML Manual V8.0_Reviewed(Draft).docx.pdf`) is the Capital.com AML Manual. The XLSX is a professional human audit of that exact document with 66 confirmed findings. This is the ground truth the project was missing.
+
+The 141-page test PDF (`1a. AML Manual.docx.pdf`) is **a different company** — PM MTF Ltd, July 2025. The XLSX does not apply to it.
+
+### Comparison methodology
+
+Script: `compare_gaps.py` (created this session, in project root).
+
+Runs Jaccard keyword similarity between system gap descriptions and human audit findings. Results are directional — Jaccard is weak for legal text. Use for structure, not as definitive scoring.
+
+```powershell
+cd C:\Users\andre\Desktop\aml_proof
+python compare_gaps.py
+```
+
+### Results
+
+| Metric | Number |
+|---|---|
+| Human expert gaps (XLSX) | 66 total |
+| — Policy-level (what the manual says) | ~45 |
+| — Operational (CRM, client files, practice) | ~21 |
+| System CONFIRMED_GAPs | 22 |
+| System gaps matched a human finding | 19 |
+| System gaps with no human match | 3 |
+| **Recall on policy-level gaps** | **16/45 = 36%** |
+
+### Three independently confirmed gaps (strongest validation)
+
+These were found by both the automated system and the human audit team, reading the same document independently:
+
+| System ID | System finding | Human finding (XLSX) |
+|---|---|---|
+| sys[126] `appendix_5 §1.b` | Policy does not mention original or certified true copies for identity verification | H[51] — "no established procedures for CCSV to accept certified true copies" |
+| sys[69] `appendix_4 §2` | Policy does not address higher risk of ML/TF for non-face-to-face transactions | H[26] — EDD for non-face-to-face clients not structured or documented |
+| sys[115] `Part V §26.2.c` | Policy does not specify procedures for investigating unusual or suspicious transactions | H[78] — ISR procedure not updated in AML Manual |
+
+Zero contradictions: no case where the human audit said "this is fine" and the system said "gap".
+
+### Why 64% of policy gaps were missed
+
+Every missed policy gap maps to a law node the sliding window never touched. Examples:
+
+| Human gap | Area | Why system missed it |
+|---|---|---|
+| H[21] Low risk situation factors missing | Low Risk Clients | Law nodes for §63.2 never hit by any window |
+| H[22] SDD — PoA not required for low-risk | SDD Measures | §SDD nodes invisible to window |
+| H[49] No translation procedures | Translation of docs | Translation obligation nodes never triggered |
+| H[54] No sanction list update procedures | Sanctions Policy | Sanctions procedural nodes missed |
+| H[55] OFAC SDN list absent | OFAC | OFAC-specific nodes never hit |
+| H[82] Training policy not standalone | Training Policy | Training structure nodes missed |
+
+This is the 28% coverage problem made concrete. The obligation-first sweep (Track B, step B1) directly fixes all of these — by querying every law node against the policy, every obligation gets evaluated.
+
+### Operational gaps are permanently out of scope
+
+21 of the 66 human gaps require reviewing actual practice — CRM records, client file samples, staff certificates, backlog counts. A document evaluator cannot detect these. They are a different product (operational audit vs policy compliance check). Do not attempt to cover them.
+
+Examples of operational gaps:
+- H[10] Staff AML certifications not current
+- H[38] Access rights list incomplete in CRM
+- H[63] Client file review backlog due to system bugs
+- H[91] CPD renewal monitoring missing
+- H[92] CRM client status distorted
+
+### What this means for next session
+
+Track B step B1 (obligation-first sweep) is now the **confirmed priority**. The 36% recall has a clean explanation — every missed gap corresponds to an invisible law node. Building B1 will force evaluation of all 325 nodes including those behind the 29 missed policy gaps.
+
+Target after B1: rerun compare_gaps.py. Expect recall to improve to 60-75% (some gaps will still be missed due to paraphrase distance problems; obligation-first does not fully solve paraphrase).
 
 ---
 
