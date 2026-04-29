@@ -519,7 +519,7 @@ Note: HCG weights are based on 91 observed nodes only (sliding window limitation
 ## How To Run (current — CPU machine)
 
 ```powershell
-$env:KIMI_API_KEY = "sk-DlKQ73PTbP9ff2r6U6y18TkVKqsmjRsEebYhIgi13mDOLLE2"
+$env:KIMI_API_KEY = "YOUR_KIMI_API_KEY"   # load from .env — never commit plaintext
 cd C:\Users\andre\Desktop\aml_proof
 python rag_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
 python rag_evaluator.py --pdf "1a. AML Manual.docx.pdf" --config client_config.json --skip-anon
@@ -572,7 +572,7 @@ aml_proof/
 
 ### API Keys (`.env` — gitignored)
 ```
-KIMI_API_KEY=sk-DlKQ73PTbP9ff2r6U6y18TkVKqsmjRsEebYhIgi13mDOLLE2
+KIMI_API_KEY=<your-key-here>   # get from platform.moonshot.ai — never commit plaintext
 ```
 Account: platform.moonshot.ai — check credit balance before long runs.
 Obligation-first sweep = 33 batches per document = higher cost than current. Budget accordingly.
