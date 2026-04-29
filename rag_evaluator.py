@@ -706,6 +706,7 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
         "evaluated_at":   datetime.now().isoformat(),
         "total_pages":    len(pages),
         "total_findings": len(findings),
+        "findings":       findings,
         "verdicts":       verdicts
     }
     out_path = _save(result, pdf_path, stamp)
@@ -738,14 +739,38 @@ def _save(result: dict, pdf_path: Path, stamp: str = None) -> Path:
 
 # ─── Phase 5: HTML Report ─────────────────────────────────────────────────────
 
+def _format_law_node(node_path: str) -> str:
+    """Convert raw node path to human-readable CySEC legal reference.
+    'part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.o' -> 'Part III §9(1)(o)'
+    'appendix_5.json.paragraphs.6.points.j'                       -> 'Appendix V §6(j)'
+    """
+    p = node_path.replace('.json', '')
+    part = ''
+    # Appendix
+    app_m = re.search(r'appendix_(\d+)', p, re.IGNORECASE)
+    if app_m:
+        roman = {1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI',7:'VII',8:'VIII',9:'IX',10:'X'}
+        part = f"Appendix {roman.get(int(app_m.group(1)), app_m.group(1))}"
+    else:
+        part_m = re.search(r'PART_([IVX]+)', p)
+        if part_m:
+            part = f"Part {part_m.group(1)}"
+    para_m  = re.search(r'paragraphs\.(\d+)', p)
+    sub_m   = re.search(r'subparagraphs\.(\d+)', p)
+    point_m = re.search(r'points\.([a-zA-Z0-9]+)', p)
+    para  = f"§{para_m.group(1)}"  if para_m  else ''
+    sub   = f"({sub_m.group(1)})"  if sub_m   else ''
+    point = f"({point_m.group(1)})" if point_m else ''
+    ref = para + sub + point
+    return f"{part} {ref}".strip() if (part or ref) else node_path
+
+
 def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -> Path:
     """
-    Generates a self-contained HTML compliance report.
-    - Greedy executive summary: top-5 mandatory confirmed gaps
-    - Full GAP table with cross-check badges (CONFIRMED GAP / MANUAL REVIEW / LIKELY COMPLIANT)
-    - Flags: duplicate GAPs, low-confidence matches
-    - COMPLIANT section
-    - Pipeline quality issues section
+    Generates a self-contained professional HTML compliance report.
+    Sections: header, KPI bar, priority remediation, confirmed gaps,
+    manual review, filtered noise (collapsed), compliant (collapsed),
+    technical notes (collapsed).
     """
     verdicts  = result["verdicts"]
     gaps      = [v for v in verdicts if isinstance(v, dict) and v.get("verdict") == "GAP"]
@@ -753,233 +778,499 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
 
     def get_finding(v):
         idx = v.get("id", 0) - 1
-        if 0 <= idx < len(findings):
-            return findings[idx]
-        return {}
+        return findings[idx] if 0 <= idx < len(findings) else {}
 
-    gap_texts = [g.get("gap", "") for g in gaps]
-    dup_gaps  = {t for t, c in Counter(gap_texts).items() if c > 1 and t}
+    # Partition gaps by cross-check status
+    sev_order = {"mandatory": 0, "recommended": 1, "informational": 2}
 
-    def is_low_conf(v):
-        return get_finding(v).get("distance", 0) > 0.75
+    def gap_sort_key(g):
+        fin  = get_finding(g)
+        dist = fin.get("distance", 1.0)
+        return (sev_order.get(g.get("severity", "informational"), 9), dist)
 
-    n_gaps      = len(gaps)
-    n_compliant = len(compliant)
-    n_total     = len(findings)
-    n_dup       = sum(1 for g in gaps if g.get("gap", "") in dup_gaps)
-    n_low_conf  = sum(1 for g in gaps if is_low_conf(g))
-    n_mandatory = sum(1 for g in gaps if g.get("severity") == "mandatory")
-    n_confirmed = sum(1 for g in gaps if g.get("cross_check") == "CONFIRMED_GAP")
-    n_dupes     = sum(1 for g in gaps if g.get("cross_check") == "DUPLICATE")
+    confirmed_gaps  = sorted(
+        [g for g in gaps if g.get("cross_check") == "CONFIRMED_GAP"],
+        key=gap_sort_key
+    )
+    manual_gaps     = sorted(
+        [g for g in gaps if g.get("cross_check") == "MANUAL_REVIEW"],
+        key=gap_sort_key
+    )
+    compliant_gaps  = [g for g in gaps if g.get("cross_check") == "LIKELY_COMPLIANT"]
+    noise_gaps      = [g for g in gaps if g.get("cross_check") in ("DUPLICATE", "LOW_CONFIDENCE_NOISE", "")]
 
-    sev_color = {"mandatory": "#c0392b", "recommended": "#e67e22", "informational": "#2980b9"}
+    n_confirmed  = len(confirmed_gaps)
+    n_manual     = len(manual_gaps)
+    n_compliant  = len(compliant)
+    n_total      = len(findings)
+    n_mandatory  = sum(1 for g in confirmed_gaps if g.get("severity") == "mandatory")
+    n_noise      = len(noise_gaps)
 
-    # ── Greedy executive summary ──────────────────────────────────
     priority_gaps = _greedy_priority_gaps(gaps, get_finding)
 
-    def priority_rows():
-        rows = []
-        for g in priority_gaps:
-            fin   = get_finding(g)
-            pages = fin.get("page_range", ["?", "?"])
-            node  = fin.get("node_path", "")
-            sev   = g.get("severity", "informational")
-            desc  = g.get("gap", "")
-            color = sev_color.get(sev, "#888")
-            rows.append(f"""
-            <tr>
-              <td class="center">{g.get('id','')}</td>
-              <td class="center">{pages[0]}-{pages[1]}</td>
-              <td><span class="sev" style="background:{color}">{sev.upper()}</span></td>
-              <td>{desc}<br><small class="node">{node}</small></td>
-            </tr>""")
-        return "\n".join(rows)
+    SEV_COLOR   = {"mandatory": "#c0392b", "recommended": "#d35400", "informational": "#2980b9"}
+    SEV_LABEL   = {"mandatory": "MANDATORY", "recommended": "RECOMMENDED", "informational": "INFO"}
 
-    def gap_rows():
-        rows = []
-        for g in gaps:
-            fin     = get_finding(g)
-            pages   = fin.get("page_range", ["?", "?"])
-            dist    = fin.get("distance", 0)
-            node    = fin.get("node_path", "")
-            rule    = fin.get("matched_rule", "")[:160]
-            sev     = g.get("severity", "informational")
-            desc    = g.get("gap", "")
-            color   = sev_color.get(sev, "#888")
-            flags   = []
-            if desc in dup_gaps:
-                flags.append('<span class="flag dup">DUPLICATE</span>')
-            if dist > 0.75:
-                flags.append(f'<span class="flag lowconf">LOW CONFIDENCE dist={dist:.2f}</span>')
-            cc       = g.get('cross_check', '')
-            note     = g.get('cross_check_note', '')
-            covered  = g.get('covered_on_page', g.get('closest_page', ''))
-            cov_dist = g.get('coverage_distance', '')
-            if cc == 'LIKELY_COMPLIANT':
-                cov_text = f' (page {covered}, dist={cov_dist})' if covered else ''
-                flags.append(f'<span class="flag likelyfp" title="{note}">LIKELY COMPLIANT{cov_text}</span>')
-            elif cc == 'MANUAL_REVIEW':
-                cov_text = f' (page {covered}, dist={cov_dist})' if covered else ''
-                flags.append(f'<span class="flag manual" title="{note}">MANUAL REVIEW{cov_text}</span>')
-            elif cc == 'CONFIRMED_GAP':
-                flags.append('<span class="flag confirmed">CONFIRMED GAP</span>')
-            elif cc == 'DUPLICATE':
-                flags.append('<span class="flag dup">SEMANTIC DUPLICATE</span>')
-            elif cc == 'LOW_CONFIDENCE_NOISE':
-                flags.append(f'<span class="flag lowconf" title="{note}">LOW CONFIDENCE NOISE</span>')
-            flag_html = " ".join(flags)
-            rows.append(f"""
-            <tr>
-              <td class="center">{g.get('id','')}</td>
-              <td class="center">{pages[0]}-{pages[1]}</td>
-              <td><span class="sev" style="background:{color}">{sev.upper()}</span></td>
-              <td>{desc}<br><small class="node">{node}</small><br>{flag_html}</td>
-              <td><small>{rule}...</small></td>
-              <td class="center dist">{dist:.3f}</td>
-            </tr>""")
-        return "\n".join(rows)
+    def conf_bar(dist) -> str:
+        """Visual confidence bar. dist=None means no data."""
+        if dist is None:
+            return '<span class="conf-val" style="color:#ccc">—</span>'
+        pct   = max(0, min(100, int((1 - dist) * 100)))
+        color = "#c0392b" if dist < 0.55 else "#e67e22" if dist < 0.75 else "#95a5a6"
+        return (f'<div class="conf-bar-wrap" title="Match strength: {pct}%">'
+                f'<div class="conf-bar" style="width:{pct}%;background:{color}"></div>'
+                f'</div><span class="conf-val">{dist:.2f}</span>')
 
-    def compliant_rows():
+    def sev_badge(sev: str) -> str:
+        c = SEV_COLOR.get(sev, "#888")
+        l = SEV_LABEL.get(sev, sev.upper())
+        return f'<span class="badge" style="background:{c}">{l}</span>'
+
+    def status_badge(cc: str, covered: str = "") -> str:
+        labels = {
+            "CONFIRMED_GAP":       ("CONFIRMED GAP",       "#c0392b"),
+            "MANUAL_REVIEW":       ("MANUAL REVIEW",       "#d35400"),
+            "LIKELY_COMPLIANT":    ("LIKELY COMPLIANT",    "#27ae60"),
+            "DUPLICATE":           ("DUPLICATE",           "#95a5a6"),
+            "LOW_CONFIDENCE_NOISE":("LOW CONF NOISE",      "#bdc3c7"),
+        }
+        label, color = labels.get(cc, (cc, "#888"))
+        extra = f" · p.{covered}" if covered and cc in ("LIKELY_COMPLIANT","MANUAL_REVIEW") else ""
+        return f'<span class="badge outline" style="border-color:{color};color:{color}">{label}{extra}</span>'
+
+    def gap_table_rows(gap_list):
+        rows = []
+        for g in gap_list:
+            fin      = get_finding(g)
+            pr       = fin.get("page_range")       # None if finding missing
+            dist     = fin.get("distance")         # None if finding missing
+            node     = fin.get("node_path", "")
+            rule     = fin.get("matched_rule", "").replace("<","&lt;").replace(">","&gt;").replace("&","&amp;") if fin.get("matched_rule") else ""
+            sev      = g.get("severity", "informational")
+            desc     = g.get("gap", "").replace("<","&lt;").replace(">","&gt;")
+            cc       = g.get("cross_check", "")
+            covered  = str(g.get("covered_on_page", g.get("closest_page", "")))
+            rule_id  = f"rule-{g.get('id','x')}"
+            ref      = _format_law_node(node) if node else ""
+            pg_text  = f"p.{pr[0]}–{pr[1]}" if pr else "—"
+
+            if rule and ref:
+                dropdown = (f'<div class="rule-expand" id="{rule_id}" style="display:none">'
+                            f'<div class="rule-label">CySEC Consolidated AML Directive — {ref}</div>'
+                            f'<div class="rule-text">{rule}</div></div>'
+                            f'<button class="expand-btn" onclick="toggle(\'{rule_id}\',this)">&#x25BC; {ref}</button>')
+            else:
+                dropdown = ""
+
+            rows.append(f"""
+            <tr data-sev="{sev}">
+              <td class="pg-cell">{pg_text}</td>
+              <td>{sev_badge(sev)}</td>
+              <td class="desc-cell">
+                <div class="desc-text">{desc}</div>
+                <div class="ref-line">
+                  {"" if not ref else f'<span class="ref">{ref}</span>'}
+                  {status_badge(cc, covered)}
+                </div>
+                {dropdown}
+              </td>
+              <td>{conf_bar(dist)}</td>
+            </tr>""")
+        return "\n".join(rows) if rows else '<tr><td colspan="4" class="empty">No findings in this category.</td></tr>'
+
+    def compliant_rows_html():
         rows = []
         for c in compliant:
-            fin   = get_finding(c)
-            pages = fin.get("page_range", ["?","?"])
-            node  = fin.get("node_path","")
-            dist  = fin.get("distance", 0)
+            fin  = get_finding(c)
+            pr   = fin.get("page_range")
+            node = fin.get("node_path","")
+            dist = fin.get("distance")
+            ref  = _format_law_node(node) if node else "—"
+            pg   = f"p.{pr[0]}–{pr[1]}" if pr else "—"
+            rows.append(f'<tr><td class="pg-cell">{pg}</td>'
+                        f'<td><span class="ref">{ref}</span></td>'
+                        f'<td>{conf_bar(dist)}</td></tr>')
+        return "\n".join(rows) if rows else '<tr><td colspan="3" class="empty">None.</td></tr>'
+
+    def priority_rows_html():
+        rows = []
+        for i, g in enumerate(priority_gaps, 1):
+            fin  = get_finding(g)
+            pr   = fin.get("page_range", ["?","?"])
+            node = fin.get("node_path","")
+            sev  = g.get("severity","informational")
+            desc = g.get("gap","")
+            ref  = _format_law_node(node)
             rows.append(f"""
             <tr>
-              <td class="center">{c.get('id','')}</td>
-              <td class="center">{pages[0]}-{pages[1]}</td>
-              <td><small class="node">{node}</small></td>
-              <td class="center dist">{dist:.3f}</td>
+              <td class="rank-cell">{i}</td>
+              <td class="pg-cell">p.{pr[0]}–{pr[1]}</td>
+              <td>{sev_badge(sev)}</td>
+              <td><div class="desc-text">{desc}</div><span class="ref">{ref}</span></td>
             </tr>""")
         return "\n".join(rows)
 
-    priority_section = ""
-    if priority_gaps:
-        priority_section = f"""
-<h2>Priority Remediation — Top {len(priority_gaps)} Mandatory Confirmed Gaps</h2>
-<p style="color:#888;font-size:0.9rem">Greedy selection: minimum gaps covering maximum regulatory exposure. Act on these first.</p>
-<table>
-  <thead>
-    <tr><th>#</th><th>Pages</th><th>Severity</th><th>Gap Description &amp; Law Node</th></tr>
-  </thead>
-  <tbody>
-    {priority_rows()}
-  </tbody>
-</table>
-"""
+    # Severity filter counts for confirmed section
+    n_conf_mand = sum(1 for g in confirmed_gaps if g.get("severity") == "mandatory")
+    n_conf_rec  = sum(1 for g in confirmed_gaps if g.get("severity") == "recommended")
+    n_conf_info = sum(1 for g in confirmed_gaps if g.get("severity") == "informational")
+
+    eval_date = result['evaluated_at'][:19].replace('T', ' ')
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AML Compliance Audit — {result['document']}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AML Compliance Report — {result['document']}</title>
 <style>
-  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-         max-width: 1200px; margin: 40px auto; padding: 0 20px; color: #222; }}
-  h1   {{ font-size: 1.6rem; border-bottom: 3px solid #c0392b; padding-bottom: 10px; }}
-  h2   {{ font-size: 1.2rem; margin-top: 40px; border-left: 4px solid #c0392b; padding-left: 12px; }}
-  h3   {{ font-size: 1rem; margin-top: 30px; border-left: 4px solid #27ae60; padding-left: 12px; }}
-  .summary {{ display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; }}
-  .card {{ background: #f8f8f8; border-radius: 8px; padding: 16px 24px; min-width: 120px; text-align: center; }}
-  .card .num {{ font-size: 2rem; font-weight: 700; }}
-  .card .lbl {{ font-size: 0.8rem; color: #666; margin-top: 4px; }}
-  .red   {{ color: #c0392b; }}
-  .green {{ color: #27ae60; }}
-  .orange{{ color: #e67e22; }}
-  table  {{ width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.88rem; }}
-  th     {{ background: #2c3e50; color: #fff; padding: 10px 12px; text-align: left; }}
-  td     {{ padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: top; }}
-  tr:hover td {{ background: #fafafa; }}
-  .center {{ text-align: center; }}
-  .dist   {{ font-family: monospace; color: #888; }}
-  .node   {{ color: #888; font-family: monospace; font-size: 0.78rem; }}
-  .sev    {{ display: inline-block; padding: 2px 8px; border-radius: 4px;
-             color: #fff; font-size: 0.75rem; font-weight: 600; }}
-  .flag   {{ display: inline-block; padding: 1px 6px; border-radius: 3px;
-             font-size: 0.72rem; font-weight: 600; margin-left: 4px; }}
-  .dup       {{ background: #e67e22; color: #fff; }}
-  .lowconf   {{ background: #95a5a6; color: #fff; }}
-  .likelyfp  {{ background: #27ae60; color: #fff; cursor: help; }}
-  .manual    {{ background: #e67e22; color: #fff; cursor: help; }}
-  .confirmed {{ background: #c0392b; color: #fff; }}
-  .mistakes {{ background: #fff8e1; border: 1px solid #f39c12;
-               border-radius: 6px; padding: 16px 20px; margin-top: 16px; }}
-  .mistakes li {{ margin: 8px 0; line-height: 1.5; }}
-  .meta  {{ color: #888; font-size: 0.85rem; margin-top: 6px; }}
-  .tag   {{ display:inline-block; background:#eee; padding:2px 8px;
-             border-radius:4px; font-size:0.8rem; margin-right:4px; }}
+*, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+body {{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f4f6f9; color: #1a1a2e; font-size: 14px; line-height: 1.6;
+}}
+a {{ color: inherit; text-decoration: none; }}
+
+/* ── Header ── */
+.report-header {{
+  background: #1a1a2e; color: #fff;
+  padding: 24px 40px; display: flex; justify-content: space-between; align-items: center;
+}}
+.report-header .title {{ font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; }}
+.report-header .subtitle {{ font-size: 0.82rem; color: #8892b0; margin-top: 4px; }}
+.header-meta {{ text-align: right; font-size: 0.8rem; color: #8892b0; line-height: 1.8; }}
+.print-btn {{
+  background: transparent; border: 1px solid #8892b0; color: #ccd6f6;
+  padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+  margin-top: 8px;
+}}
+.print-btn:hover {{ background: rgba(255,255,255,0.08); }}
+
+/* ── Main layout ── */
+.main {{ max-width: 1140px; margin: 0 auto; padding: 32px 24px; }}
+
+/* ── KPI bar ── */
+.kpi-bar {{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px; margin-bottom: 32px;
+}}
+.kpi {{
+  background: #fff; border-radius: 8px; padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); text-align: center;
+  border-top: 3px solid #ddd;
+}}
+.kpi.red   {{ border-color: #c0392b; }}
+.kpi.orange{{ border-color: #d35400; }}
+.kpi.green {{ border-color: #27ae60; }}
+.kpi.gray  {{ border-color: #95a5a6; }}
+.kpi .num  {{ font-size: 2.2rem; font-weight: 700; line-height: 1; }}
+.kpi.red   .num {{ color: #c0392b; }}
+.kpi.orange .num{{ color: #d35400; }}
+.kpi.green .num {{ color: #27ae60; }}
+.kpi.gray  .num {{ color: #95a5a6; }}
+.kpi .lbl  {{ font-size: 0.74rem; color: #666; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.05em; }}
+
+/* ── Section cards ── */
+.section-card {{
+  background: #fff; border-radius: 8px; margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); overflow: hidden;
+}}
+.section-header {{
+  padding: 16px 24px; border-bottom: 1px solid #eee;
+  display: flex; align-items: center; justify-content: space-between;
+}}
+.section-header h2 {{
+  font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 10px;
+}}
+.section-dot {{
+  width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+}}
+.section-body {{ padding: 0; }}
+
+/* ── Priority section ── */
+.priority-banner {{
+  background: linear-gradient(135deg, #1a1a2e 0%, #2c3e50 100%);
+  color: #fff; border-radius: 8px; padding: 24px; margin-bottom: 24px;
+}}
+.priority-banner h2 {{
+  font-size: 1rem; font-weight: 700; color: #e74c3c; margin-bottom: 4px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}}
+.priority-banner .sub {{ font-size: 0.8rem; color: #8892b0; margin-bottom: 16px; }}
+
+/* ── Filters ── */
+.filter-bar {{ padding: 12px 24px; border-bottom: 1px solid #eee; display: flex; gap: 8px; flex-wrap: wrap; }}
+.filter-btn {{
+  padding: 4px 14px; border-radius: 20px; border: 1px solid #ddd;
+  background: #fff; cursor: pointer; font-size: 0.78rem; font-weight: 600;
+  color: #555; transition: all .15s;
+}}
+.filter-btn:hover {{ background: #f0f0f0; }}
+.filter-btn.active {{ background: #1a1a2e; color: #fff; border-color: #1a1a2e; }}
+
+/* ── Tables ── */
+table {{ width: 100%; border-collapse: collapse; }}
+th {{
+  background: #f8f9fa; padding: 10px 16px; text-align: left;
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: #666; border-bottom: 2px solid #eee; font-weight: 600;
+}}
+td {{ padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }}
+tr:last-child td {{ border-bottom: none; }}
+tr:hover td {{ background: #fafbfc; }}
+.pg-cell {{ color: #888; font-size: 0.82rem; white-space: nowrap; width: 70px; }}
+.rank-cell {{ color: #c0392b; font-weight: 700; font-size: 1.1rem; width: 36px; text-align: center; }}
+.desc-cell {{ max-width: 600px; }}
+.desc-text {{ font-size: 0.88rem; color: #1a1a2e; margin-bottom: 6px; line-height: 1.5; }}
+.ref-line  {{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }}
+.ref {{ font-size: 0.75rem; color: #3498db; font-family: monospace; font-weight: 600; }}
+.rule-label {{ font-size: 0.7rem; font-weight: 700; color: #3498db;
+               text-transform: uppercase; letter-spacing: 0.06em; margin-top: 10px; }}
+.rule-text {{ font-size: 0.82rem; color: #333; background: #f0f4f8; padding: 12px 14px;
+              border-left: 3px solid #3498db; border-radius: 0 4px 4px 0;
+              line-height: 1.75; white-space: pre-wrap; margin-top: 4px; }}
+.expand-btn {{
+  background: #eef4fb; border: 1px solid #c5d8ef; color: #2980b9; cursor: pointer;
+  font-size: 0.74rem; padding: 3px 10px; margin-top: 6px; border-radius: 4px;
+  font-weight: 600; display: inline-block;
+}}
+.expand-btn:hover {{ background: #ddeaf8; }}
+.empty {{ color: #aaa; font-style: italic; text-align: center; padding: 24px; }}
+
+/* ── Badges ── */
+.badge {{
+  display: inline-block; padding: 2px 9px; border-radius: 4px;
+  color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em;
+  white-space: nowrap;
+}}
+.badge.outline {{
+  background: transparent; border: 1.5px solid; font-size: 0.68rem;
+}}
+
+/* ── Confidence bar ── */
+.conf-bar-wrap {{
+  background: #eee; border-radius: 3px; height: 5px; width: 80px;
+  display: inline-block; vertical-align: middle; margin-right: 6px;
+}}
+.conf-bar {{ height: 5px; border-radius: 3px; }}
+.conf-val {{ font-size: 0.75rem; color: #888; font-family: monospace; vertical-align: middle; }}
+
+/* ── Details/summary ── */
+details {{ margin-bottom: 16px; }}
+details > summary {{
+  background: #fff; border-radius: 8px; padding: 14px 24px;
+  cursor: pointer; font-weight: 600; font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); list-style: none;
+  display: flex; align-items: center; gap: 10px;
+}}
+details > summary::-webkit-details-marker {{ display: none; }}
+details > summary::before {{ content: '▶'; font-size: 0.7rem; color: #888; transition: transform .2s; }}
+details[open] > summary::before {{ transform: rotate(90deg); }}
+details .section-card {{ border-radius: 0 0 8px 8px; margin-top: 0; }}
+
+/* ── Technical notes ── */
+.tech-notes {{ font-size: 0.82rem; color: #555; padding: 16px 24px; line-height: 1.8; }}
+.tech-notes li {{ margin: 6px 0; }}
+
+/* ── Print ── */
+@media print {{
+  body {{ background: #fff; }}
+  .print-btn, .expand-btn, .filter-bar {{ display: none; }}
+  .rule-expand {{ display: block !important; }}
+  details {{ open: true; }}
+  details > summary::before {{ display: none; }}
+}}
 </style>
 </head>
 <body>
 
-<h1>AML Compliance Audit Report</h1>
-<div class="meta">
-  <span class="tag">Document: {result['document']}</span>
-  <span class="tag">Client: {result['client_id']}</span>
-  <span class="tag">Pages: {result['total_pages']}</span>
-  <span class="tag">Evaluated: {result['evaluated_at'][:19].replace('T',' ')}</span>
-  <span class="tag">Law: CySEC Consolidated AML Directive</span>
+<!-- Header -->
+<div class="report-header">
+  <div>
+    <div class="title">AML Compliance Audit Report</div>
+    <div class="subtitle">CySEC Consolidated AML Directive — Automated Gap Analysis</div>
+  </div>
+  <div class="header-meta">
+    <div>{result['document']}</div>
+    <div>Client: {result['client_id']} &nbsp;·&nbsp; {result['total_pages']} pages</div>
+    <div>Evaluated: {eval_date}</div>
+    <button class="print-btn" onclick="window.print()">&#x2398; Export PDF</button>
+  </div>
 </div>
 
-<div class="summary">
-  <div class="card"><div class="num red">{n_mandatory}</div><div class="lbl">Mandatory Gaps</div></div>
-  <div class="card"><div class="num red">{n_confirmed}</div><div class="lbl">Confirmed Gaps</div></div>
-  <div class="card"><div class="num orange">{n_gaps}</div><div class="lbl">Total Gaps</div></div>
-  <div class="card"><div class="num green">{n_compliant}</div><div class="lbl">Compliant</div></div>
-  <div class="card"><div class="num">{n_total}</div><div class="lbl">Findings Assessed</div></div>
-  <div class="card"><div class="num orange">{n_dup}</div><div class="lbl">Exact Duplicates</div></div>
-  <div class="card"><div class="num orange">{n_dupes}</div><div class="lbl">Semantic Duplicates</div></div>
-  <div class="card"><div class="num">{n_low_conf}</div><div class="lbl">Low Confidence</div></div>
+<div class="main">
+
+<!-- KPI Bar -->
+<div class="kpi-bar">
+  <div class="kpi red">
+    <div class="num">{n_confirmed}</div>
+    <div class="lbl">Confirmed Gaps</div>
+  </div>
+  <div class="kpi red">
+    <div class="num">{n_mandatory}</div>
+    <div class="lbl">Mandatory</div>
+  </div>
+  <div class="kpi orange">
+    <div class="num">{n_manual}</div>
+    <div class="lbl">Manual Review</div>
+  </div>
+  <div class="kpi green">
+    <div class="num">{n_compliant}</div>
+    <div class="lbl">Compliant</div>
+  </div>
+  <div class="kpi gray">
+    <div class="num">{n_total}</div>
+    <div class="lbl">Findings Assessed</div>
+  </div>
+  <div class="kpi gray">
+    <div class="num">{n_noise}</div>
+    <div class="lbl">Filtered / Noise</div>
+  </div>
 </div>
 
-{priority_section}
-
-<h2>All Compliance Gaps ({n_gaps})</h2>
-<table>
-  <thead>
-    <tr>
-      <th>#</th><th>Pages</th><th>Severity</th><th>Gap Description</th>
-      <th>Matched Law Rule</th><th>Distance</th>
-    </tr>
-  </thead>
-  <tbody>
-    {gap_rows()}
-  </tbody>
-</table>
-
-<h2>Pipeline Quality Issues</h2>
-<div class="mistakes">
-  <strong>Issues detected in this evaluation run:</strong>
-  <ul>
-    <li><strong>Duplicate GAPs ({n_dup} instances):</strong> The same compliance gap was flagged
-        on multiple overlapping page windows. This is a known architectural side-effect of the
-        sliding window approach — post-verdict deduplication by gap description is not yet
-        implemented. Treat duplicate-flagged rows as one finding.</li>
-    <li><strong>Low-confidence matches ({n_low_conf} GAPs):</strong> These findings have a
-        semantic distance &gt; 0.75 between the policy text and the matched law node.
-        This means the match is weak and the GAP verdict may be a false positive.
-        Manual review recommended for all LOW CONFIDENCE flagged rows.</li>
-    <li><strong>Anonymization skipped (--skip-anon):</strong> This run sent raw policy text
-        to the external API. For production use on real client documents, Ollama anonymization
-        must be enabled to strip PII before any external API call.</li>
-    <li><strong>Single jurisdiction only:</strong> This evaluation covers CySEC rules only.
-        Multi-jurisdiction support (EU AMLD5/6, FATF) is architecturally ready but not yet
-        populated in the vector database.</li>
-  </ul>
+<!-- Priority Remediation -->
+<div class="priority-banner">
+  <h2>&#x26A0; Priority Remediation</h2>
+  <div class="sub">Minimum gaps covering maximum regulatory exposure — act on these first</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="color:#8892b0">#</th>
+        <th style="color:#8892b0">Pages</th>
+        <th style="color:#8892b0">Severity</th>
+        <th style="color:#8892b0">Gap &amp; Reference</th>
+      </tr>
+    </thead>
+    <tbody style="color:#fff">
+      {priority_rows_html()}
+    </tbody>
+  </table>
 </div>
 
-<h3>Compliant Sections ({n_compliant})</h3>
-<table>
-  <thead>
-    <tr><th>#</th><th>Pages</th><th>Law Node</th><th>Distance</th></tr>
-  </thead>
-  <tbody>
-    {compliant_rows()}
-  </tbody>
-</table>
+<!-- Confirmed Gaps -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>
+      <span class="section-dot" style="background:#c0392b"></span>
+      Confirmed Gaps
+      <span style="font-weight:400;color:#888;font-size:0.85rem">({n_confirmed} total — {n_conf_mand} mandatory, {n_conf_rec} recommended, {n_conf_info} informational)</span>
+    </h2>
+  </div>
+  <div class="filter-bar" id="conf-filters">
+    <button class="filter-btn active" onclick="filterTable('conf-table','all',this)">All ({n_confirmed})</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','mandatory',this)">Mandatory ({n_conf_mand})</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','recommended',this)">Recommended ({n_conf_rec})</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','informational',this)">Info ({n_conf_info})</button>
+  </div>
+  <div class="section-body">
+    <table id="conf-table">
+      <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+      <tbody>{gap_table_rows(confirmed_gaps)}</tbody>
+    </table>
+  </div>
+</div>
 
+<!-- Manual Review -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>
+      <span class="section-dot" style="background:#d35400"></span>
+      Manual Review Required
+      <span style="font-weight:400;color:#888;font-size:0.85rem">({n_manual} borderline findings — semantic distance 0.45–0.55)</span>
+    </h2>
+  </div>
+  <div class="section-body">
+    <table>
+      <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+      <tbody>{gap_table_rows(manual_gaps)}</tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Likely Compliant (from GAP verdicts that cross-check reversed) -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#27ae60;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Reversed by Cross-Check — Likely Compliant ({len(compliant_gaps)})
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+        <tbody>{gap_table_rows(compliant_gaps)}</tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Kimi COMPLIANT verdicts -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#27ae60;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Compliant Sections — Kimi Verdict ({n_compliant})
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Law Reference</th><th>Match Strength</th></tr></thead>
+        <tbody>{compliant_rows_html()}</tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Noise / Filtered -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#95a5a6;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Filtered Findings — Noise &amp; Duplicates ({n_noise})
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+        <tbody>{gap_table_rows(noise_gaps)}</tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Technical Notes -->
+<details>
+  <summary>Technical Run Notes</summary>
+  <div class="section-card">
+    <ul class="tech-notes">
+      <li><strong>Pipeline:</strong> {n_total} findings assessed &nbsp;·&nbsp; EGDR entropy-gated retrieval (k=1/3) &nbsp;·&nbsp; Bidirectional ChromaDB cross-check</li>
+      <li><strong>Anonymization:</strong> Skipped (--skip-anon). Raw policy text sent to external API. Enable for production use.</li>
+      <li><strong>Jurisdiction:</strong> CySEC Consolidated AML Directive only. EU AMLD5/6 and FATF collections not yet populated.</li>
+      <li><strong>Noise filtering:</strong> Findings with detection distance &gt; 0.75 marked LOW_CONFIDENCE_NOISE and excluded from confirmed count. Semantic duplicates (Jaccard &gt; 0.6) collapsed.</li>
+      <li><strong>Distance thresholds:</strong> Cross-check CONFIRMED &gt; 0.55 &nbsp;·&nbsp; MANUAL_REVIEW 0.45–0.55 &nbsp;·&nbsp; LIKELY_COMPLIANT &lt; 0.45</li>
+    </ul>
+  </div>
+</details>
+
+</div><!-- /main -->
+
+<script>
+function toggle(id, btn) {{
+  var el = document.getElementById(id);
+  var isHidden = el.style.display === 'none';
+  el.style.display = isHidden ? 'block' : 'none';
+  var ref = btn.textContent.replace(/^[\u25b2\u25bc][ ]*/, '');
+  btn.innerHTML = (isHidden ? '&#x25B2; ' : '&#x25BC; ') + ref;
+}}
+function filterTable(tableId, sev, btn) {{
+  var table = document.getElementById(tableId);
+  if (!table) return;
+  var rows = table.querySelectorAll('tbody tr');
+  rows.forEach(function(r) {{
+    r.style.display = (sev === 'all' || r.dataset.sev === sev) ? '' : 'none';
+  }});
+  var btns = btn.parentElement.querySelectorAll('.filter-btn');
+  btns.forEach(function(b) {{ b.classList.remove('active'); }});
+  btn.classList.add('active');
+}}
+</script>
 </body>
 </html>"""
 
