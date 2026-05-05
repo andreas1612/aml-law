@@ -83,38 +83,38 @@ GitHub: `andreas1612/aml-law`
 
 **Structural problem solved.** 100% law coverage achieved. Remaining ceiling is semantic — `all-MiniLM-L6-v2` cannot reliably match operational policy language to regulatory law text when phrasing diverges. 24 human policy gaps still missed — paraphrase is the cause, not coverage.
 
-**Next experiment:** `n_results=5` in `obligation_sweep()` — give Kimi 5 policy sections instead of 3. May recover some paraphrase misses where the right page is ranked 4th/5th. If recall doesn't improve → paraphrase ceiling is the hard limit and PoC is complete at 47%.
+**n_results=5 experiment completed (2026-05-05):** Recall unchanged at 47%. Confirmed gaps dropped 172→159 (Kimi more generous with larger context — ambiguous). Reverted to n_results=3. **Paraphrase ceiling is confirmed at 47% for all-MiniLM-L6-v2.** Fix requires a legal-domain embedding model — post-GPU workstation task.
 
 ---
 
-## THIS SESSION: n_results=5 experiment
+## THIS SESSION: PoC is architecturally complete
 
-First live run completed (2026-05-05). Recall: 47%. Next task: try n_results=5 to see if the paraphrase ceiling improves.
+All experiments concluded (2026-05-05):
+- Obligation-first sweep: 100% law coverage ✓
+- n_results=5 experiment: no recall improvement → reverted to n_results=3
+- Paraphrase ceiling confirmed at **47% recall** with all-MiniLM-L6-v2
+- Zero false positives across all runs
+- Anonymization removed permanently (internal hardware, AUP covered)
 
-**Step 1 — Rotate Kimi key** (mandatory — old key was in git history):
-- Rotate at platform.moonshot.ai
-- Update `.env` as `KIMI_API_KEY=sk-...`
+**Recall ceiling fix (post-GPU workstation):**
+Replace `all-MiniLM-L6-v2` with a legal-domain embedding model in `vectorize.py`.
+Re-run `vectorize.py` to rebuild the 325-node law ChromaDB.
+Re-run evaluation and `compare_gaps.py` to measure improvement.
+Candidate models: `nlpaueb/legal-bert-base-uncased`, `law-ai/InLegalBERT`.
 
-**Step 2 — Change n_results in obligation_sweep():**
-```python
-# In obligation_first_evaluator.py, obligation_sweep(), line ~112:
-results = policy_col.query(query_texts=[doc], n_results=5)  # was 3
-```
-Also update `top_sections` slice if capped at 3.
-
-**Step 3 — Run fresh evaluation:**
+**To run a new document evaluation:**
 ```powershell
 cd C:\Users\andre\Desktop\aml_proof
 $env:KIMI_API_KEY = (Get-Content .env | Select-String "KIMI_API_KEY" | ForEach-Object { $_ -replace "KIMI_API_KEY=","" })
-python obligation_first_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
+python obligation_first_evaluator.py --pdf "YOUR_DOCUMENT.pdf" --config client_config.json --skip-anon
 ```
 
-**Step 4 — Update compare_gaps.py JSON_PATH to new result, then:**
-```powershell
-python compare_gaps.py
-```
-
-**Success criterion:** Recall ≥ 52% → keep n_results=5. No change → paraphrase ceiling confirmed, PoC complete.
+**GPU workstation changes (when available):**
+- Replace Kimi: update `kimi_base_url` + `kimi_model` in `client_config.json`
+- Remove 8s sleep between batches (no rate limit)
+- Run parallel batches (~45 sec total vs ~13 min)
+- Replace embedding model → rebuild ChromaDB → re-evaluate recall
+- Anonymization: permanently removed (internal hardware, AUP allows raw text)
 
 ---
 

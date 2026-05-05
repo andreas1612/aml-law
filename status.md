@@ -65,11 +65,18 @@ Ground truth files (in Downloads — do not move):
 
 ---
 
-## Immediate Next Session
+## PoC Status: Architecturally Complete (2026-05-05)
 
-1. Build `obligation_first_evaluator.py` (Track B, step B1) — see `nextsession.md` for full implementation sketch
-2. Rerun `compare_gaps.py` to measure recall improvement
-3. Track A patches (A1-A4) can be done in parallel — small and independent
+All build tasks finished. Recall ceiling confirmed.
+
+| Experiment | Result |
+|---|---|
+| Obligation-first sweep (B1) | 100% law coverage, 172 confirmed gaps |
+| n_results=5 experiment | No recall improvement → reverted to n_results=3 |
+| Paraphrase ceiling | **Confirmed at 47%** — hard limit of all-MiniLM-L6-v2 |
+| Anonymization | Permanently removed (internal hardware, AUP covered) |
+
+**Next meaningful improvement:** Replace embedding model with legal-domain model (post-GPU workstation). Candidates: `nlpaueb/legal-bert-base-uncased`, `law-ai/InLegalBERT`. Requires re-running `vectorize.py` and a fresh evaluation.
 
 ---
 

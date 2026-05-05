@@ -12,7 +12,7 @@ import pandas as pd
 sys.stdout.reconfigure(encoding="utf-8")
 
 # ── Paths ──────────────────────────────────────────────────────────────────
-JSON_PATH  = r"C:\Users\andre\Desktop\aml_proof\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_100819.json"
+JSON_PATH  = r"C:\Users\andre\Desktop\aml_proof\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_103820.json"
 XLSX_PATH  = r"C:\Users\andre\Downloads\CCSV - AML_KYC.xlsx"
 
 # ── Load system results ────────────────────────────────────────────────────

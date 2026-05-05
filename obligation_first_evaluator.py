@@ -109,7 +109,7 @@ def obligation_sweep(policy_stamp: str, config: dict) -> list:
     print(f"  Sweeping {total} law nodes against policy collection...")
 
     for i, (doc, meta) in enumerate(zip(all_nodes['documents'], all_nodes['metadatas'])):
-        results   = policy_col.query(query_texts=[doc], n_results=5)
+        results   = policy_col.query(query_texts=[doc], n_results=3)
         distances = results['distances'][0]
         docs_     = results['documents'][0]
         metas_    = results['metadatas'][0]
