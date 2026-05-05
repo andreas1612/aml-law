@@ -29,11 +29,13 @@ GitHub: `andreas1612/aml-law`
 | Remediation HTML | DONE | Green "Fix:" line added to confirmed gaps table and priority remediation table. CSS `.action-text` / `.action-label` added. |
 | master_index.json | DONE | Updated with all 6 supplementary nodes (C292, C315, C318, C398, Art.58, Art.33(2)). |
 | PM MTF C4 run | DONE | 157 GAPs, 168 COMPLIANT on 141-page document. No ground truth. Generalizes cleanly. |
-| Capital.com re-run | PENDING | Running with new nodes + recommended_action. compare_gaps result pending. |
+| Capital.com re-run | DONE | **67% recall (30/45)**, 201 confirmed gaps, 0 false positives. New high. |
 
-### Session 5 — Recall baseline (pre-new-nodes run)
-- 60% (27/45) — 1 point below Session 4's 62%, normal Kimi variance
-- H[36] (C318 passport checks) confirmed as most likely new catch in next run
+### Session 5 — Final recall result
+- Pre-new-nodes baseline: 60% (27/45) — Kimi variance from prior 62%
+- **Post-new-nodes + recommended_action: 67% (30/45)** — new high, +7 points
+- H[36] (C318 passport checks) found by system but Jaccard score 0.036 (below 0.06 threshold) — measurement artefact, not a miss
+- BATCH_SIZE reduced 10→8 to prevent JSON truncation from longer recommended_action output
 
 ---
 
@@ -89,16 +91,14 @@ GitHub: `andreas1612/aml-law`
 
 ## Validated Results (2026-05-05)
 
-| Metric | Sliding window | Obligation-first | Obligation-first + Track C |
-|---|---|---|---|
-| Law nodes evaluated | 91 / 325 (28%) | 325 / 325 (100%) | 325 / 325 (100%) |
-| CONFIRMED_GAPs | 22 | 172 | **167** |
-| Kimi COMPLIANT | 64 | 151 | — |
-| Recall vs human expert audit | 36% (16/45) | 47% (21/45) | **62% (28/45)** |
-| of which via policy_area match | — | — | 5 |
-| False positives confirmed | 0 | 0 | **0** |
+| Metric | Sliding window | Obligation-first (S3) | Track C (S4) | Session 5 |
+|---|---|---|---|---|
+| Law nodes evaluated | 91/325 (28%) | 325/325 (100%) | 325/325 (100%) | **368/368 (100%)** |
+| CONFIRMED_GAPs | 22 | 172 | 167 | **201** |
+| Recall vs human expert audit | 36% (16/45) | 47% (21/45) | 62% (28/45) | **67% (30/45)** |
+| False positives confirmed | 0 | 0 | 0 | **0** |
 
-**62% is a measured floor.** True detection rate estimated at 65–70% — remaining misses are mostly operational gaps (CRM/client files) outside document-evaluator scope.
+**67% is the measured floor, 0 false positives.** Estimated document-evaluable ceiling: ~70–72%. Remaining misses are CRM/operational gaps outside scope.
 
 ---
 

@@ -32,15 +32,15 @@
 
 Evaluated against human expert audit (CCSV AML_KYC.xlsx — 66 confirmed findings, 45 policy-level):
 
-| Metric | Sliding window | Obligation-first (Session 3) | Obligation-first + Track C (Session 4) |
-|---|---|---|---|
-| Law nodes evaluated | 91 / 325 (28%) | 325 / 325 (100%) | 325 / 325 (100%) |
-| System CONFIRMED_GAPs | 22 | 172 | **167** |
-| Recall on policy-level gaps | 36% (16/45) | 47% (21/45) | **62% (28/45)** |
-| of which via policy_area match | — | — | **5 gaps** |
-| False positives confirmed | 0 | 0 | **0** |
+| Metric | Sliding window | Obligation-first (S3) | Track C (S4) | Session 5 |
+|---|---|---|---|---|
+| Law nodes evaluated | 91/325 (28%) | 325/325 (100%) | 325/325 (100%) | **368/368 (100%)** |
+| System CONFIRMED_GAPs | 22 | 172 | 167 | **201** |
+| Recall on policy-level gaps | 36% (16/45) | 47% (21/45) | 62% (28/45) | **67% (30/45)** |
+| of which via policy_area match | — | — | 5 gaps | 2 gaps |
+| False positives confirmed | 0 | 0 | 0 | **0** |
 
-**62% is a measured floor.** True detection rate is higher — most remaining 17 misses are operational (CRM/client file evidence required, out of scope for document evaluator).
+**67% is the new measured floor, 0 false positives.** Remaining 15 misses are mostly CRM/operational gaps outside document-evaluator scope. Estimated true document-evaluable ceiling: ~70–72%.
 
 ---
 
@@ -67,7 +67,7 @@ Of the 17 remaining unmatched human policy gaps:
 | recommended_action in Kimi schema | **DONE** | All gap cards now include remediation clause |
 | Fix gap description blank in HTML report | **DONE** | Bug: g.get("gap") returned empty for obligation-first verdicts |
 | PM MTF 141-page doc run (C4) | **DONE** | 157 GAPs, 168 COMPLIANT — no ground truth |
-| Capital.com re-run with new nodes | **Pending** | In progress — compare_gaps result pending |
+| Capital.com re-run with new nodes | **DONE** | **67% recall (30/45)** — new high, 0 false positives |
 
 ---
 
