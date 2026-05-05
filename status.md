@@ -1,6 +1,6 @@
 # AML Compliance Auditor — Current Status
 
-> Last updated: 2026-05-05. Session 4 complete. Track C delivered. Read `nextsession.md` for full context.
+> Last updated: 2026-05-05. Session 5 complete. D-graph nodes + remediation actions added. Read `nextsession.md` for full context.
 
 ---
 
@@ -8,11 +8,13 @@
 
 | Component | Status | Notes |
 |---|---|---|
-| CySEC JSON Knowledge Graph | **Complete** | 19 files (15 original + 4 new), 325+ legal nodes |
+| CySEC JSON Knowledge Graph | **Complete** | 21 files (15 original + 6 new), 325+ legal nodes, 368 chunks |
 | ChromaDB Vector DB | **Complete** | Built, persistent, all-MiniLM-L6-v2 — DO NOT REGENERATE |
 | PDF extraction (Phase 1) | **Working** | PyPDF2, all pages |
 | Ephemeral policy index (Phase 1c) | **Working** | Per-run ChromaDB collection + bigram set |
 | BM25 hybrid index (Phase 1d) | **Working** | rank_bm25, fires when ChromaDB dist > 0.85 |
+| `recommended_action` in Kimi schema (Session 5) | **Working** | Kimi outputs remediation clause per gap |
+| Remediation "Fix:" line in HTML report (Session 5) | **Working** | Green action line in priority table + confirmed gaps |
 | Obligation-first sweep (B1) | **Working — primary** | 325 queries, 100% law graph coverage |
 | `policy_area` in Kimi schema (C1) | **Working** | CDD/PEP/sanctions/training/monitoring/reporting/governance/risk_assessment/other |
 | Second-pass area match (C1) | **Working** | compare_gaps.py recovers cross-node artefacts |
@@ -56,6 +58,19 @@ Of the 17 remaining unmatched human policy gaps:
 
 ---
 
+## Track D (Session 5) — Completed (2026-05-05)
+
+| Task | Status | Result |
+|---|---|---|
+| D-graph-1: Circular C292 (BWRA/NRA) | **DONE** | New json_graph node, vectorized |
+| D-graph-2: Art.33(2) GBG (electronic database conditions) | **DONE** | New json_graph node, vectorized |
+| recommended_action in Kimi schema | **DONE** | All gap cards now include remediation clause |
+| Fix gap description blank in HTML report | **DONE** | Bug: g.get("gap") returned empty for obligation-first verdicts |
+| PM MTF 141-page doc run (C4) | **DONE** | 157 GAPs, 168 COMPLIANT — no ground truth |
+| Capital.com re-run with new nodes | **Pending** | In progress — compare_gaps result pending |
+
+---
+
 ## Track C — Completed (Session 4, 2026-05-05)
 
 | Task | Status | Result |
@@ -67,15 +82,14 @@ Of the 17 remaining unmatched human policy gaps:
 
 ---
 
-## Next Steps — Track D (post-GPU)
+## Next Steps — Track E (post-GPU)
 
 | Task | Effort | Impact |
 |---|---|---|
 | Replace all-MiniLM-L6-v2 with legal embedding model (InLegalBERT / legal-bert) | Half day post-GPU | Fixes ~3 remaining retrieval failures, likely pushes recall to 70%+ |
 | Run parallel Kimi batches (no rate limit on GPU workstation) | Config change | 8s sleep removed, full run in ~30s |
-| Run PM MTF 141-page document (C4) | 5 min | Second validated document |
-| Add Circular C292 (NRA) and Art.33(2) GBG compliance node | 2 hours | Covers 2022 health check findings not yet in graph |
 | Self-hosted LLM to replace Kimi | Post-GPU | Eliminate API cost and rate limits |
+| Section-based PDF chunking (detect headers, chunk by section not page) | Half day | Fixes cross-page obligation splits, may recover retrieval failures |
 
 ---
 

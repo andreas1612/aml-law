@@ -2,7 +2,7 @@
 
 > **Read this entire file before writing a single line of code. Everything decided here has a reason. Do not re-litigate closed decisions.**
 > **Hardware context matters — read the Resource Constraints section before choosing any approach.**
-> **This file was last updated: 2026-05-05. Session 4 delivered Track C (C1+C2+C3). Recall confirmed at 62%.**
+> **This file was last updated: 2026-05-05. Session 5 delivered D-graph nodes, recommended_action schema, report bug fix. Re-run in progress.**
 
 ---
 
@@ -13,6 +13,27 @@ An automated AML Compliance Auditor that evaluates corporate AML policy PDFs aga
 CySEC Consolidated AML Directive is law domain 1. Architecture supports EU AMLD5/6, FATF, FinCEN — jurisdiction is config-driven.
 
 GitHub: `andreas1612/aml-law`
+
+---
+
+## SESSION 5 SUMMARY — What Was Built (2026-05-05)
+
+### D-graph + Report improvements (all complete)
+
+| Task | Status | Detail |
+|---|---|---|
+| D-graph-1 | DONE | `json_graph/cysec_circular_c292.json` — BWRA/NRA integration obligations. Vectorized (+14 chunks). |
+| D-graph-2 | DONE | `json_graph/aml_law_art33_2.json` — Art.33(2) electronic database conditions (GBG). Vectorized (+14 chunks). |
+| recommended_action | DONE | Added to `_VERDICT_PROMPT_V2` schema. Kimi outputs one-sentence remediation clause per GAP. null if COMPLIANT. |
+| Report bug fix | DONE | `gap_table_rows()` and `priority_rows_html()` in `rag_evaluator.py` used `g.get("gap")` — returns empty string for obligation-first verdicts which store field as `"missing"`. Fixed to `g.get("gap") or g.get("missing")`. Gap descriptions were blank in all Session 3/4 reports. |
+| Remediation HTML | DONE | Green "Fix:" line added to confirmed gaps table and priority remediation table. CSS `.action-text` / `.action-label` added. |
+| master_index.json | DONE | Updated with all 6 supplementary nodes (C292, C315, C318, C398, Art.58, Art.33(2)). |
+| PM MTF C4 run | DONE | 157 GAPs, 168 COMPLIANT on 141-page document. No ground truth. Generalizes cleanly. |
+| Capital.com re-run | PENDING | Running with new nodes + recommended_action. compare_gaps result pending. |
+
+### Session 5 — Recall baseline (pre-new-nodes run)
+- 60% (27/45) — 1 point below Session 4's 62%, normal Kimi variance
+- H[36] (C318 passport checks) confirmed as most likely new catch in next run
 
 ---
 
@@ -81,15 +102,14 @@ GitHub: `andreas1612/aml-law`
 
 ---
 
-## NEXT SESSION: Track D — Post-GPU + Outstanding Items
+## NEXT SESSION: Track E — Post-GPU
 
 ### Immediate (no GPU required)
 
 | Task | File | What to do | Expected impact |
 |---|---|---|---|
-| C4 | — | Run `obligation_first_evaluator.py` against `1a. AML Manual.docx.pdf` | Second validation document |
-| D-graph-1 | `json_graph/` | Add Circular C292 (National Risk Assessment obligations) | Covers BWRA-related gaps |
-| D-graph-2 | `json_graph/` | Add Art.33(2) GBG electronic database compliance conditions | Covers EV compliance gaps |
+| Confirm re-run recall | `compare_gaps.py` | Update JSON_PATH to latest Capital.com run, run compare | Expect 62–64% with C292 + Art.33(2) nodes |
+| Section-based PDF chunking | `obligation_first_evaluator.py` Phase 1c | Detect section headers in PDF text, chunk by section not page | Fixes cross-page obligation splits, recovers retrieval failures without GPU |
 
 ### Post-GPU
 
@@ -135,11 +155,12 @@ The 141-page PDF (`1a. AML Manual.docx.pdf`) is PM MTF Ltd — no ground truth a
 
 **Obligation-first is the primary pipeline.** The sliding window (`rag_evaluator.py`) is preserved as baseline but not the active evaluator.
 
-What is in `obligation_first_evaluator.py` as of Session 4:
+What is in `obligation_first_evaluator.py` as of Session 5:
 - Phase 1d: BM25 index built from policy pages
 - Phase 2: obligation_sweep() with BM25 fallback when dist > BM25_FALLBACK_THRESHOLD (0.85)
-- `_VERDICT_PROMPT_V2`: includes `policy_area` field in schema
+- `_VERDICT_PROMPT_V2`: includes `policy_area` + `recommended_action` fields in schema
 - `compare_gaps.py`: Jaccard first-pass + policy_area second-pass
+- `rag_evaluator.py` `_generate_report`: fixed gap/missing field, green "Fix:" remediation line in report
 
 ---
 
