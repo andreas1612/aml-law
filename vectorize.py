@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 import chromadb
 
-workspace_dir = Path(r"c:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw")
+workspace_dir = Path(__file__).parent
 json_folder = workspace_dir / "json_graph"
 db_path = workspace_dir / "chroma_db"
 

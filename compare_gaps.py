@@ -1,19 +1,46 @@
 """
 compare_gaps.py
 Compares system CONFIRMED_GAPs against human expert XLSX findings.
-Uses the latest Capital.com run (163428) vs CCSV AML_KYC.xlsx.
+
+PATHS: Set JSON_PATH to the evaluation result you want to measure.
+       Set XLSX_PATH to wherever CCSV - AML_KYC.xlsx lives on your machine.
+
+  X1 Carbon:    JSON_PATH points to evaluation_results/ in this repo
+                XLSX_PATH = r"C:\Users\andre\Downloads\CCSV - AML_KYC.xlsx"
+  Work laptop:  XLSX_PATH = r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\CCSV - AML_KYC.xlsx"
 """
 
 import json
+import os
 import re
 import sys
 import pandas as pd
+from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-# ── Paths ──────────────────────────────────────────────────────────────────
-JSON_PATH  = r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_114818.json"
-XLSX_PATH  = r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\CCSV - AML_KYC.xlsx"
+# ── Paths — update JSON_PATH to the run you want to evaluate ──────────────
+_REPO_ROOT = Path(__file__).parent
+
+# Auto-select most recent evaluation JSON if JSON_PATH not set below
+def _latest_json() -> str:
+    results_dir = _REPO_ROOT / "evaluation_results"
+    jsons = sorted(results_dir.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+    return str(jsons[0]) if jsons else ""
+
+JSON_PATH  = r"evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_114818.json"
+JSON_PATH  = str(_REPO_ROOT / JSON_PATH) if not os.path.isabs(JSON_PATH) else JSON_PATH
+
+# XLSX — ground truth (not in repo; set path for your machine)
+_XLSX_CANDIDATES = [
+    r"C:\Users\andre\Downloads\CCSV - AML_KYC.xlsx",
+    r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\CCSV - AML_KYC.xlsx",
+    str(_REPO_ROOT / "CCSV - AML_KYC.xlsx"),  # if copied into repo root
+]
+XLSX_PATH = next((p for p in _XLSX_CANDIDATES if os.path.exists(p)), None)
+if XLSX_PATH is None:
+    print("ERROR: CCSV - AML_KYC.xlsx not found. Add its path to _XLSX_CANDIDATES in compare_gaps.py")
+    sys.exit(1)
 
 # ── Load system results ────────────────────────────────────────────────────
 with open(JSON_PATH, encoding="utf-8") as f:
