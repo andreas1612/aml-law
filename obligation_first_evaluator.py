@@ -78,7 +78,7 @@ ITEMS:
 {findings_json}
 """
 
-BATCH_SIZE = 10   # proven — larger batches produce truncated JSON
+BATCH_SIZE = 8    # reduced from 10 — recommended_action field increases output length per verdict
 BM25_FALLBACK_THRESHOLD = 0.85   # ChromaDB distance above which BM25 takes over
 
 
