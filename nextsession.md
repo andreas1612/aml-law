@@ -123,7 +123,7 @@ GitHub: `andreas1612/aml-law`
 
 ## What To Tell Management
 
-> "The system identifies compliance gaps with zero false positives. Measured recall is 62% — the majority of remaining misses require reviewing client files and CRM records, which is outside the scope of a document analyser. The system is production-ready as the first stage of an AML audit workflow. The next improvement (legal embedding model, requiring the GPU workstation) is projected to raise recall to 70%+."
+> "The system identifies compliance gaps with zero false positives. Measured recall is 67% — the majority of remaining misses require reviewing client files and CRM records, which is outside the scope of a document analyser. The system is production-ready as the first stage of an AML audit workflow. The next improvement (legal embedding model, requiring the GPU workstation) is projected to raise recall to 70%+."
 
 ---
 
@@ -141,13 +141,13 @@ The 141-page PDF (`1a. AML Manual.docx.pdf`) is PM MTF Ltd — no ground truth a
 
 ## Recall Ceiling — Honest Assessment
 
-**Measured recall:** 62% (28/45 policy gaps).
-**Breakdown of remaining 17 misses:**
+**Measured recall:** 67% (30/45 policy gaps).
+**Breakdown of remaining 15 misses:**
 - ~10 operational: require CRM, client file sampling, signed registers — out of scope by design
-- ~4 questionnaire-level: require reviewing actual risk scoring tool, not policy PDF
+- ~2 questionnaire-level: require reviewing actual risk scoring tool, not policy PDF
 - ~3 retrieval failures: fix with legal embedding model post-GPU
 
-**Estimated document-evaluable ceiling:** ~69–73%. The system is near that ceiling now.
+**Estimated document-evaluable ceiling:** ~70–73%. The system is near that ceiling now.
 
 ---
 
