@@ -71,50 +71,50 @@ GitHub: `andreas1612/aml-law`
 
 ---
 
-## Critical Data Finding (Session 2026-04-29 — still valid)
+## Validated Results (Session 2026-05-05)
 
-**Current system (rag_evaluator.py, sliding window): 36% recall (16/45 policy gaps)**
+| Metric | Sliding window | Obligation-first |
+|---|---|---|
+| Law nodes evaluated | 91 / 325 (28%) | **325 / 325 (100%)** |
+| CONFIRMED_GAPs | 22 | **172** |
+| Kimi COMPLIANT | 64 | 151 |
+| Recall vs human expert audit | 36% (16/45) | **47% (21/45)** |
+| False positives confirmed | 0 | 0 |
 
-Root cause: sliding window touched only 91/325 law nodes (28%). 234 nodes invisible.
+**Structural problem solved.** 100% law coverage achieved. Remaining ceiling is semantic — `all-MiniLM-L6-v2` cannot reliably match operational policy language to regulatory law text when phrasing diverges. 24 human policy gaps still missed — paraphrase is the cause, not coverage.
 
-**Obligation-first (obligation_first_evaluator.py): recall unknown — first live run pending.**
-Target: 60–75%. Paraphrase distance ceiling with all-MiniLM-L6-v2 on legal text is unknown.
+**Next experiment:** `n_results=5` in `obligation_sweep()` — give Kimi 5 policy sections instead of 3. May recover some paraphrase misses where the right page is ranked 4th/5th. If recall doesn't improve → paraphrase ceiling is the hard limit and PoC is complete at 47%.
 
 ---
 
-## THIS SESSION: ONE TASK
+## THIS SESSION: n_results=5 experiment
 
-### Run the first obligation-first evaluation and measure recall
+First live run completed (2026-05-05). Recall: 47%. Next task: try n_results=5 to see if the paraphrase ceiling improves.
 
-**Step 1 — Rotate Kimi key** (mandatory before any run):
-- The old key was in git history before commit 273350c
+**Step 1 — Rotate Kimi key** (mandatory — old key was in git history):
 - Rotate at platform.moonshot.ai
-- Set in `.env` as `KIMI_API_KEY=sk-...`
-- Check credit balance — obligation-first = 33 batches per document (vs ~20 previously)
+- Update `.env` as `KIMI_API_KEY=sk-...`
 
-**Step 2 — Run:**
+**Step 2 — Change n_results in obligation_sweep():**
+```python
+# In obligation_first_evaluator.py, obligation_sweep(), line ~112:
+results = policy_col.query(query_texts=[doc], n_results=5)  # was 3
+```
+Also update `top_sections` slice if capped at 3.
+
+**Step 3 — Run fresh evaluation:**
 ```powershell
 cd C:\Users\andre\Desktop\aml_proof
 $env:KIMI_API_KEY = (Get-Content .env | Select-String "KIMI_API_KEY" | ForEach-Object { $_ -replace "KIMI_API_KEY=","" })
 python obligation_first_evaluator.py --pdf "AML Manual V8.0_Reviewed(Draft).docx.pdf" --config client_config.json --skip-anon
 ```
 
-Expected runtime: ~13 minutes (33 batches × ~23s average)
-
-If 402 mid-run: the script prints a `--verdict-only` resume command. Top up credits and run it.
-
-**Step 3 — Update compare_gaps.py JSON_PATH:**
-Edit line 15 of `compare_gaps.py` to point to the new result JSON:
-```python
-JSON_PATH = r"C:\Users\andre\Desktop\aml_proof\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_YYYYMMDD_HHMMSS.json"
-```
-
-**Step 4 — Measure recall:**
+**Step 4 — Update compare_gaps.py JSON_PATH to new result, then:**
 ```powershell
 python compare_gaps.py
 ```
 
-**Step 5 — Record the result in this file under "Validated Results".**
+**Success criterion:** Recall ≥ 52% → keep n_results=5. No change → paraphrase ceiling confirmed, PoC complete.
 
 ---
 
