@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AML Compliance Report — AML Manual V8.0_Reviewed(Draft).docx.pdf</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f4f6f9; color: #1a1a2e; font-size: 14px; line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Header ── */
+.report-header {
+  background: #1a1a2e; color: #fff;
+  padding: 24px 40px; display: flex; justify-content: space-between; align-items: center;
+}
+.report-header .title { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; }
+.report-header .subtitle { font-size: 0.82rem; color: #8892b0; margin-top: 4px; }
+.header-meta { text-align: right; font-size: 0.8rem; color: #8892b0; line-height: 1.8; }
+.print-btn {
+  background: transparent; border: 1px solid #8892b0; color: #ccd6f6;
+  padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+  margin-top: 8px;
+}
+.print-btn:hover { background: rgba(255,255,255,0.08); }
+
+/* ── Main layout ── */
+.main { max-width: 1140px; margin: 0 auto; padding: 32px 24px; }
+
+/* ── KPI bar ── */
+.kpi-bar {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px; margin-bottom: 32px;
+}
+.kpi {
+  background: #fff; border-radius: 8px; padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); text-align: center;
+  border-top: 3px solid #ddd;
+}
+.kpi.red   { border-color: #c0392b; }
+.kpi.orange{ border-color: #d35400; }
+.kpi.green { border-color: #27ae60; }
+.kpi.gray  { border-color: #95a5a6; }
+.kpi .num  { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.kpi.red   .num { color: #c0392b; }
+.kpi.orange .num{ color: #d35400; }
+.kpi.green .num { color: #27ae60; }
+.kpi.gray  .num { color: #95a5a6; }
+.kpi .lbl  { font-size: 0.74rem; color: #666; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── Section cards ── */
+.section-card {
+  background: #fff; border-radius: 8px; margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); overflow: hidden;
+}
+.section-header {
+  padding: 16px 24px; border-bottom: 1px solid #eee;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.section-header h2 {
+  font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 10px;
+}
+.section-dot {
+  width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+}
+.section-body { padding: 0; }
+
+/* ── Priority section ── */
+.priority-banner {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2c3e50 100%);
+  color: #fff; border-radius: 8px; padding: 24px; margin-bottom: 24px;
+}
+.priority-banner h2 {
+  font-size: 1rem; font-weight: 700; color: #e74c3c; margin-bottom: 4px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.priority-banner .sub { font-size: 0.8rem; color: #8892b0; margin-bottom: 16px; }
+
+/* ── Filters ── */
+.filter-bar { padding: 12px 24px; border-bottom: 1px solid #eee; display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 4px 14px; border-radius: 20px; border: 1px solid #ddd;
+  background: #fff; cursor: pointer; font-size: 0.78rem; font-weight: 600;
+  color: #555; transition: all .15s;
+}
+.filter-btn:hover { background: #f0f0f0; }
+.filter-btn.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+
+/* ── Tables ── */
+table { width: 100%; border-collapse: collapse; }
+th {
+  background: #f8f9fa; padding: 10px 16px; text-align: left;
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: #666; border-bottom: 2px solid #eee; font-weight: 600;
+}
+td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbfc; }
+.pg-cell { color: #888; font-size: 0.82rem; white-space: nowrap; width: 70px; }
+.rank-cell { color: #c0392b; font-weight: 700; font-size: 1.1rem; width: 36px; text-align: center; }
+.desc-cell { max-width: 600px; }
+.desc-text { font-size: 0.88rem; color: #1a1a2e; margin-bottom: 6px; line-height: 1.5; }
+.ref-line  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.ref { font-size: 0.75rem; color: #3498db; font-family: monospace; font-weight: 600; }
+.rule-label { font-size: 0.7rem; font-weight: 700; color: #3498db;
+               text-transform: uppercase; letter-spacing: 0.06em; margin-top: 10px; }
+.rule-text { font-size: 0.82rem; color: #333; background: #f0f4f8; padding: 12px 14px;
+              border-left: 3px solid #3498db; border-radius: 0 4px 4px 0;
+              line-height: 1.75; white-space: pre-wrap; margin-top: 4px; }
+.expand-btn {
+  background: #eef4fb; border: 1px solid #c5d8ef; color: #2980b9; cursor: pointer;
+  font-size: 0.74rem; padding: 3px 10px; margin-top: 6px; border-radius: 4px;
+  font-weight: 600; display: inline-block;
+}
+.expand-btn:hover { background: #ddeaf8; }
+.empty { color: #aaa; font-style: italic; text-align: center; padding: 24px; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-block; padding: 2px 9px; border-radius: 4px;
+  color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.badge.outline {
+  background: transparent; border: 1.5px solid; font-size: 0.68rem;
+}
+
+/* ── Confidence bar ── */
+.conf-bar-wrap {
+  background: #eee; border-radius: 3px; height: 5px; width: 80px;
+  display: inline-block; vertical-align: middle; margin-right: 6px;
+}
+.conf-bar { height: 5px; border-radius: 3px; }
+.conf-val { font-size: 0.75rem; color: #888; font-family: monospace; vertical-align: middle; }
+
+/* ── Details/summary ── */
+details { margin-bottom: 16px; }
+details > summary {
+  background: #fff; border-radius: 8px; padding: 14px 24px;
+  cursor: pointer; font-weight: 600; font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); list-style: none;
+  display: flex; align-items: center; gap: 10px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: '▶'; font-size: 0.7rem; color: #888; transition: transform .2s; }
+details[open] > summary::before { transform: rotate(90deg); }
+details .section-card { border-radius: 0 0 8px 8px; margin-top: 0; }
+
+/* ── Technical notes ── */
+.tech-notes { font-size: 0.82rem; color: #555; padding: 16px 24px; line-height: 1.8; }
+.tech-notes li { margin: 6px 0; }
+
+/* ── Print ── */
+@media print {
+  body { background: #fff; }
+  .print-btn, .expand-btn, .filter-bar { display: none; }
+  .rule-expand { display: block !important; }
+  details { open: true; }
+  details > summary::before { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="report-header">
+  <div>
+    <div class="title">AML Compliance Audit Report</div>
+    <div class="subtitle">CySEC Consolidated AML Directive — Automated Gap Analysis</div>
+  </div>
+  <div class="header-meta">
+    <div>AML Manual V8.0_Reviewed(Draft).docx.pdf</div>
+    <div>Client: poc_client_001 &nbsp;·&nbsp; 65 pages</div>
+    <div>Evaluated: 2026-04-28 16:38:58</div>
+    <button class="print-btn" onclick="window.print()">&#x2398; Export PDF</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- KPI Bar -->
+<div class="kpi-bar">
+  <div class="kpi red">
+    <div class="num">22</div>
+    <div class="lbl">Confirmed Gaps</div>
+  </div>
+  <div class="kpi red">
+    <div class="num">21</div>
+    <div class="lbl">Mandatory</div>
+  </div>
+  <div class="kpi orange">
+    <div class="num">5</div>
+    <div class="lbl">Manual Review</div>
+  </div>
+  <div class="kpi green">
+    <div class="num">64</div>
+    <div class="lbl">Compliant</div>
+  </div>
+  <div class="kpi gray">
+    <div class="num">146</div>
+    <div class="lbl">Findings Assessed</div>
+  </div>
+  <div class="kpi gray">
+    <div class="num">54</div>
+    <div class="lbl">Filtered / Noise</div>
+  </div>
+</div>
+
+<!-- Priority Remediation -->
+<div class="priority-banner">
+  <h2>&#x26A0; Priority Remediation</h2>
+  <div class="sub">Minimum gaps covering maximum regulatory exposure — act on these first</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="color:#8892b0">#</th>
+        <th style="color:#8892b0">Pages</th>
+        <th style="color:#8892b0">Severity</th>
+        <th style="color:#8892b0">Gap &amp; Reference</th>
+      </tr>
+    </thead>
+    <tbody style="color:#fff">
+      
+            <tr>
+              <td class="rank-cell">1</td>
+              <td class="pg-cell">p.55–57</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td><div class="desc-text">Policy does not determine departments and employees needing further training and education for preventing money laundering and terrorist financing.</div><span class="ref">Part III §9(1)(o)</span></td>
+            </tr>
+
+            <tr>
+              <td class="rank-cell">2</td>
+              <td class="pg-cell">p.53–55</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td><div class="desc-text">Policy does not include the requirement for telephone contact with the customer using a verified telephone number.</div><span class="ref">Appendix IV §2(iii)</span></td>
+            </tr>
+
+            <tr>
+              <td class="rank-cell">3</td>
+              <td class="pg-cell">p.26–28</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td><div class="desc-text">Policy does not explicitly mention consultation of EU Common Foreign & Security Policy (CFSP) sanctions list.</div><span class="ref">Part IV §17(c)</span></td>
+            </tr>
+
+            <tr>
+              <td class="rank-cell">4</td>
+              <td class="pg-cell">p.17–19</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td><div class="desc-text">Policy does not mention the internal audit department reviewing and evaluating the policy, practices, measures, procedures, and controls at least on an annual basis.</div><span class="ref">Part II §6</span></td>
+            </tr>
+
+            <tr>
+              <td class="rank-cell">5</td>
+              <td class="pg-cell">p.1–5</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td><div class="desc-text">Policy lacks specific details on inspections and reviews performed by the compliance officer, including reporting material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and controls.</div><span class="ref">Part III §10(4)(b)</span></td>
+            </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Confirmed Gaps -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>
+      <span class="section-dot" style="background:#c0392b"></span>
+      Confirmed Gaps
+      <span style="font-weight:400;color:#888;font-size:0.85rem">(22 total — 21 mandatory, 1 recommended, 0 informational)</span>
+    </h2>
+  </div>
+  <div class="filter-bar" id="conf-filters">
+    <button class="filter-btn active" onclick="filterTable('conf-table','all',this)">All (22)</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','mandatory',this)">Mandatory (21)</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','recommended',this)">Recommended (1)</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','informational',this)">Info (0)</button>
+  </div>
+  <div class="section-body">
+    <table id="conf-table">
+      <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+      <tbody>
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.55–57</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not determine departments and employees needing further training and education for preventing money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(o)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-132" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(o)</div><div class="rule-text">Determines the Obliged Entity ’s departments and employees that need further training and education for the purpose of preventing money laundering and terrorist financing and organises appropriate training sessions/seminars.In this regard, prepares and applies an annual staff training program, according to Part VIII.Assesses the adequacy of the education and training provided.</div></div><button class="expand-btn" onclick="toggle('rule-132',this)">&#x25BC; Part III §9(1)(o)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 51%"><div class="conf-bar" style="width:51%;background:#c0392b"></div></div><span class="conf-val">0.48</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.53–55</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include the requirement for telephone contact with the customer using a verified telephone number.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix IV §2(iii)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-127" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix IV §2(iii)</div><div class="rule-text">Telephone contact with the customer at his home or office, on a telephone number which has been verified from independent and reliable sources.During the telephone contact, the Obliged Entity shall confirm additional aspects of the identity information submitted by the customer during the procedure of opening his account.</div></div><button class="expand-btn" onclick="toggle('rule-127',this)">&#x25BC; Appendix IV §2(iii)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 42%"><div class="conf-bar" style="width:42%;background:#e67e22"></div></div><span class="conf-val">0.58</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.26–28</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention consultation of EU Common Foreign & Security Policy (CFSP) sanctions list.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §17(c)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-61" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §17(c)</div><div class="rule-text">the EU Common Foreign &amp; Security Policy (CFSP)- http://ec.europa.eu/external_relations/cfsp/sanctions/list/consol-list.htm·</div></div><button class="expand-btn" onclick="toggle('rule-61',this)">&#x25BC; Part IV §17(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 40%"><div class="conf-bar" style="width:40%;background:#e67e22"></div></div><span class="conf-val">0.59</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.17–19</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not mention the internal audit department reviewing and evaluating the policy, practices, measures, procedures, and controls at least on an annual basis.</div>
+                <div class="ref-line">
+                  <span class="ref">Part II §6</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-39" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part II §6</div><div class="rule-text">The internal audit department of the Obliged Entity reviews and evaluates, at least on an annual basis, the appropriateness, effectiveness and adequacy of the policy, practices, measures, procedures and control mechanisms applied for the prevention of money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-39',this)">&#x25BC; Part II §6</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 36%"><div class="conf-bar" style="width:36%;background:#e67e22"></div></div><span class="conf-val">0.64</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.1–5</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks specific details on inspections and reviews performed by the compliance officer, including reporting material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and controls.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §10(4)(b)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-1" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §10(4)(b)</div><div class="rule-text">Information on the inspections and reviews performed by the compliance officer, reporting the material deficiencies and weaknesses identified in the policy, practices, measures, procedures and controls that the Obliged Entity applies for the prevention of money laundering and terrorist financing.In this regard, the report outlines the seriousness of the deficiencies and weaknesses, the risk implications and the actions taken and/or recommendations made for rectifying the situation.</div></div><button class="expand-btn" onclick="toggle('rule-1',this)">&#x25BC; Part III §10(4)(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 34%"><div class="conf-bar" style="width:34%;background:#e67e22"></div></div><span class="conf-val">0.65</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.47–51</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not specify procedures for investigating unusual or suspicious transactions by designated employees or maintaining separate investigation memos.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §26(2)(c)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-115" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §26(2)(c)</div><div class="rule-text">the investigation of unusual or suspicious transactions from the employees who have been appointed for that purpose; the results of the investigations are recorded in a separate memo and kept in the file of the customer concerned;</div></div><button class="expand-btn" onclick="toggle('rule-115',this)">&#x25BC; Part V §26(2)(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 33%"><div class="conf-bar" style="width:33%;background:#e67e22"></div></div><span class="conf-val">0.67</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.43–45</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include obtaining data and information to verify professional registration of third parties.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §25(2)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-105" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §25(2)</div><div class="rule-text">The Obliged Entity obtains data and information so as to verify that the third person is subject to professional registration in accordance with the competent law of its country of incorporation and/or operation as well as supervision for the purposes of compliance with the measures for the prevention of money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-105',this)">&#x25BC; Part V §25(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 33%"><div class="conf-bar" style="width:33%;background:#e67e22"></div></div><span class="conf-val">0.67</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.41–43</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not detail ongoing monitoring procedures for high-risk customers' transactions and activities.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §14(2)(d)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-99" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §14(2)(d)</div><div class="rule-text">on going monitoring of high risk customers’ transactions and activities.</div></div><button class="expand-btn" onclick="toggle('rule-99',this)">&#x25BC; Part IV §14(2)(d)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 31%"><div class="conf-bar" style="width:31%;background:#e67e22"></div></div><span class="conf-val">0.69</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.13–15</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not specify the procedure for submitting reports to MOKAS through the electronic page.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(g)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-27" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(g)</div><div class="rule-text">If following the evaluation described in point (f), the compliance officer decides to notify MOKAS, then he completes a report and submit it to MOKAS the soonest possible through the electronic page goAML (https://reports.mokas.law.gov.cy/live)(hereinafter to be referred to as "Compliance Officer's Report to the Unit for Combating Money Laundering”).The Obliged Entity should implement a system that will allow it to produce the said report in a printed form at any time.</div></div><button class="expand-btn" onclick="toggle('rule-27',this)">&#x25BC; Part III §9(1)(g)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.33–36</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not verify third persons' professional registration in accordance with competent law</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §25(2)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-80" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §25(2)</div><div class="rule-text">The Obliged Entity obtains data and information so as to verify that the third person is subject to professional registration in accordance with the competent law of its country of incorporation and/or operation as well as supervision for the purposes of compliance with the measures for the prevention of money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-80',this)">&#x25BC; Part V §25(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.29–31</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not adapt CDD procedures based on assessed ML/TF risk of customers.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §14(2)(a)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-68" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §14(2)(a)</div><div class="rule-text">adaptation of the customer due diligence procedures in respect of customers in line with their assessed money laundering and terrorist financing risk;</div></div><button class="expand-btn" onclick="toggle('rule-68',this)">&#x25BC; Part IV §14(2)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.11–14</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not take into account the Joint Guidelines when assessing ML/TF risks and applying risk-based measures.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(4)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-24" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(4)</div><div class="rule-text">The Obliged Entities when assessing the money laundering and terrorist financing risks and when applying risk based measures and procedures, should take into account, among others, the Joint Guidelines and the Guidelines issued by the Financial Action Task Force (FATF).</div></div><button class="expand-btn" onclick="toggle('rule-24',this)">&#x25BC; Part IV §12(4)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.29–31</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address higher risk of ML/TF for non-face-to-face business relationships or transactions.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix IV §2</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-69" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix IV §2</div><div class="rule-text">If the Obliged Entity concludes that the non-face-to-face business relationship or transaction as specified in paragraph 2(c) of Appendix III of the Law, presents higher risk of money laundering or terrorist financing, it should apply enhanced customer due diligence measures.The said measures may be the following:</div></div><button class="expand-btn" onclick="toggle('rule-69',this)">&#x25BC; Appendix IV §2</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 29%"><div class="conf-bar" style="width:29%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.53–55</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not mention the requirement for original documents or certified true copies for customer identity verification.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §1(b)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-126" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §1(b)</div><div class="rule-text">The acceptable method for the verification of the identification of a customer’s identity is the reference to an original document which is issued by an independent and reliable source that carries the customer’s photo.After the Obliged Entity is satisfied for the customer’s identity from the original identification documents presented, it keeps copies of the pages containing all relevant information which are certified, by the Obliged Entity, as true copies of the original documents</div></div><button class="expand-btn" onclick="toggle('rule-126',this)">&#x25BC; Appendix V §1(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 29%"><div class="conf-bar" style="width:29%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.31–33</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks procedures to ensure completeness, validity, and reliability of electronic verification information</div>
+                <div class="ref-line">
+                  <span class="ref">Part VII §33(2)(c)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-75" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VII §33(2)(c)</div><div class="rule-text">For purposes of carrying out the electronic verification, the Obliged Entity shall establish procedures in order to satisfy the completeness, validity and reliability of the information to which it has access.It is provided that the verification procedure shall include a search of both positive and negative information.</div></div><button class="expand-btn" onclick="toggle('rule-75',this)">&#x25BC; Part VII §33(2)(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 29%"><div class="conf-bar" style="width:29%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.31–34</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not mention verification based on data from independent and reliable sources</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §21(2)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-76" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §21(2)</div><div class="rule-text">The verification of the customers’ identification is based on reliable data and information issued or obtained from independent and reliable sources, meaning those data, and information that are the most difficult to be amended or obtained illicitly.</div></div><button class="expand-btn" onclick="toggle('rule-76',this)">&#x25BC; Part V §21(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 28%"><div class="conf-bar" style="width:28%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.35–37</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks information on obtaining objectives and control structure of investment funds and mutual funds.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §7(c)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-84" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §7(c)</div><div class="rule-text">In the case of investment funds and mutual funds the Obliged Entity, apart from identifying beneficial owners, obtains information regarding their objectives and control structure, including documentation and information for the verification of the identity of investment managers, investment advisors, administrators and custodians.</div></div><button class="expand-btn" onclick="toggle('rule-84',this)">&#x25BC; Appendix V §7(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 28%"><div class="conf-bar" style="width:28%;background:#e67e22"></div></div><span class="conf-val">0.72</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.25–27</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention customers prescribed as high risk in section 64 of the Law</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §14(5)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-57" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §14(5)</div><div class="rule-text">The category of high risk customers, according to paragraph 7(2)(c)(iii), includes the customers prescribed as high risk in section 64 of the Law ,as well as, any other customer determined by the Obliged Entity itself to be classified as such.</div></div><button class="expand-btn" onclick="toggle('rule-57',this)">&#x25BC; Part IV §14(5)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 27%"><div class="conf-bar" style="width:27%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.2–4</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide information on the structure and staffing of the compliance department, nor recommendations and timeframes for implementation of additional staff and technical resources.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §10(4)(n)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-4" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §10(4)(n)</div><div class="rule-text">Information on the structure and staffing of the department of the compliance officer as well as recommendations and timeframe for their implementation, for any additional staff and technical resources which may be needed for reinforcing the measures and procedures against money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-4',this)">&#x25BC; Part III §10(4)(n)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.34–36</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address identification of directors, partners, beneficial owners, and other authorized individuals in unincorporated businesses and partnerships.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §5(a)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-83" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §5(a)</div><div class="rule-text">In the case of unincorporated businesses, partnerships and other persons with no legal substance, the identity of the directors, partners, beneficial owners and other individuals who are authorised to manage the account is verified according to the procedures set in points (1) and (2) of the present Appendix.In addition, in the case of partnerships, the original or a certified true copy of the partnership’s registration certificate is obtained.</div></div><button class="expand-btn" onclick="toggle('rule-83',this)">&#x25BC; Appendix V §5(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.74</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.55–57</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Training program does not educate employees on latest developments in prevention of money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VIII §35(3)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-133" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VIII §35(3)</div><div class="rule-text">The training program aims at educating employees on the latest developments in the prevention of money laundering and terrorist financing, including the practical methods and trends used for this purpose.</div></div><button class="expand-btn" onclick="toggle('rule-133',this)">&#x25BC; Part VIII §35(3)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 25%"><div class="conf-bar" style="width:25%;background:#e67e22"></div></div><span class="conf-val">0.75</span></td>
+            </tr>
+
+            <tr data-sev="recommended">
+              <td class="pg-cell">p.26–28</td>
+              <td><span class="badge" style="background:#d35400">RECOMMENDED</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not mention the implementation of financial sanctions imposed against various persons</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §2(c)</span>
+                  <span class="badge outline" style="border-color:#c0392b;color:#c0392b">CONFIRMED GAP</span>
+                </div>
+                <div class="rule-expand" id="rule-60" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §2(c)</div><div class="rule-text">In addition to the aim of preventing money laundering and terrorist financing, the abovementioned information is also essential for implementing the financial sanctions imposed against various persons by the United Nations and the European Union.</div></div><button class="expand-btn" onclick="toggle('rule-60',this)">&#x25BC; Appendix V §2(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 39%"><div class="conf-bar" style="width:39%;background:#e67e22"></div></div><span class="conf-val">0.60</span></td>
+            </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Manual Review -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>
+      <span class="section-dot" style="background:#d35400"></span>
+      Manual Review Required
+      <span style="font-weight:400;color:#888;font-size:0.85rem">(5 borderline findings — semantic distance 0.45–0.55)</span>
+    </h2>
+  </div>
+  <div class="section-body">
+    <table>
+      <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+      <tbody>
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.35–37</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include ascertaining the nature of activities, purpose of establishment, and source/origin of funds for trusts.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §10(b)</span>
+                  <span class="badge outline" style="border-color:#d35400;color:#d35400">MANUAL REVIEW · p.35</span>
+                </div>
+                <div class="rule-expand" id="rule-85" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §10(b)</div><div class="rule-text">ascertains the nature of activities and the purpose of establishment of the trust as well as the source and origin of funds requesting the relevant extracts from the trust deed and any other relevant information from the trustees.All relevant data and information should be recorded and kept in the customer’s file</div></div><button class="expand-btn" onclick="toggle('rule-85',this)">&#x25BC; Appendix V §10(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 52%"><div class="conf-bar" style="width:52%;background:#c0392b"></div></div><span class="conf-val">0.47</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.41–43</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks specific procedures and intensity levels for monitoring accounts and examining transactions based on risk levels.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §26(2)</span>
+                  <span class="badge outline" style="border-color:#d35400;color:#d35400">MANUAL REVIEW · p.48</span>
+                </div>
+                <div class="rule-expand" id="rule-98" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §26(2)</div><div class="rule-text">The procedures and intensity of monitoring accounts and examining transactions are based on the level of risk and, as a minimum, achieve the following:</div></div><button class="expand-btn" onclick="toggle('rule-98',this)">&#x25BC; Part V §26(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 31%"><div class="conf-bar" style="width:31%;background:#e67e22"></div></div><span class="conf-val">0.69</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.3–8</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include procedures for identifying and assessing money laundering and terrorist financing risks from particular customers, financial instruments, services, and geographical areas.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(3)(a)</span>
+                  <span class="badge outline" style="border-color:#d35400;color:#d35400">MANUAL REVIEW · p.19</span>
+                </div>
+                <div class="rule-expand" id="rule-6" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(3)(a)</div><div class="rule-text">identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation of the Obliged Entity and its customers;</div></div><button class="expand-btn" onclick="toggle('rule-6',this)">&#x25BC; Part IV §12(3)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.28–30</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not adequately identify and assess ML/TF risks from particular customers, financial instruments, services, and geographical areas.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(3)(a)</span>
+                  <span class="badge outline" style="border-color:#d35400;color:#d35400">MANUAL REVIEW · p.19</span>
+                </div>
+                <div class="rule-expand" id="rule-65" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(3)(a)</div><div class="rule-text">identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation of the Obliged Entity and its customers;</div></div><button class="expand-btn" onclick="toggle('rule-65',this)">&#x25BC; Part IV §12(3)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 25%"><div class="conf-bar" style="width:25%;background:#e67e22"></div></div><span class="conf-val">0.75</span></td>
+            </tr>
+
+            <tr data-sev="recommended">
+              <td class="pg-cell">p.26–28</td>
+              <td><span class="badge" style="background:#d35400">RECOMMENDED</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not mention the Council of Europe Select Committee of Experts on the Evaluation of Anti-Money Laundering Measures (MONEYVAL)</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §17(b)</span>
+                  <span class="badge outline" style="border-color:#d35400;color:#d35400">MANUAL REVIEW · p.26</span>
+                </div>
+                <div class="rule-expand" id="rule-59" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §17(b)</div><div class="rule-text">the Council of Europe Select Committee of Experts on the Evaluation of Anti-Money Laundering Measures (MONEYVAL) - www.coe.int/moneyval·</div></div><button class="expand-btn" onclick="toggle('rule-59',this)">&#x25BC; Part IV §17(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 45%"><div class="conf-bar" style="width:45%;background:#c0392b"></div></div><span class="conf-val">0.55</span></td>
+            </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Likely Compliant (from GAP verdicts that cross-check reversed) -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#27ae60;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Reversed by Cross-Check — Likely Compliant (1)
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+        <tbody>
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.45–48</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include a comprehensive list of examples of suspicious transactions related to money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §28(2)</span>
+                  <span class="badge outline" style="border-color:#27ae60;color:#27ae60">LIKELY COMPLIANT · p.46</span>
+                </div>
+                <div class="rule-expand" id="rule-111" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §28(2)</div><div class="rule-text">A list containing examples of what might constitute suspicious transactions/activities related to money laundering and terrorist financing is attached to the Third Appendix.The said list is not exhaustive nor includes all types of transactions that may be used, nevertheless it can assist the Obliged Entity and its employees in recognising the main methods used for money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-111',this)">&#x25BC; Part VI §28(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 55%"><div class="conf-bar" style="width:55%;background:#c0392b"></div></div><span class="conf-val">0.44</span></td>
+            </tr></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Kimi COMPLIANT verdicts -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#27ae60;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Compliant Sections — Kimi Verdict (64)
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Law Reference</th><th>Match Strength</th></tr></thead>
+        <tbody><tr><td class="pg-cell">p.2–4</td><td><span class="ref">Part VI §29(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.81</span></td></tr>
+<tr><td class="pg-cell">p.4–6</td><td><span class="ref">Part VI §27</span></td><td><div class="conf-bar-wrap" title="Match strength: 7%"><div class="conf-bar" style="width:7%;background:#95a5a6"></div></div><span class="conf-val">0.93</span></td></tr>
+<tr><td class="pg-cell">p.6–8</td><td><span class="ref">Part IV §17(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 24%"><div class="conf-bar" style="width:24%;background:#95a5a6"></div></div><span class="conf-val">0.76</span></td></tr>
+<tr><td class="pg-cell">p.6–8</td><td><span class="ref">Part IV §17(e)</span></td><td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td></tr>
+<tr><td class="pg-cell">p.7–9</td><td><span class="ref">Appendix III</span></td><td><div class="conf-bar-wrap" title="Match strength: 59%"><div class="conf-bar" style="width:59%;background:#c0392b"></div></div><span class="conf-val">0.41</span></td></tr>
+<tr><td class="pg-cell">p.10–13</td><td><span class="ref">Part IV §17(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 33%"><div class="conf-bar" style="width:33%;background:#e67e22"></div></div><span class="conf-val">0.66</span></td></tr>
+<tr><td class="pg-cell">p.10–13</td><td><span class="ref">Appendix V §2(c)</span></td><td><div class="conf-bar-wrap" title="Match strength: 38%"><div class="conf-bar" style="width:38%;background:#e67e22"></div></div><span class="conf-val">0.62</span></td></tr>
+<tr><td class="pg-cell">p.12–14</td><td><span class="ref">Part VI §27</span></td><td><div class="conf-bar-wrap" title="Match strength: 23%"><div class="conf-bar" style="width:23%;background:#95a5a6"></div></div><span class="conf-val">0.76</span></td></tr>
+<tr><td class="pg-cell">p.13–15</td><td><span class="ref">Part III §9(1)(e)</span></td><td><div class="conf-bar-wrap" title="Match strength: 23%"><div class="conf-bar" style="width:23%;background:#95a5a6"></div></div><span class="conf-val">0.76</span></td></tr>
+<tr><td class="pg-cell">p.14–17</td><td><span class="ref">Part II §5(e)</span></td><td><div class="conf-bar-wrap" title="Match strength: 28%"><div class="conf-bar" style="width:28%;background:#e67e22"></div></div><span class="conf-val">0.72</span></td></tr>
+<tr><td class="pg-cell">p.16–18</td><td><span class="ref">Part II §5</span></td><td><div class="conf-bar-wrap" title="Match strength: 5%"><div class="conf-bar" style="width:5%;background:#95a5a6"></div></div><span class="conf-val">0.94</span></td></tr>
+<tr><td class="pg-cell">p.16–18</td><td><span class="ref">Part IV §12(2)(c)</span></td><td><div class="conf-bar-wrap" title="Match strength: 0%"><div class="conf-bar" style="width:0%;background:#95a5a6"></div></div><span class="conf-val">1.00</span></td></tr>
+<tr><td class="pg-cell">p.18–20</td><td><span class="ref">Part IV §12(3)</span></td><td><div class="conf-bar-wrap" title="Match strength: 33%"><div class="conf-bar" style="width:33%;background:#e67e22"></div></div><span class="conf-val">0.67</span></td></tr>
+<tr><td class="pg-cell">p.18–21</td><td><span class="ref">Part IV §14(8)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 45%"><div class="conf-bar" style="width:45%;background:#c0392b"></div></div><span class="conf-val">0.54</span></td></tr>
+<tr><td class="pg-cell">p.19–21</td><td><span class="ref">Part IV §12(2)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 34%"><div class="conf-bar" style="width:34%;background:#e67e22"></div></div><span class="conf-val">0.65</span></td></tr>
+<tr><td class="pg-cell">p.20–23</td><td><span class="ref">Part III §10(4)(g)</span></td><td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td></tr>
+<tr><td class="pg-cell">p.20–22</td><td><span class="ref">Part IV §13(4)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 23%"><div class="conf-bar" style="width:23%;background:#95a5a6"></div></div><span class="conf-val">0.77</span></td></tr>
+<tr><td class="pg-cell">p.20–22</td><td><span class="ref">Part IV §12(2)(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 21%"><div class="conf-bar" style="width:21%;background:#95a5a6"></div></div><span class="conf-val">0.78</span></td></tr>
+<tr><td class="pg-cell">p.21–23</td><td><span class="ref">Part IV §13(5)(f)</span></td><td><div class="conf-bar-wrap" title="Match strength: 4%"><div class="conf-bar" style="width:4%;background:#95a5a6"></div></div><span class="conf-val">0.95</span></td></tr>
+<tr><td class="pg-cell">p.21–23</td><td><span class="ref">Appendix III</span></td><td><div class="conf-bar-wrap" title="Match strength: 4%"><div class="conf-bar" style="width:4%;background:#95a5a6"></div></div><span class="conf-val">0.96</span></td></tr>
+<tr><td class="pg-cell">p.22–26</td><td><span class="ref">Part IV §12(3)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td></tr>
+<tr><td class="pg-cell">p.22–24</td><td><span class="ref">Part IV §12(2)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td></tr>
+<tr><td class="pg-cell">p.22–24</td><td><span class="ref">Appendix IV §4(ii)</span></td><td><div class="conf-bar-wrap" title="Match strength: 24%"><div class="conf-bar" style="width:24%;background:#95a5a6"></div></div><span class="conf-val">0.76</span></td></tr>
+<tr><td class="pg-cell">p.23–25</td><td><span class="ref">Part IV §14(8)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 8%"><div class="conf-bar" style="width:8%;background:#95a5a6"></div></div><span class="conf-val">0.92</span></td></tr>
+<tr><td class="pg-cell">p.23–25</td><td><span class="ref">Part IV §13(5)(i)</span></td><td><div class="conf-bar-wrap" title="Match strength: 11%"><div class="conf-bar" style="width:11%;background:#95a5a6"></div></div><span class="conf-val">0.89</span></td></tr>
+<tr><td class="pg-cell">p.23–25</td><td><span class="ref">Appendix III</span></td><td><div class="conf-bar-wrap" title="Match strength: 5%"><div class="conf-bar" style="width:5%;background:#95a5a6"></div></div><span class="conf-val">0.95</span></td></tr>
+<tr><td class="pg-cell">p.24–26</td><td><span class="ref">Part III §10(4)(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 13%"><div class="conf-bar" style="width:13%;background:#95a5a6"></div></div><span class="conf-val">0.87</span></td></tr>
+<tr><td class="pg-cell">p.24–26</td><td><span class="ref">Part IV §12(3)</span></td><td><div class="conf-bar-wrap" title="Match strength: 12%"><div class="conf-bar" style="width:12%;background:#95a5a6"></div></div><span class="conf-val">0.88</span></td></tr>
+<tr><td class="pg-cell">p.25–27</td><td><span class="ref">Part IV §13(4)(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 16%"><div class="conf-bar" style="width:16%;background:#95a5a6"></div></div><span class="conf-val">0.83</span></td></tr>
+<tr><td class="pg-cell">p.27–29</td><td><span class="ref">Appendix IV §2(ii)</span></td><td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.81</span></td></tr>
+<tr><td class="pg-cell">p.27–29</td><td><span class="ref">Part V §20(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 13%"><div class="conf-bar" style="width:13%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td></tr>
+<tr><td class="pg-cell">p.29–31</td><td><span class="ref">Part IV §17</span></td><td><div class="conf-bar-wrap" title="Match strength: 28%"><div class="conf-bar" style="width:28%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td></tr>
+<tr><td class="pg-cell">p.30–32</td><td><span class="ref">Part V §21(5)</span></td><td><div class="conf-bar-wrap" title="Match strength: 36%"><div class="conf-bar" style="width:36%;background:#e67e22"></div></div><span class="conf-val">0.63</span></td></tr>
+<tr><td class="pg-cell">p.30–32</td><td><span class="ref">Part IV §14(2)(c)</span></td><td><div class="conf-bar-wrap" title="Match strength: 36%"><div class="conf-bar" style="width:36%;background:#e67e22"></div></div><span class="conf-val">0.63</span></td></tr>
+<tr><td class="pg-cell">p.30–32</td><td><span class="ref">Part V §21(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 29%"><div class="conf-bar" style="width:29%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td></tr>
+<tr><td class="pg-cell">p.32–34</td><td><span class="ref">Appendix V §1(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 17%"><div class="conf-bar" style="width:17%;background:#95a5a6"></div></div><span class="conf-val">0.83</span></td></tr>
+<tr><td class="pg-cell">p.32–34</td><td><span class="ref">Appendix IV §2(iv)</span></td><td><div class="conf-bar-wrap" title="Match strength: 8%"><div class="conf-bar" style="width:8%;background:#95a5a6"></div></div><span class="conf-val">0.91</span></td></tr>
+<tr><td class="pg-cell">p.33–37</td><td><span class="ref">Appendix V §10(a)</span></td><td><div class="conf-bar-wrap" title="Match strength: 37%"><div class="conf-bar" style="width:37%;background:#e67e22"></div></div><span class="conf-val">0.62</span></td></tr>
+<tr><td class="pg-cell">p.36–38</td><td><span class="ref">Appendix V §3</span></td><td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td></tr>
+<tr><td class="pg-cell">p.38–42</td><td><span class="ref">Appendix IV §2</span></td><td><div class="conf-bar-wrap" title="Match strength: 30%"><div class="conf-bar" style="width:30%;background:#e67e22"></div></div><span class="conf-val">0.70</span></td></tr>
+<tr><td class="pg-cell">p.38–41</td><td><span class="ref">Appendix IV §3</span></td><td><div class="conf-bar-wrap" title="Match strength: 22%"><div class="conf-bar" style="width:22%;background:#95a5a6"></div></div><span class="conf-val">0.78</span></td></tr>
+<tr><td class="pg-cell">p.38–40</td><td><span class="ref">Part V §22</span></td><td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.80</span></td></tr>
+<tr><td class="pg-cell">p.40–42</td><td><span class="ref">Part III §10(4)(g)</span></td><td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.85</span></td></tr>
+<tr><td class="pg-cell">p.40–42</td><td><span class="ref">Part IV §12(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 15%"><div class="conf-bar" style="width:15%;background:#95a5a6"></div></div><span class="conf-val">0.84</span></td></tr>
+<tr><td class="pg-cell">p.42–46</td><td><span class="ref">Appendix V §2(c)</span></td><td><div class="conf-bar-wrap" title="Match strength: 28%"><div class="conf-bar" style="width:28%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td></tr>
+<tr><td class="pg-cell">p.44–46</td><td><span class="ref">Part IV §17(h)</span></td><td><div class="conf-bar-wrap" title="Match strength: 36%"><div class="conf-bar" style="width:36%;background:#e67e22"></div></div><span class="conf-val">0.64</span></td></tr>
+<tr><td class="pg-cell">p.44–46</td><td><span class="ref">Part IX §36(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 32%"><div class="conf-bar" style="width:32%;background:#e67e22"></div></div><span class="conf-val">0.67</span></td></tr>
+<tr><td class="pg-cell">p.45–48</td><td><span class="ref">Part VI §28(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 52%"><div class="conf-bar" style="width:52%;background:#c0392b"></div></div><span class="conf-val">0.48</span></td></tr>
+<tr><td class="pg-cell">p.45–47</td><td><span class="ref">Part V §26(2)(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 41%"><div class="conf-bar" style="width:41%;background:#e67e22"></div></div><span class="conf-val">0.58</span></td></tr>
+<tr><td class="pg-cell">p.47–49</td><td><span class="ref">Part III §9(1)(e)</span></td><td><div class="conf-bar-wrap" title="Match strength: 43%"><div class="conf-bar" style="width:43%;background:#e67e22"></div></div><span class="conf-val">0.56</span></td></tr>
+<tr><td class="pg-cell">p.47–53</td><td><span class="ref">Part V §21(7)</span></td><td><div class="conf-bar-wrap" title="Match strength: 43%"><div class="conf-bar" style="width:43%;background:#e67e22"></div></div><span class="conf-val">0.56</span></td></tr>
+<tr><td class="pg-cell">p.48–51</td><td><span class="ref">Part V §26(2)</span></td><td><div class="conf-bar-wrap" title="Match strength: 54%"><div class="conf-bar" style="width:54%;background:#c0392b"></div></div><span class="conf-val">0.45</span></td></tr>
+<tr><td class="pg-cell">p.48–50</td><td><span class="ref">Part V §26(4)</span></td><td><div class="conf-bar-wrap" title="Match strength: 44%"><div class="conf-bar" style="width:44%;background:#e67e22"></div></div><span class="conf-val">0.56</span></td></tr>
+<tr><td class="pg-cell">p.50–52</td><td><span class="ref">Part V §20(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 2%"><div class="conf-bar" style="width:2%;background:#95a5a6"></div></div><span class="conf-val">0.97</span></td></tr>
+<tr><td class="pg-cell">p.50–52</td><td><span class="ref">Part V §26(2)(e)</span></td><td><div class="conf-bar-wrap" title="Match strength: 1%"><div class="conf-bar" style="width:1%;background:#95a5a6"></div></div><span class="conf-val">0.99</span></td></tr>
+<tr><td class="pg-cell">p.52–56</td><td><span class="ref">Part II §5(e)</span></td><td><div class="conf-bar-wrap" title="Match strength: 20%"><div class="conf-bar" style="width:20%;background:#95a5a6"></div></div><span class="conf-val">0.80</span></td></tr>
+<tr><td class="pg-cell">p.52–54</td><td><span class="ref">Part VII §32(2)</span></td><td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.81</span></td></tr>
+<tr><td class="pg-cell">p.54–56</td><td><span class="ref">Part V §21(5)</span></td><td><div class="conf-bar-wrap" title="Match strength: 12%"><div class="conf-bar" style="width:12%;background:#95a5a6"></div></div><span class="conf-val">0.87</span></td></tr>
+<tr><td class="pg-cell">p.54–56</td><td><span class="ref">Part V §18(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 10%"><div class="conf-bar" style="width:10%;background:#95a5a6"></div></div><span class="conf-val">0.90</span></td></tr>
+<tr><td class="pg-cell">p.56–58</td><td><span class="ref">Part III §10(4)(g)</span></td><td><div class="conf-bar-wrap" title="Match strength: 12%"><div class="conf-bar" style="width:12%;background:#95a5a6"></div></div><span class="conf-val">0.87</span></td></tr>
+<tr><td class="pg-cell">p.56–58</td><td><span class="ref">Part IV §13(1)</span></td><td><div class="conf-bar-wrap" title="Match strength: 9%"><div class="conf-bar" style="width:9%;background:#95a5a6"></div></div><span class="conf-val">0.90</span></td></tr>
+<tr><td class="pg-cell">p.60–64</td><td><span class="ref">Part IV §17(b)</span></td><td><div class="conf-bar-wrap" title="Match strength: 29%"><div class="conf-bar" style="width:29%;background:#e67e22"></div></div><span class="conf-val">0.71</span></td></tr>
+<tr><td class="pg-cell">p.63–65</td><td><span class="ref">Appendix V §2(c)</span></td><td><div class="conf-bar-wrap" title="Match strength: 1%"><div class="conf-bar" style="width:1%;background:#95a5a6"></div></div><span class="conf-val">0.99</span></td></tr>
+<tr><td class="pg-cell">p.63–65</td><td><span class="ref">Part III §9(2)</span></td><td><div class="conf-bar-wrap" title="Match strength: 0%"><div class="conf-bar" style="width:0%;background:#95a5a6"></div></div><span class="conf-val">1.10</span></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Noise / Filtered -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#95a5a6;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Filtered Findings — Noise &amp; Duplicates (54)
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+        <tbody>
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.1–3</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention the consideration of the Joint Guideline when assessing money laundering and terrorist financing risks and applying risk-based measures and procedures.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(4)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-2" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(4)</div><div class="rule-text">The Obliged Entities when assessing the money laundering and terrorist financing risks and when applying risk based measures and procedures, should take into account, among others, the Joint Guidelines and the Guidelines issued by the Financial Action Task Force (FATF).</div></div><button class="expand-btn" onclick="toggle('rule-2',this)">&#x25BC; Part IV §12(4)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 22%"><div class="conf-bar" style="width:22%;background:#95a5a6"></div></div><span class="conf-val">0.78</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.1–3</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address the Obliged Entity's actions in cases where there is an attempt to execute transactions known or suspected to be related to money laundering.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §27</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-3" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §27</div><div class="rule-text">Without prejudice to the provisions of section 70 of the Law, the Obliged Entity, in cases where there is an attempt of executing transactions which knows or suspects that are related to money laundering or terrorist financing, reports, through the compliance officer its suspicion to MOKAS in accordance with paragraph 9(1)(g).</div></div><button class="expand-btn" onclick="toggle('rule-3',this)">&#x25BC; Part VI §27</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.80</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.3–5</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks adaptation of customer due diligence procedures in line with assessed money laundering and terrorist financing risk.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §14(2)(a)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-7" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §14(2)(a)</div><div class="rule-text">adaptation of the customer due diligence procedures in respect of customers in line with their assessed money laundering and terrorist financing risk;</div></div><button class="expand-btn" onclick="toggle('rule-7',this)">&#x25BC; Part IV §14(2)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 21%"><div class="conf-bar" style="width:21%;background:#95a5a6"></div></div><span class="conf-val">0.78</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.4–6</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not introduce and implement measures proportionate to the nature, scale, and complexity of its business and the nature and range of investment services and activities.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §26(3)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-9" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §26(3)</div><div class="rule-text">The Obliged Entity introduces and implements, where appropriate and proportionate, in view of the nature, scale and complexity of its business and the nature and range of the investment services and activities undertaken in the course of that business, adequate automated electronic management information systems which will be capable of supplying the board of directors and the compliance officer, on a timely basis, all the valid and necessary information for the identification, analysis and effective monitoring of customer accounts and transactions based on the assessed risk for money laundering or terrorist financing purposes.</div></div><button class="expand-btn" onclick="toggle('rule-9',this)">&#x25BC; Part V §26(3)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 5%"><div class="conf-bar" style="width:5%;background:#95a5a6"></div></div><span class="conf-val">0.95</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.4–6</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not document in the risk management and procedures manual the policies, measures, procedures, and controls to ensure their uniform application across the Obliged Entity.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(3)(b)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-10" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(3)(b)</div><div class="rule-text">documenting in the risk management and procedures manual of paragraph 9(1)(c), the policies, measures, procedures and controls to ensure their uniform application across the Obliged Entity by persons specifically appointed for that purpose by the board of directors;</div></div><button class="expand-btn" onclick="toggle('rule-10',this)">&#x25BC; Part IV §12(3)(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 2%"><div class="conf-bar" style="width:2%;background:#95a5a6"></div></div><span class="conf-val">0.97</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.5–7</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention the preparation of a risk management and procedures manual regarding money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(c)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-11" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(c)</div><div class="rule-text">Prepares a risk management and procedures manual regarding money laundering and terrorist financing.The said manual includes, inter alia, the details referred to in paragraphs 5(a), 5(g), 7, 9(1) and Parts IV, V, VI and VII.</div></div><button class="expand-btn" onclick="toggle('rule-11',this)">&#x25BC; Part III §9(1)(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 15%"><div class="conf-bar" style="width:15%;background:#95a5a6"></div></div><span class="conf-val">0.84</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.5–7</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly recognize that the money laundering or terrorist financing threat varies across customers, countries, services, and financial instruments.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(2)(a)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-12" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(2)(a)</div><div class="rule-text">recognises that the money laundering or terrorist financing threat varies across customers, countries, services and financial instruments;</div></div><button class="expand-btn" onclick="toggle('rule-12',this)">&#x25BC; Part IV §12(2)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.8–10</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address the identification of beneficial owners in cases where the beneficial owner is a trust set up in the Republic or abroad.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §6(j)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-16" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §6(j)</div><div class="rule-text">In cases where the beneficial owner of a legal person, requesting the establishment of a business relationship or the execution of an occasional transaction, is a trust set up in the Republic or abroad, the Obliged Entity implements the procedure provided in paragraph 10 of the present Appendix.</div></div><button class="expand-btn" onclick="toggle('rule-16',this)">&#x25BC; Appendix V §6(j)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 23%"><div class="conf-bar" style="width:23%;background:#95a5a6"></div></div><span class="conf-val">0.76</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.8–10</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly require identifying persons who have ultimate control over the legal person's business and assets.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §6(i)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-17" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §6(i)</div><div class="rule-text">Apart from verifying the identity of the beneficial owners, the Law requires that the persons who have the ultimate control over the legal person’s business and assets are identified.</div></div><button class="expand-btn" onclick="toggle('rule-17',this)">&#x25BC; Appendix V §6(i)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 16%"><div class="conf-bar" style="width:16%;background:#95a5a6"></div></div><span class="conf-val">0.84</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.8–10</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not obtain information regarding objectives and control structure of investment funds and mutual funds, including documentation.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §7(c)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-18" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §7(c)</div><div class="rule-text">In the case of investment funds and mutual funds the Obliged Entity, apart from identifying beneficial owners, obtains information regarding their objectives and control structure, including documentation and information for the verification of the identity of investment managers, investment advisors, administrators and custodians.</div></div><button class="expand-btn" onclick="toggle('rule-18',this)">&#x25BC; Appendix V §7(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 15%"><div class="conf-bar" style="width:15%;background:#95a5a6"></div></div><span class="conf-val">0.85</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.9–12</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(3)(a)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-19" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(3)(a)</div><div class="rule-text">identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation of the Obliged Entity and its customers;</div></div><button class="expand-btn" onclick="toggle('rule-19',this)">&#x25BC; Part IV §12(3)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.85</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.9–11</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly recognize that the money laundering or terrorist financing threat varies across customers, countries, services, and financial instruments.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(2)(a)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-20" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(2)(a)</div><div class="rule-text">recognises that the money laundering or terrorist financing threat varies across customers, countries, services and financial instruments;</div></div><button class="expand-btn" onclick="toggle('rule-20',this)">&#x25BC; Part IV §12(2)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.85</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.9–11</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(m)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-21" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(m)</div><div class="rule-text">Provides advice and guidance to the employees of the Obliged Entity on subjects related to money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-21',this)">&#x25BC; Part III §9(1)(m)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 18%"><div class="conf-bar" style="width:18%;background:#95a5a6"></div></div><span class="conf-val">0.82</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.12–14</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(m)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-26" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(m)</div><div class="rule-text">Provides advice and guidance to the employees of the Obliged Entity on subjects related to money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-26',this)">&#x25BC; Part III §9(1)(m)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 22%"><div class="conf-bar" style="width:22%;background:#95a5a6"></div></div><span class="conf-val">0.77</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.13–15</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not require explaining reasons for not notifying MOKAS on the Internal Evaluation Report.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(h)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-29" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(h)</div><div class="rule-text">If following the evaluation described in point (f) the compliance officer decides not to notify MOKAS, then he fully explains the reasons for such a decision on the "Internal Evaluation Report" which is attached in the Second Appendix.</div></div><button class="expand-btn" onclick="toggle('rule-29',this)">&#x25BC; Part III §9(1)(h)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 20%"><div class="conf-bar" style="width:20%;background:#95a5a6"></div></div><span class="conf-val">0.79</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.14–16</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not specify submitting reports to MOKAS via the website go AML.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §29(1)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-30" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §29(1)</div><div class="rule-text">All the reports of the compliance officer of paragraph 9(1)(g) are send or submitted to MOKAS via the website go AML (https://reports.mokas.law.gov.cy/live).</div></div><button class="expand-btn" onclick="toggle('rule-30',this)">&#x25BC; Part VI §29(1)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 6%"><div class="conf-bar" style="width:6%;background:#95a5a6"></div></div><span class="conf-val">0.94</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.14–16</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention the requirement to submit the Monthly Prevention Statement to the Commission on a monthly basis.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §11</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-31" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §11</div><div class="rule-text">The compliance officer prepares and submits to the Commission, according to paragraph 9(1)(p), on a monthly basis, the Monthly Prevention Statement, which includes details for the total cash deposits accepted by the Obliged Entity, the Internal Suspicions Reports, and the Compliance Officer’s Reports to MOKAS, according to paragraphs 9(1)(e) and 9(1)(g), respectively.</div></div><button class="expand-btn" onclick="toggle('rule-31',this)">&#x25BC; Part III §11</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.15–17</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include information on inspections and reviews performed by the compliance officer, reporting material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and controls.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §10(4)(b)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-33" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §10(4)(b)</div><div class="rule-text">Information on the inspections and reviews performed by the compliance officer, reporting the material deficiencies and weaknesses identified in the policy, practices, measures, procedures and controls that the Obliged Entity applies for the prevention of money laundering and terrorist financing.In this regard, the report outlines the seriousness of the deficiencies and weaknesses, the risk implications and the actions taken and/or recommendations made for rectifying the situation.</div></div><button class="expand-btn" onclick="toggle('rule-33',this)">&#x25BC; Part III §10(4)(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.74</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.15–19</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(m)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-34" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(m)</div><div class="rule-text">Provides advice and guidance to the employees of the Obliged Entity on subjects related to money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-34',this)">&#x25BC; Part III §9(1)(m)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 31%"><div class="conf-bar" style="width:31%;background:#e67e22"></div></div><span class="conf-val">0.68</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.16–18</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not mention obtaining a list of board members and verifying their identities.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §4</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-36" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §4</div><div class="rule-text">Furthermore, the Obliged Entity obtains a list of the members of board of directors/management committee of the abovementioned organisations and verifies the identity of all individuals that have been authorised to manage the account according to the procedures set in points (1) and (2) of the present Appendix.</div></div><button class="expand-btn" onclick="toggle('rule-36',this)">&#x25BC; Appendix V §4</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 2%"><div class="conf-bar" style="width:2%;background:#95a5a6"></div></div><span class="conf-val">0.98</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.17–21</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(3)(a)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-38" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(3)(a)</div><div class="rule-text">identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation of the Obliged Entity and its customers;</div></div><button class="expand-btn" onclick="toggle('rule-38',this)">&#x25BC; Part IV §12(3)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 53%"><div class="conf-bar" style="width:53%;background:#c0392b"></div></div><span class="conf-val">0.46</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.25–27</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention customers determined to be low risk according to section 63 of the Law</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §14(4)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-58" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §14(4)</div><div class="rule-text">The category of low risk customers, according to paragraph 7(2)(c)(i), includes the customers that the Obliged Entity has determined to categorise as such according to section 63 of the Law.</div></div><button class="expand-btn" onclick="toggle('rule-58',this)">&#x25BC; Part IV §14(4)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.27–29</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address reliance on third parties for customer identification and due diligence procedures.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §25(1)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-63" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §25(1)</div><div class="rule-text">Without prejudice to the provisions of section 67 of the Law, the Obliged Entity may rely on third parties for the implementation of customer identification and due diligence procedures, as these are prescribed in section 61(1)(a),(b) and (c) of the Law, provided that the third person makes immediately available all data and information, which must be certified true copies of the originals, that were collected in the course of applying customer identification and due diligence procedures.</div></div><button class="expand-btn" onclick="toggle('rule-63',this)">&#x25BC; Part V §25(1)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 16%"><div class="conf-bar" style="width:16%;background:#95a5a6"></div></div><span class="conf-val">0.84</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.28–30</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not recognize that ML/TF threat varies across customers, countries, services, and financial instruments.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(2)(a)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-66" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(2)(a)</div><div class="rule-text">recognises that the money laundering or terrorist financing threat varies across customers, countries, services and financial instruments;</div></div><button class="expand-btn" onclick="toggle('rule-66',this)">&#x25BC; Part IV §12(2)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 16%"><div class="conf-bar" style="width:16%;background:#95a5a6"></div></div><span class="conf-val">0.83</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.28–30</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address unusual characteristics of non-profit organizations that may indicate unlawful use.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix III</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-67" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix III</div><div class="rule-text">3.Unusual characteristics of non-profit organisations indicating that the they may be used for an unlawful purpose are the following: i.Inconsistencies between the apparent sources and amount of funds raised or moved.ii.A mismatch between the type and size of financial transactions and the stated purpose and activity of the non-profit organisation.iii.A sudden increase in the frequency and amounts of financial transactions for the account of a non-profit organisation.iv.</div></div><button class="expand-btn" onclick="toggle('rule-67',this)">&#x25BC; Appendix III</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 13%"><div class="conf-bar" style="width:13%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.31–33</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not specify that identification documents must include issuing date and country</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §2(c)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-74" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §2(c)</div><div class="rule-text">In this regard, identification document’s number, issuing date and country as well as the customer’s date of birth always appear on the copies of documents obtained, so that the Obliged Entity would be in a position to verify precisely whether a customer is included in the relevant list of persons subject to financial sanctions which are issued by the United Nations or the European Union based on a United Nations Security Council’s Resolution and Regulation or a Common Position of the European Union’s Council respectively.</div></div><button class="expand-btn" onclick="toggle('rule-74',this)">&#x25BC; Appendix V §2(c)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 22%"><div class="conf-bar" style="width:22%;background:#95a5a6"></div></div><span class="conf-val">0.77</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.33–35</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not detail the measures taken to obtain adequate documents for identity verification</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §8(a)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-79" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §8(a)</div><div class="rule-text">The Obliged Entity takes reasonable measures to obtain adequate documents, data or information for the purpose of establishing and verifying the identity, according to the procedures set in the previous points of the present Appendix:</div></div><button class="expand-btn" onclick="toggle('rule-79',this)">&#x25BC; Appendix V §8(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 17%"><div class="conf-bar" style="width:17%;background:#95a5a6"></div></div><span class="conf-val">0.82</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.34–36</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention identifying persons with ultimate control over the legal person's business and assets.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §6(i)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-82" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §6(i)</div><div class="rule-text">Apart from verifying the identity of the beneficial owners, the Law requires that the persons who have the ultimate control over the legal person’s business and assets are identified.</div></div><button class="expand-btn" onclick="toggle('rule-82',this)">&#x25BC; Appendix V §6(i)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 27%"><div class="conf-bar" style="width:27%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.36–38</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address actions to be taken if a customer fails to submit required verification data within a reasonable timeframe.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §20(2)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-86" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §20(2)</div><div class="rule-text">If, during the business relationship, a customer fails or refuses to submit, within a reasonable timeframe, the required verification data and information according to paragraph 18, the Obliged Entity terminates the business relationship and closes all the accounts of the customer while at the same time examines whether it is justified under the circumstances to submit a report to MOKAS, according to paragraph 9(1)(g).</div></div><button class="expand-btn" onclick="toggle('rule-86',this)">&#x25BC; Part V §20(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 23%"><div class="conf-bar" style="width:23%;background:#95a5a6"></div></div><span class="conf-val">0.77</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.36–38</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not ensure the ability to provide information without delay in case of a suspicious transaction investigation by MOKAS.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §30</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-88" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §30</div><div class="rule-text">The Obliged Entity ensures that in the case of a suspicious transaction investigation by MOKAS, will be able to provide without delay the following information:</div></div><button class="expand-btn" onclick="toggle('rule-88',this)">&#x25BC; Part VI §30</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 12%"><div class="conf-bar" style="width:12%;background:#95a5a6"></div></div><span class="conf-val">0.87</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.37–39</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address identification of directors, partners, beneficial owners, and other authorized individuals in unincorporated businesses and partnerships.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §5(a)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-89" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §5(a)</div><div class="rule-text">In the case of unincorporated businesses, partnerships and other persons with no legal substance, the identity of the directors, partners, beneficial owners and other individuals who are authorised to manage the account is verified according to the procedures set in points (1) and (2) of the present Appendix.In addition, in the case of partnerships, the original or a certified true copy of the partnership’s registration certificate is obtained.</div></div><button class="expand-btn" onclick="toggle('rule-89',this)">&#x25BC; Appendix V §5(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 22%"><div class="conf-bar" style="width:22%;background:#95a5a6"></div></div><span class="conf-val">0.78</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.37–39</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks procedures for annual written confirmation from third persons recommending the opening of accounts.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix IV §3(iii)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-90" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix IV §3(iii)</div><div class="rule-text">If the opening of the account has been recommended by a third person as defined in paragraph 25, at least once every year, the third person who has introduced the customer provides a written confirmation that the capital base and the shareholding structure of the company or that of its holding company (if any) has not been altered by the issue of new bearer shares or the cancellation of existing ones.</div></div><button class="expand-btn" onclick="toggle('rule-90',this)">&#x25BC; Appendix IV §3(iii)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.80</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.37–39</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention the verification of identification for legal persons requesting the establishment of a business relationship or the execution of an occasional transaction.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §6(b)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-91" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §6(b)</div><div class="rule-text">The verification of the identification of a legal person that requests the establishment of a business relationship or the execution of an occasional transaction, comprises the ascertainment of the following:</div></div><button class="expand-btn" onclick="toggle('rule-91',this)">&#x25BC; Appendix V §6(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 14%"><div class="conf-bar" style="width:14%;background:#95a5a6"></div></div><span class="conf-val">0.86</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.39–41</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address the specific measures to be taken when dealing with customers resident in countries that inadequately apply FATF recommendations.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix IV §4</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-95" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix IV §4</div><div class="rule-text">If the Obliged Entity concludes that the business relationship or transaction with a customer that is resident of a country, which applies FATF recommendations inadequately, presents higher risk of money laundering or terrorist financing, it should apply enhanced customer due diligence measures.The said measures may be the following:</div></div><button class="expand-btn" onclick="toggle('rule-95',this)">&#x25BC; Appendix IV §4</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 18%"><div class="conf-bar" style="width:18%;background:#95a5a6"></div></div><span class="conf-val">0.82</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.41–43</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include periodic comparison of actual account movements with expected economic profiles or specific transaction types.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §26(4)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-100" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §26(4)</div><div class="rule-text">The monitoring of accounts and transactions are carried out in relation to specific types of transactions and economic profile, as well as by comparing periodically the actual movement of the account with the expected turnover as declared at the establishment of the business relationship.Furthermore, the monitoring covers customers who do not have a contact with the Obliged Entity as well as dormant accounts exhibiting unexpected movements.</div></div><button class="expand-btn" onclick="toggle('rule-100',this)">&#x25BC; Part V §26(4)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 21%"><div class="conf-bar" style="width:21%;background:#95a5a6"></div></div><span class="conf-val">0.79</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.42–44</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly mention implementing customer identification and due diligence procedures.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §17</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-102" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §17</div><div class="rule-text">On implementing appropriate measures and procedures on a risk based approach, and on implementing the customer identification and due diligence procedures, according to Part V, the compliance officer, ο λειτουργός συμμόρφωσης should consult data, information and reports [e.g.customers from countries which inadequately apply Financial Action Task Force’s (FATF), country assessment reports] that are published in following relevant organisations:</div></div><button class="expand-btn" onclick="toggle('rule-102',this)">&#x25BC; Part IV §17</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 0%"><div class="conf-bar" style="width:0%;background:#95a5a6"></div></div><span class="conf-val">1.07</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.42–44</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks specific procedures for ascertaining the true identity of natural persons who are residents of the Republic of Cyprus.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §1(a)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-103" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §1(a)</div><div class="rule-text">The Obliged Entity ascertain the true identity of natural persons who are residents of the Republic Cyprus by obtaining the following information:</div></div><button class="expand-btn" onclick="toggle('rule-103',this)">&#x25BC; Appendix V §1(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 23%"><div class="conf-bar" style="width:23%;background:#95a5a6"></div></div><span class="conf-val">0.77</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.43–45</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address the assessment of higher risk in non-face-to-face business relationships or transactions.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix IV §2</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-104" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix IV §2</div><div class="rule-text">If the Obliged Entity concludes that the non-face-to-face business relationship or transaction as specified in paragraph 2(c) of Appendix III of the Law, presents higher risk of money laundering or terrorist financing, it should apply enhanced customer due diligence measures.The said measures may be the following:</div></div><button class="expand-btn" onclick="toggle('rule-104',this)">&#x25BC; Appendix IV §2</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 32%"><div class="conf-bar" style="width:32%;background:#e67e22"></div></div><span class="conf-val">0.68</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.43–45</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not verify that third parties relied upon for customer identification and due diligence measures are compliant.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(k)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-106" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(k)</div><div class="rule-text">Verifies that the third party with whom the Obliged Entity intends to rely on for the application of the customer identification and due diligence measures as laid down in sub-paragraphs (a), (b) aid (c) of paragraph (1) of section 61 of the Law, is Obliged Entity, as defined in section 2A of the Law, and gives his/her written approval for the said reliance, which should be kept in the personal file of the third party.l</div></div><button class="expand-btn" onclick="toggle('rule-106',this)">&#x25BC; Part III §9(1)(k)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 42%"><div class="conf-bar" style="width:42%;background:#e67e22"></div></div><span class="conf-val">0.58</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.46–48</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks a structured process for identifying and assessing money laundering and terrorist financing risks from specific customers, financial instruments, services, and geographical areas.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IV §12(3)(a)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-112" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IV §12(3)(a)</div><div class="rule-text">identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation of the Obliged Entity and its customers;</div></div><button class="expand-btn" onclick="toggle('rule-112',this)">&#x25BC; Part IV §12(3)(a)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 49%"><div class="conf-bar" style="width:49%;background:#c0392b"></div></div><span class="conf-val">0.51</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.50–52</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide for further investigation or additional information requests when transactions listed in the Third Appendix are detected.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §28(2)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-119" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §28(2)</div><div class="rule-text">The detection by the Obliged Entity of any of the transactions contained in the Third Appendix prompts further investigation and constitutes a valid cause for seeking additional information and/or explanations as to the source and origin of the funds, the nature and economic/business purpose of the underlying transaction, and the circumstances surrounding the particular activity.</div></div><button class="expand-btn" onclick="toggle('rule-119',this)">&#x25BC; Part VI §28(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 17%"><div class="conf-bar" style="width:17%;background:#95a5a6"></div></div><span class="conf-val">0.82</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.51–53</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not specify the required actions when a customer fails to submit verification data within a reasonable timeframe.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §20(2)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-121" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §20(2)</div><div class="rule-text">If, during the business relationship, a customer fails or refuses to submit, within a reasonable timeframe, the required verification data and information according to paragraph 18, the Obliged Entity terminates the business relationship and closes all the accounts of the customer while at the same time examines whether it is justified under the circumstances to submit a report to MOKAS, according to paragraph 9(1)(g).</div></div><button class="expand-btn" onclick="toggle('rule-121',this)">&#x25BC; Part V §20(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 15%"><div class="conf-bar" style="width:15%;background:#95a5a6"></div></div><span class="conf-val">0.85</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.51–53</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks specific procedures for monitoring accounts and transactions in relation to specific types of transactions and economic profile.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §26(4)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-122" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §26(4)</div><div class="rule-text">The monitoring of accounts and transactions are carried out in relation to specific types of transactions and economic profile, as well as by comparing periodically the actual movement of the account with the expected turnover as declared at the establishment of the business relationship.Furthermore, the monitoring covers customers who do not have a contact with the Obliged Entity as well as dormant accounts exhibiting unexpected movements.</div></div><button class="expand-btn" onclick="toggle('rule-122',this)">&#x25BC; Part V §26(4)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 18%"><div class="conf-bar" style="width:18%;background:#95a5a6"></div></div><span class="conf-val">0.82</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.52–54</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include the requirement to submit reports to MOKAS via the specified website.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §29(1)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-123" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §29(1)</div><div class="rule-text">All the reports of the compliance officer of paragraph 9(1)(g) are send or submitted to MOKAS via the website go AML (https://reports.mokas.law.gov.cy/live).</div></div><button class="expand-btn" onclick="toggle('rule-123',this)">&#x25BC; Part VI §29(1)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.80</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.53–55</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not address the requirement for obtaining certified true copies of identification documents for non-resident customers.</div>
+                <div class="ref-line">
+                  <span class="ref">Appendix V §2(b)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-128" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Appendix V §2(b)</div><div class="rule-text">For those customers not residing in the Republic, identification document is always requested and, certified true copies of the pages containing the relevant information are obtained and kept.In addition, it is advised, if in doubt for the identity of any person, to seek verification of identity with an Embassy or the Consulate of the issuing country or a reputable credit or financial institution situated in the customer’s country of residence.</div></div><button class="expand-btn" onclick="toggle('rule-128',this)">&#x25BC; Appendix V §2(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 32%"><div class="conf-bar" style="width:32%;background:#e67e22"></div></div><span class="conf-val">0.68</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.55–57</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §9(1)(m)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-131" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §9(1)(m)</div><div class="rule-text">Provides advice and guidance to the employees of the Obliged Entity on subjects related to money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-131',this)">&#x25BC; Part III §9(1)(m)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 26%"><div class="conf-bar" style="width:26%;background:#e67e22"></div></div><span class="conf-val">0.74</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.56–58</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide information on measures taken for compliance of branches and subsidiaries outside European Economic Area.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §10(4)(i)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-135" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §10(4)(i)</div><div class="rule-text">Information on the measures taken for the compliance of branches and subsidiaries of the Obliged Entity , that operate in countries outside the European Economic Area, with the requirements of the present Directive in relation to customer identification, due diligence and record keeping procedures and comments/information on the level of their compliance with the said requirements.</div></div><button class="expand-btn" onclick="toggle('rule-135',this)">&#x25BC; Part III §10(4)(i)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 9%"><div class="conf-bar" style="width:9%;background:#95a5a6"></div></div><span class="conf-val">0.90</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.57–59</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not provide information on inspections and reviews performed by the compliance officer.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §10(4)(b)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-137" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §10(4)(b)</div><div class="rule-text">Information on the inspections and reviews performed by the compliance officer, reporting the material deficiencies and weaknesses identified in the policy, practices, measures, procedures and controls that the Obliged Entity applies for the prevention of money laundering and terrorist financing.In this regard, the report outlines the seriousness of the deficiencies and weaknesses, the risk implications and the actions taken and/or recommendations made for rectifying the situation.</div></div><button class="expand-btn" onclick="toggle('rule-137',this)">&#x25BC; Part III §10(4)(b)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 24%"><div class="conf-bar" style="width:24%;background:#95a5a6"></div></div><span class="conf-val">0.75</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.57–59</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not assure that compliance officer and assistants are assigned with duty of implementing procedures for prevention of money laundering.</div>
+                <div class="ref-line">
+                  <span class="ref">Part II §5(e)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-138" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part II §5(e)</div><div class="rule-text">Assures that the compliance officer, the alternate compliance officer and his assistants and any other person who has been assigned with the duty of implementing the procedures for the prevention of money laundering and terrorist financing, have complete and timely access to all data and information concerning customers’ identity, transactions’ documents and other relevant files and information maintained by the Obliged Entity so as to be fully facilitated in the effective execution of their duties.</div></div><button class="expand-btn" onclick="toggle('rule-138',this)">&#x25BC; Part II §5(e)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 16%"><div class="conf-bar" style="width:16%;background:#95a5a6"></div></div><span class="conf-val">0.84</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.57–59</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not thoroughly examine transactions not justified by available customer information to determine suspicions of money laundering or terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part V §21(7)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-139" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part V §21(7)</div><div class="rule-text">Transactions that are not justified by the available information on the customer, are thoroughly examined so as to determine whether suspicions over money laundering or terrorist financing arise for the purposes of submitting an internal report to the compliance officer, according to paragraph 9(1)(e), and then by the latter to MOKAS, according to paragraph 9(1)(g).</div></div><button class="expand-btn" onclick="toggle('rule-139',this)">&#x25BC; Part V §21(7)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 19%"><div class="conf-bar" style="width:19%;background:#95a5a6"></div></div><span class="conf-val">0.80</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.58–61</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Compliance officer does not prepare and submit Monthly Prevention Statement to Commission on monthly basis.</div>
+                <div class="ref-line">
+                  <span class="ref">Part III §11</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-140" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part III §11</div><div class="rule-text">The compliance officer prepares and submits to the Commission, according to paragraph 9(1)(p), on a monthly basis, the Monthly Prevention Statement, which includes details for the total cash deposits accepted by the Obliged Entity, the Internal Suspicions Reports, and the Compliance Officer’s Reports to MOKAS, according to paragraphs 9(1)(e) and 9(1)(g), respectively.</div></div><button class="expand-btn" onclick="toggle('rule-140',this)">&#x25BC; Part III §11</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 27%"><div class="conf-bar" style="width:27%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.60–64</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not explicitly address the requirement to prevent money laundering in cases of suspected transactions.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §27</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-141" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §27</div><div class="rule-text">Without prejudice to the provisions of section 70 of the Law, the Obliged Entity, in cases where there is an attempt of executing transactions which knows or suspects that are related to money laundering or terrorist financing, reports, through the compliance officer its suspicion to MOKAS in accordance with paragraph 9(1)(g).</div></div><button class="expand-btn" onclick="toggle('rule-141',this)">&#x25BC; Part VI §27</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 18%"><div class="conf-bar" style="width:18%;background:#95a5a6"></div></div><span class="conf-val">0.81</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.60–64</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy lacks a comprehensive list of examples of suspicious transactions related to money laundering and terrorist financing.</div>
+                <div class="ref-line">
+                  <span class="ref">Part VI §28(2)</span>
+                  <span class="badge outline" style="border-color:#95a5a6;color:#95a5a6">DUPLICATE</span>
+                </div>
+                <div class="rule-expand" id="rule-143" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part VI §28(2)</div><div class="rule-text">A list containing examples of what might constitute suspicious transactions/activities related to money laundering and terrorist financing is attached to the Third Appendix.The said list is not exhaustive nor includes all types of transactions that may be used, nevertheless it can assist the Obliged Entity and its employees in recognising the main methods used for money laundering and terrorist financing.</div></div><button class="expand-btn" onclick="toggle('rule-143',this)">&#x25BC; Part VI §28(2)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 27%"><div class="conf-bar" style="width:27%;background:#e67e22"></div></div><span class="conf-val">0.73</span></td>
+            </tr>
+
+            <tr data-sev="mandatory">
+              <td class="pg-cell">p.63–65</td>
+              <td><span class="badge" style="background:#c0392b">MANDATORY</span></td>
+              <td class="desc-cell">
+                <div class="desc-text">Policy does not include measures and procedures for detecting breaches or potential breaches of anti-money laundering regulations.</div>
+                <div class="ref-line">
+                  <span class="ref">Part IX §36(3)</span>
+                  <span class="badge outline" style="border-color:#bdc3c7;color:#bdc3c7">LOW CONF NOISE</span>
+                </div>
+                <div class="rule-expand" id="rule-145" style="display:none"><div class="rule-label">CySEC Consolidated AML Directive — Part IX §36(3)</div><div class="rule-text">The Obliged Entity shall record in the manual provided for by paragraph 9(1)(c) of the Directive, the measures and procedures for the detection of actions that are in breach or may potentially be in breach of the provisions of the Sanctions and Restrictive Measures.</div></div><button class="expand-btn" onclick="toggle('rule-145',this)">&#x25BC; Part IX §36(3)</button>
+              </td>
+              <td><div class="conf-bar-wrap" title="Match strength: 0%"><div class="conf-bar" style="width:0%;background:#95a5a6"></div></div><span class="conf-val">1.06</span></td>
+            </tr></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Technical Notes -->
+<details>
+  <summary>Technical Run Notes</summary>
+  <div class="section-card">
+    <ul class="tech-notes">
+      <li><strong>Pipeline:</strong> 146 findings assessed &nbsp;·&nbsp; EGDR entropy-gated retrieval (k=1/3) &nbsp;·&nbsp; Bidirectional ChromaDB cross-check</li>
+      <li><strong>Anonymization:</strong> Skipped (--skip-anon). Raw policy text sent to external API. Enable for production use.</li>
+      <li><strong>Jurisdiction:</strong> CySEC Consolidated AML Directive only. EU AMLD5/6 and FATF collections not yet populated.</li>
+      <li><strong>Noise filtering:</strong> Findings with detection distance &gt; 0.75 marked LOW_CONFIDENCE_NOISE and excluded from confirmed count. Semantic duplicates (Jaccard &gt; 0.6) collapsed.</li>
+      <li><strong>Distance thresholds:</strong> Cross-check CONFIRMED &gt; 0.55 &nbsp;·&nbsp; MANUAL_REVIEW 0.45–0.55 &nbsp;·&nbsp; LIKELY_COMPLIANT &lt; 0.45</li>
+    </ul>
+  </div>
+</details>
+
+</div><!-- /main -->
+
+<script>
+function toggle(id, btn) {
+  var el = document.getElementById(id);
+  var isHidden = el.style.display === 'none';
+  el.style.display = isHidden ? 'block' : 'none';
+  var ref = btn.textContent.replace(/^[▲▼][ ]*/, '');
+  btn.innerHTML = (isHidden ? '&#x25B2; ' : '&#x25BC; ') + ref;
+}
+function filterTable(tableId, sev, btn) {
+  var table = document.getElementById(tableId);
+  if (!table) return;
+  var rows = table.querySelectorAll('tbody tr');
+  rows.forEach(function(r) {
+    r.style.display = (sev === 'all' || r.dataset.sev === sev) ? '' : 'none';
+  });
+  var btns = btn.parentElement.querySelectorAll('.filter-btn');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+{
+  "client_id": "poc_client_001",
+  "document": "AML Manual V8.0_Reviewed(Draft).docx.pdf",
+  "evaluated_at": "2026-04-28T11:54:20.003569",
+  "total_pages": 65,
+  "total_findings": 55,
+  "verdicts": [
+    {
+      "id": 1,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks specific mention of reporting material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and control."
+    },
+    {
+      "id": 2,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation."
+    },
+    {
+      "id": 3,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 4,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 5,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 6,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the identification of beneficial owners of legal persons, particularly trusts set up in the Republic or abroad."
+    },
+    {
+      "id": 7,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing."
+    },
+    {
+      "id": 8,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 9,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention the implementation of financial sanctions imposed against various persons."
+    },
+    {
+      "id": 10,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not take into account the Joint Guidelines when assessing money laundering and terrorist financing risks and applying risk-based measures and procedures."
+    },
+    {
+      "id": 11,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify the procedure for submitting reports to MOKAS through the electronic page g as required by the rule."
+    },
+    {
+      "id": 12,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 13,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks provision for providing advice and guidance to employees on subjects related to money laundering and terrorist financing."
+    },
+    {
+      "id": 14,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 15,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include a requirement for the internal audit department to review and evaluate the policy, practices, measures, procedures, and controls at least on an annual basis."
+    },
+    {
+      "id": 16,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 17,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation."
+    },
+    {
+      "id": 18,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide information on the policy, measures, practices, procedures, and controls applied by the Obliged Entity in relation to high risk customers, nor does it include the number and country of origin of high risk customers."
+    },
+    {
+      "id": 19,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 20,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 21,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 22,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 23,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 24,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly reference MONEYVAL as a source of information for risk assessment."
+    },
+    {
+      "id": 25,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 26,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly identify and assess ML/TF risks emanating from particular customers, financial instruments, services, and geographical areas."
+    },
+    {
+      "id": 27,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not detail the adaptation of CDD procedures based on assessed ML/TF risk."
+    },
+    {
+      "id": 28,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 29,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not establish procedures to ensure the completeness, validity, and reliability of information used for electronic verification."
+    },
+    {
+      "id": 30,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 31,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 32,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention obtaining data and information to verify professional registration of third persons."
+    },
+    {
+      "id": 33,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 34,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks a clear procedure for terminating the business relationship if a customer fails to submit verification data within a reasonable timeframe."
+    },
+    {
+      "id": 35,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not cover the identity verification of directors, partners, beneficial owners, and authorized individuals in unincorporated businesses."
+    },
+    {
+      "id": 36,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 37,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 38,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include procedures for ascertaining the true identity of natural persons who are residents of Cyprus."
+    },
+    {
+      "id": 39,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 40,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not mention checking with the Ministry of Foreign Affairs regarding UN Security Council Resolutions or EU Council Decisions."
+    },
+    {
+      "id": 41,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not define suspicious transactions as required by the rule."
+    },
+    {
+      "id": 42,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include a list of examples of suspicious transactions."
+    },
+    {
+      "id": 43,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 44,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 45,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify procedures for seeking additional information upon detecting transactions in the Third Appendix."
+    },
+    {
+      "id": 46,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify monitoring of accounts and transactions based on specific types of transactions and economic profile."
+    },
+    {
+      "id": 47,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 48,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not require telephone contact with the customer for verification."
+    },
+    {
+      "id": 49,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 50,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify procedures for determining which employees need further training."
+    },
+    {
+      "id": 51,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly address high risk customers and their country of origin as required by CYSEC AML rules."
+    },
+    {
+      "id": 52,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks information on inspections and reviews performed by the compliance officer, including material deficiencies and weaknesses identified."
+    },
+    {
+      "id": 53,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include the Monthly Prevention Statement with details for total cash deposits as required by CYSEC AML rules."
+    },
+    {
+      "id": 54,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 55,
+      "verdict": "COMPLIANT",
+      "gap": null
+    }
+  ]
+}

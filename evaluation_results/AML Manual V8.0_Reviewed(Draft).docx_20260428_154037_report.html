@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AML Compliance Audit — AML Manual V8.0_Reviewed(Draft).docx.pdf</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         max-width: 1200px; margin: 40px auto; padding: 0 20px; color: #222; }
+  h1   { font-size: 1.6rem; border-bottom: 3px solid #c0392b; padding-bottom: 10px; }
+  h2   { font-size: 1.2rem; margin-top: 40px; border-left: 4px solid #c0392b; padding-left: 12px; }
+  h3   { font-size: 1rem; margin-top: 30px; border-left: 4px solid #27ae60; padding-left: 12px; }
+  .summary { display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; }
+  .card { background: #f8f8f8; border-radius: 8px; padding: 16px 24px; min-width: 120px; text-align: center; }
+  .card .num { font-size: 2rem; font-weight: 700; }
+  .card .lbl { font-size: 0.8rem; color: #666; margin-top: 4px; }
+  .red   { color: #c0392b; }
+  .green { color: #27ae60; }
+  .orange{ color: #e67e22; }
+  table  { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.88rem; }
+  th     { background: #2c3e50; color: #fff; padding: 10px 12px; text-align: left; }
+  td     { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+  tr:hover td { background: #fafafa; }
+  .center { text-align: center; }
+  .dist   { font-family: monospace; color: #888; }
+  .node   { color: #888; font-family: monospace; font-size: 0.78rem; }
+  .sev    { display: inline-block; padding: 2px 8px; border-radius: 4px;
+             color: #fff; font-size: 0.75rem; font-weight: 600; }
+  .flag   { display: inline-block; padding: 1px 6px; border-radius: 3px;
+             font-size: 0.72rem; font-weight: 600; margin-left: 4px; }
+  .dup       { background: #e67e22; color: #fff; }
+  .lowconf   { background: #95a5a6; color: #fff; }
+  .likelyfp  { background: #27ae60; color: #fff; cursor: help; }
+  .manual    { background: #e67e22; color: #fff; cursor: help; }
+  .confirmed { background: #c0392b; color: #fff; }
+  .mistakes { background: #fff8e1; border: 1px solid #f39c12;
+               border-radius: 6px; padding: 16px 20px; margin-top: 16px; }
+  .mistakes li { margin: 8px 0; line-height: 1.5; }
+  .meta  { color: #888; font-size: 0.85rem; margin-top: 6px; }
+  .tag   { display:inline-block; background:#eee; padding:2px 8px;
+             border-radius:4px; font-size:0.8rem; margin-right:4px; }
+</style>
+</head>
+<body>
+
+<h1>AML Compliance Audit Report</h1>
+<div class="meta">
+  <span class="tag">Document: AML Manual V8.0_Reviewed(Draft).docx.pdf</span>
+  <span class="tag">Client: poc_client_001</span>
+  <span class="tag">Pages: 65</span>
+  <span class="tag">Evaluated: 2026-04-28 15:41:21</span>
+  <span class="tag">Law: CySEC Consolidated AML Directive</span>
+</div>
+
+<div class="summary">
+  <div class="card"><div class="num red">0</div><div class="lbl">Mandatory Gaps</div></div>
+  <div class="card"><div class="num red">0</div><div class="lbl">Confirmed Gaps</div></div>
+  <div class="card"><div class="num orange">0</div><div class="lbl">Total Gaps</div></div>
+  <div class="card"><div class="num green">0</div><div class="lbl">Compliant</div></div>
+  <div class="card"><div class="num">146</div><div class="lbl">Findings Assessed</div></div>
+  <div class="card"><div class="num orange">0</div><div class="lbl">Duplicate Flags</div></div>
+  <div class="card"><div class="num">0</div><div class="lbl">Low Confidence</div></div>
+</div>
+
+
+
+<h2>All Compliance Gaps (0)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>Pages</th><th>Severity</th><th>Gap Description</th>
+      <th>Matched Law Rule</th><th>Distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+</table>
+
+<h2>Pipeline Quality Issues</h2>
+<div class="mistakes">
+  <strong>Issues detected in this evaluation run:</strong>
+  <ul>
+    <li><strong>Duplicate GAPs (0 instances):</strong> The same compliance gap was flagged
+        on multiple overlapping page windows. This is a known architectural side-effect of the
+        sliding window approach — post-verdict deduplication by gap description is not yet
+        implemented. Treat duplicate-flagged rows as one finding.</li>
+    <li><strong>Low-confidence matches (0 GAPs):</strong> These findings have a
+        semantic distance &gt; 0.75 between the policy text and the matched law node.
+        This means the match is weak and the GAP verdict may be a false positive.
+        Manual review recommended for all LOW CONFIDENCE flagged rows.</li>
+    <li><strong>Anonymization skipped (--skip-anon):</strong> This run sent raw policy text
+        to the external API. For production use on real client documents, Ollama anonymization
+        must be enabled to strip PII before any external API call.</li>
+    <li><strong>Single jurisdiction only:</strong> This evaluation covers CySEC rules only.
+        Multi-jurisdiction support (EU AMLD5/6, FATF) is architecturally ready but not yet
+        populated in the vector database.</li>
+  </ul>
+</div>
+
+<h3>Compliant Sections (0)</h3>
+<table>
+  <thead>
+    <tr><th>#</th><th>Pages</th><th>Law Node</th><th>Distance</th></tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+</table>
+
+</body>
+</html>

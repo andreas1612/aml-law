@@ -1,0 +1,1038 @@
+{
+  "client_id": "poc_client_001",
+  "document": "AML Manual V8.0_Reviewed(Draft).docx.pdf",
+  "evaluated_at": "2026-04-28T15:46:23.807360",
+  "total_pages": 65,
+  "total_findings": 146,
+  "verdicts": [
+    {
+      "id": 1,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include information on inspections and reviews performed by the compliance officer, reporting material deficiencies and weaknesses identified in policy, practices, measures, procedures, and controls.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.650)."
+    },
+    {
+      "id": 2,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not take into account the Joint Guideline when assessing money laundering and terrorist financing risks and applying risk-based measures and procedures.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.700)."
+    },
+    {
+      "id": 3,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address cases where there is an attempt to execute transactions known or suspected to be related to money laundering.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.662)."
+    },
+    {
+      "id": 4,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide information on the structure and staffing of the compliance department, nor recommendations and timeframes for implementation of additional staff and technical resources.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.731)."
+    },
+    {
+      "id": 5,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 6,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not identify and assess money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 19,
+      "coverage_distance": 0.4645,
+      "cross_check_note": "Borderline match on page 19 (distance=0.464). Manual review needed."
+    },
+    {
+      "id": 7,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not adapt customer due diligence procedures in line with assessed money laundering and terrorist financing risk.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.698)."
+    },
+    {
+      "id": 8,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address cases where there is an attempt to execute transactions known or suspected to be related to money laundering.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.662)."
+    },
+    {
+      "id": 9,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not introduce and implement appropriate and proportionate measures in view of the nature, scale, and complexity of its business and the nature and range of investment services and activities.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.779)."
+    },
+    {
+      "id": 10,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not document in the risk management and procedures manual the policies, measures, procedures, and controls to ensure their uniform application across the Obliged Entity by persons involved.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.868)."
+    },
+    {
+      "id": 11,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention the preparation of a risk management and procedures manual regarding money laundering and terrorist financing as required by CySEC.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.811)."
+    },
+    {
+      "id": 12,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly recognize that the money laundering or terrorist financing threat varies across customers, countries, services, and financial instruments as required by CySEC.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.606)."
+    },
+    {
+      "id": 13,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 14,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 15,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 16,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the identification of beneficial owners in the case of trusts set up in the Republic or abroad as required by CySEC.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.761)."
+    },
+    {
+      "id": 17,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly state that persons who have ultimate control over the legal person's business and assets must be identified as required by CySEC.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.721)."
+    },
+    {
+      "id": 18,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not obtain information regarding objectives and control structure of investment funds and mutual funds, including documentation as required by CySEC.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.716)."
+    },
+    {
+      "id": 19,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation as required by CySEC.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 19,
+      "coverage_distance": 0.4645,
+      "cross_check_note": "Borderline match on page 19 (distance=0.464). Manual review needed."
+    },
+    {
+      "id": 20,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly recognize that the money laundering or terrorist financing threat varies across customers, countries, services, and financial instruments as required by CySEC.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.606)."
+    },
+    {
+      "id": 21,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.682)."
+    },
+    {
+      "id": 22,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 23,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 24,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not take into account the Joint Guidelines when assessing ML/TF risks and applying risk-based measures.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.700)."
+    },
+    {
+      "id": 25,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 26,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.682)."
+    },
+    {
+      "id": 27,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify the process for submitting reports to MOKAS through the electronic page.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.722)."
+    },
+    {
+      "id": 28,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 29,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not require explaining reasons for not notifying MOKAS on the Internal Evaluation Report.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.792)."
+    },
+    {
+      "id": 30,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify submitting reports to MOKAS via the website goAML.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.802)."
+    },
+    {
+      "id": 31,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention the requirement to submit the Monthly Prevention Statement to the Commission on a monthly basis.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.791)."
+    },
+    {
+      "id": 32,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 33,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include information on inspections and reviews performed by the compliance officer, reporting material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and controls.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.650)."
+    },
+    {
+      "id": 34,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.682)."
+    },
+    {
+      "id": 35,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 36,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not mention obtaining a list of board members and verifying their identities.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.776)."
+    },
+    {
+      "id": 37,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 38,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly identify and assess money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 19,
+      "coverage_distance": 0.4645,
+      "cross_check_note": "Borderline match on page 19 (distance=0.464). Manual review needed."
+    },
+    {
+      "id": 39,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not mention that the internal audit department reviews and evaluates the policy, practices, measures, procedures, and controls at least on an annual basis.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.638)."
+    },
+    {
+      "id": 40,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 41,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 42,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 43,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 44,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 45,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 46,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 47,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 48,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 49,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 50,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention further examination of transactions with persons from high-risk countries for establishing their economic, business or investment rationale.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.716)."
+    },
+    {
+      "id": 51,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 52,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 53,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 54,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 55,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 56,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 57,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention customers prescribed as high risk in section 64 of the Law",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.730)."
+    },
+    {
+      "id": 58,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention customers determined to be low risk according to section 63 of the Law",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.735)."
+    },
+    {
+      "id": 59,
+      "verdict": "GAP",
+      "severity": "recommended",
+      "gap": "Policy does not mention the Council of Europe Select Committee of Experts on the Evaluation of Anti-Money Laundering Measures (MONEYVAL)",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 26,
+      "coverage_distance": 0.5194,
+      "cross_check_note": "Borderline match on page 26 (distance=0.519). Manual review needed."
+    },
+    {
+      "id": 60,
+      "verdict": "GAP",
+      "severity": "recommended",
+      "gap": "Policy does not mention the implementation of financial sanctions imposed against various persons",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.601)."
+    },
+    {
+      "id": 61,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention consulting data from relevant international organizations as required by the EU Common Foreign & Security Policy (CFSP).",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.613)."
+    },
+    {
+      "id": 62,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 63,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address reliance on third parties for customer identification and due diligence procedures as required by the law.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.683)."
+    },
+    {
+      "id": 64,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 65,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not adequately identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 19,
+      "coverage_distance": 0.4645,
+      "cross_check_note": "Borderline match on page 19 (distance=0.464). Manual review needed."
+    },
+    {
+      "id": 66,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not recognize that the money laundering or terrorist financing threat varies across customers, countries, services, and financial instruments.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.606)."
+    },
+    {
+      "id": 67,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks indicators for unusual characteristics of non-profit organizations that may suggest unlawful use, such as inconsistencies between sources and amounts of funds.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.752)."
+    },
+    {
+      "id": 68,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not adapt customer due diligence procedures based on the assessed money laundering and terrorist financing risk of the customers.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.698)."
+    },
+    {
+      "id": 69,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the higher risk of money laundering or terrorist financing in non-face-to-face business relationships or transactions.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.677)."
+    },
+    {
+      "id": 70,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 71,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 72,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 73,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 74,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify that identification documents must include issuing date and country",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.771)."
+    },
+    {
+      "id": 75,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks procedures to ensure completeness, validity, and reliability of electronic verification information",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.708)."
+    },
+    {
+      "id": 76,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not detail how reliable data and information are obtained for customer identification verification",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.753)."
+    },
+    {
+      "id": 77,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 78,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 79,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not detail the measures taken to obtain adequate documents, data, or information for identity verification",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.778)."
+    },
+    {
+      "id": 80,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not verify professional registration of third persons in accordance with the competent law of their country of incorporation",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.670)."
+    },
+    {
+      "id": 81,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 82,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention identifying persons with ultimate control over the legal person's business and assets.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.721)."
+    },
+    {
+      "id": 83,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the identification of directors, partners, beneficial owners, and other authorized individuals for unincorporated businesses, partnerships, and other persons with no legal substance.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.727)."
+    },
+    {
+      "id": 84,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include obtaining information regarding objectives and control structure of investment funds and mutual funds.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.716)."
+    },
+    {
+      "id": 85,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not mention ascertaining the nature of activities, purpose of establishment, and source/origin of funds for trusts.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 35,
+      "coverage_distance": 0.4716,
+      "cross_check_note": "Borderline match on page 35 (distance=0.472). Manual review needed."
+    },
+    {
+      "id": 86,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address actions to be taken if a customer fails or refuses to submit required verification data and information.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.768)."
+    },
+    {
+      "id": 87,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 88,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not ensure the ability to provide required information without delay in case of a suspicious transaction investigation by MOKAS.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.808)."
+    },
+    {
+      "id": 89,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the identification of directors, partners, beneficial owners, and other authorized individuals for unincorporated businesses, partnerships, and other persons with no legal substance.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.727)."
+    },
+    {
+      "id": 90,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include obtaining a written confirmation from third persons recommending the opening of an account at least once every year.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.805)."
+    },
+    {
+      "id": 91,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention verification of identification for legal persons requesting business relationship or occasional transaction.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.726)."
+    },
+    {
+      "id": 92,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 93,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 94,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 95,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address business relationships or transactions with customers from countries with inadequate FATF recommendation implementation.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.776)."
+    },
+    {
+      "id": 96,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 97,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 98,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks specific procedures and intensity levels for monitoring high-risk accounts and transactions.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 48,
+      "coverage_distance": 0.4503,
+      "cross_check_note": "Borderline match on page 48 (distance=0.450). Manual review needed."
+    },
+    {
+      "id": 99,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not detail ongoing monitoring procedures for high-risk customers' transactions and activities.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.643)."
+    },
+    {
+      "id": 100,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include periodic comparison of account movements against expected economic profile or specific transaction types.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.558)."
+    },
+    {
+      "id": 101,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 102,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention implementing customer identification and due diligence procedures according to Part V.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.739)."
+    },
+    {
+      "id": 103,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include obtaining specific information to ascertain true identity of natural persons who are residents of Cyprus.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.769)."
+    },
+    {
+      "id": 104,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address measures for non-face-to-face business relationships or transactions presenting higher risk of money laundering.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.677)."
+    },
+    {
+      "id": 105,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not obtain data and information to verify third party's professional registration in accordance with competent law of its country of incorporation.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.670)."
+    },
+    {
+      "id": 106,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not verify that third party is subject to customer identification and due diligence measures.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.577)."
+    },
+    {
+      "id": 107,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 108,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 109,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 110,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 111,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include a comprehensive list of examples of suspicious transactions/activities related to money laundering and terrorist financing.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "covered_on_page": 46,
+      "coverage_distance": 0.4421,
+      "cross_check_note": "Policy page 46 covers this obligation (distance=0.442)."
+    },
+    {
+      "id": 112,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks a clear procedure for identifying and assessing money laundering and terrorist financing risks from specific customers, financial instruments, services, and geographical areas.",
+      "cross_check": "MANUAL_REVIEW",
+      "closest_page": 19,
+      "coverage_distance": 0.4645,
+      "cross_check_note": "Borderline match on page 19 (distance=0.464). Manual review needed."
+    },
+    {
+      "id": 113,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 114,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 115,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify procedures for investigating unusual or suspicious transactions by designated employees or maintaining separate investigation memos.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.666)."
+    },
+    {
+      "id": 116,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 117,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 118,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 119,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide for further investigation or seeking additional information when transactions listed in the Third Appendix are detected.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.787)."
+    },
+    {
+      "id": 120,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 121,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify the required actions when a customer fails to submit verification data within a reasonable timeframe as per paragraph 18.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.768)."
+    },
+    {
+      "id": 122,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks specific procedures for monitoring accounts and transactions in relation to specific types of transactions and economic profile.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.558)."
+    },
+    {
+      "id": 123,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include the requirement to submit compliance officer reports to MOKAS via the website goAML.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.802)."
+    },
+    {
+      "id": 124,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 125,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 126,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not mention the requirement for original documents or certified true copies for customer identity verification.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.761)."
+    },
+    {
+      "id": 127,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include the requirement for telephone contact with the customer using a verified telephone number.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.575)."
+    },
+    {
+      "id": 128,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the requirement for obtaining certified true copies of identification documents for non-resident customers.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.670)."
+    },
+    {
+      "id": 129,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 130,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 131,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.682)."
+    },
+    {
+      "id": 132,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not determine which departments and employees need further training and education for preventing money laundering and terrorist financing.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.557)."
+    },
+    {
+      "id": 133,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Training program does not educate employees on latest developments in prevention of money laundering and terrorist financing, including practical methods and trends.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.747)."
+    },
+    {
+      "id": 134,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 135,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide information on measures taken for compliance of branches and subsidiaries outside European Economic Area.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.808)."
+    },
+    {
+      "id": 136,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 137,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include information on inspections and reviews performed by compliance officer, reporting material deficiencies and weaknesses.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.650)."
+    },
+    {
+      "id": 138,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not assure that compliance officer, alternate compliance officer, assistants, and other assigned personnel are properly trained and equipped to implement prevention procedures.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.761)."
+    },
+    {
+      "id": 139,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not thoroughly examine transactions not justified by available customer information to determine suspicions of money laundering or terrorist financing.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.560)."
+    },
+    {
+      "id": 140,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not require compliance officer to prepare and submit Monthly Prevention Statement to Commission, including details for total cash deposits and other relevant information.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.791)."
+    },
+    {
+      "id": 141,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly address the requirement to know or suspect transactions related to money laundering.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.662)."
+    },
+    {
+      "id": 142,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 143,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include a list of examples of suspicious transactions/activities related to money laundering and terrorist financing.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "covered_on_page": 46,
+      "coverage_distance": 0.4421,
+      "cross_check_note": "Policy page 46 covers this obligation (distance=0.442)."
+    },
+    {
+      "id": 144,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 145,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not record measures and procedures for detection of actions in breach or potentially in breach of AML/CFT requirements in the manual.",
+      "cross_check": "CONFIRMED_GAP",
+      "cross_check_note": "No policy page within semantic threshold (best distance=0.964)."
+    },
+    {
+      "id": 146,
+      "verdict": "COMPLIANT",
+      "gap": null
+    }
+  ]
+}

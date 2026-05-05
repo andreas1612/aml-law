@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AML Compliance Audit — AML Manual V8.0_Reviewed(Draft).docx.pdf</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         max-width: 1200px; margin: 40px auto; padding: 0 20px; color: #222; }
+  h1   { font-size: 1.6rem; border-bottom: 3px solid #c0392b; padding-bottom: 10px; }
+  h2   { font-size: 1.2rem; margin-top: 40px; border-left: 4px solid #c0392b; padding-left: 12px; }
+  h3   { font-size: 1rem; margin-top: 30px; border-left: 4px solid #27ae60; padding-left: 12px; }
+  .summary { display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; }
+  .card { background: #f8f8f8; border-radius: 8px; padding: 16px 24px; min-width: 120px; text-align: center; }
+  .card .num { font-size: 2rem; font-weight: 700; }
+  .card .lbl { font-size: 0.8rem; color: #666; margin-top: 4px; }
+  .red   { color: #c0392b; }
+  .green { color: #27ae60; }
+  .orange{ color: #e67e22; }
+  table  { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.88rem; }
+  th     { background: #2c3e50; color: #fff; padding: 10px 12px; text-align: left; }
+  td     { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+  tr:hover td { background: #fafafa; }
+  .center { text-align: center; }
+  .dist   { font-family: monospace; color: #888; }
+  .node   { color: #888; font-family: monospace; font-size: 0.78rem; }
+  .sev    { display: inline-block; padding: 2px 8px; border-radius: 4px;
+             color: #fff; font-size: 0.75rem; font-weight: 600; }
+  .flag   { display: inline-block; padding: 1px 6px; border-radius: 3px;
+             font-size: 0.72rem; font-weight: 600; margin-left: 4px; }
+  .dup      { background: #e67e22; color: #fff; }
+  .lowconf  { background: #95a5a6; color: #fff; }
+  .likelyfp { background: #c0392b; color: #fff; cursor: help; }
+  .confirmed{ background: #27ae60; color: #fff; }
+  .mistakes { background: #fff8e1; border: 1px solid #f39c12;
+               border-radius: 6px; padding: 16px 20px; margin-top: 16px; }
+  .mistakes li { margin: 8px 0; line-height: 1.5; }
+  .meta  { color: #888; font-size: 0.85rem; margin-top: 6px; }
+  .tag   { display:inline-block; background:#eee; padding:2px 8px;
+             border-radius:4px; font-size:0.8rem; margin-right:4px; }
+</style>
+</head>
+<body>
+
+<h1>AML Compliance Audit Report</h1>
+<div class="meta">
+  <span class="tag">Document: AML Manual V8.0_Reviewed(Draft).docx.pdf</span>
+  <span class="tag">Client: poc_client_001</span>
+  <span class="tag">Pages: 65</span>
+  <span class="tag">Evaluated: 2026-04-28 14:30:52</span>
+  <span class="tag">Law: CySEC Consolidated AML Directive</span>
+</div>
+
+<div class="summary">
+  <div class="card"><div class="num red">28</div><div class="lbl">Mandatory Gaps</div></div>
+  <div class="card"><div class="num orange">28</div><div class="lbl">Total Gaps</div></div>
+  <div class="card"><div class="num green">27</div><div class="lbl">Compliant</div></div>
+  <div class="card"><div class="num">55</div><div class="lbl">Findings Assessed</div></div>
+  <div class="card"><div class="num orange">0</div><div class="lbl">Duplicate Flags</div></div>
+  <div class="card"><div class="num">8</div><div class="lbl">Low Confidence</div></div>
+</div>
+
+<h2>Compliance Gaps (28)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>Pages</th><th>Severity</th><th>Gap Description</th>
+      <th>Matched Law Rule</th><th>Distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+            <tr>
+              <td class="center">1</td>
+              <td class="center">1-4</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention inspections and reviews performed by the compliance officer, nor does it report material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and control.<br><small class="node">part_3.json.PART_III.paragraphs.10.subparagraphs.4.points.b</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Information on the inspections and reviews performed by the compliance officer, reporting the material deficiencies and weaknesses identified in the policy, pra...</small></td>
+              <td class="center dist">0.650</td>
+            </tr>
+
+            <tr>
+              <td class="center">2</td>
+              <td class="center">3-7</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy lacks specific procedures for identifying and assessing money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.<br><small class="node">part_4.json.PART_IV.paragraphs.12.subparagraphs.3.points.a</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographi...</small></td>
+              <td class="center dist">0.730</td>
+            </tr>
+
+            <tr>
+              <td class="center">6</td>
+              <td class="center">8-10</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not address the identification of beneficial owners of legal persons, particularly trusts set up in the Republic or abroad.<br><small class="node">appendix_5.json.paragraphs.6.points.j</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.76</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>In cases where the beneficial owner of a legal person, requesting the establishment of a business relationship or the execution of an occasional transaction, is...</small></td>
+              <td class="center dist">0.761</td>
+            </tr>
+
+            <tr>
+              <td class="center">7</td>
+              <td class="center">9-11</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.<br><small class="node">part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.m</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.82</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Provides advice and guidance to the employees of the Obliged Entity on subjects related to money laundering and terrorist financing....</small></td>
+              <td class="center dist">0.819</td>
+            </tr>
+
+            <tr>
+              <td class="center">9</td>
+              <td class="center">11-13</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention the implementation of financial sanctions imposed against various persons.<br><small class="node">appendix_5.json.paragraphs.2.points.c</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>In addition to the aim of preventing money laundering and terrorist financing, the abovementioned information is also essential for implementing the financial s...</small></td>
+              <td class="center dist">0.616</td>
+            </tr>
+
+            <tr>
+              <td class="center">10</td>
+              <td class="center">12-14</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not take into account the Joint Guidelines when assessing money laundering and terrorist financing risks and applying risk-based measures and procedures.<br><small class="node">part_4.json.PART_IV.paragraphs.12.subparagraphs.4</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The Obliged Entities when assessing the money laundering and terrorist financing risks and when applying risk based measures and procedures, should take into ac...</small></td>
+              <td class="center dist">0.700</td>
+            </tr>
+
+            <tr>
+              <td class="center">11</td>
+              <td class="center">13-15</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not specify the procedure for submitting reports to MOKAS through the electronic page g as required by the rule.<br><small class="node">part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.g</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>If following the evaluation described in point (f), the compliance officer decides to notify MOKAS, then he completes a report and submit it to MOKAS the soones...</small></td>
+              <td class="center dist">0.696</td>
+            </tr>
+
+            <tr>
+              <td class="center">13</td>
+              <td class="center">15-17</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy lacks provision of advice and guidance to employees on subjects related to money laundering and terrorist financing.<br><small class="node">part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.m</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Provides advice and guidance to the employees of the Obliged Entity on subjects related to money laundering and terrorist financing....</small></td>
+              <td class="center dist">0.682</td>
+            </tr>
+
+            <tr>
+              <td class="center">15</td>
+              <td class="center">17-19</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention the requirement for the internal audit department to review and evaluate the policy, practices, measures, procedures at least annually.<br><small class="node">part_2.json.PART_II.paragraphs.6</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The internal audit department of the Obliged Entity reviews and evaluates, at least on an annual basis, the appropriateness, effectiveness and adequacy of the p...</small></td>
+              <td class="center dist">0.638</td>
+            </tr>
+
+            <tr>
+              <td class="center">17</td>
+              <td class="center">19-21</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.<br><small class="node">part_4.json.PART_IV.paragraphs.12.subparagraphs.3.points.a</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographi...</small></td>
+              <td class="center dist">0.465</td>
+            </tr>
+
+            <tr>
+              <td class="center">18</td>
+              <td class="center">20-22</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not provide information on the number and country of origin of high risk customers.<br><small class="node">part_3.json.PART_III.paragraphs.10.subparagraphs.4.points.g</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Information on the policy, measures, practices, procedures and controls applied by the Obliged Entity in relation to high risk customers as well as the number a...</small></td>
+              <td class="center dist">0.731</td>
+            </tr>
+
+            <tr>
+              <td class="center">24</td>
+              <td class="center">26-28</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention MONEYVAL as a source for risk assessment information.<br><small class="node">part_4.json.PART_IV.paragraphs.17.points.b</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>the Council of Europe Select Committee of Experts on the Evaluation of Anti-Money Laundering Measures (MONEYVAL) - www.coe.int/moneyval·...</small></td>
+              <td class="center dist">0.546</td>
+            </tr>
+
+            <tr>
+              <td class="center">26</td>
+              <td class="center">28-30</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention assessing risks from financial instruments, services, and geographical areas.<br><small class="node">part_4.json.PART_IV.paragraphs.12.subparagraphs.3.points.a</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>identifying and assessing the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographi...</small></td>
+              <td class="center dist">0.748</td>
+            </tr>
+
+            <tr>
+              <td class="center">27</td>
+              <td class="center">29-31</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not specify adaptation of CDD procedures based on assessed ML/TF risk.<br><small class="node">part_4.json.PART_IV.paragraphs.14.subparagraphs.2.points.a</small><br><span class="flag likelyfp" title="4/5 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>adaptation of the customer due diligence procedures in respect of customers in line with their assessed money laundering and terrorist financing risk;...</small></td>
+              <td class="center dist">0.698</td>
+            </tr>
+
+            <tr>
+              <td class="center">29</td>
+              <td class="center">31-33</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not establish procedures to ensure completeness, validity, and reliability of electronic verification information.<br><small class="node">part_7.json.PART_VII.paragraphs.33.subparagraphs.2.points.c</small><br><span class="flag likelyfp" title="5/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>For purposes of carrying out the electronic verification, the Obliged Entity shall establish procedures in order to satisfy the completeness, validity and relia...</small></td>
+              <td class="center dist">0.708</td>
+            </tr>
+
+            <tr>
+              <td class="center">32</td>
+              <td class="center">34-36</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention obtaining data and information to verify professional registration of third persons.<br><small class="node">part_5.json.PART_V.paragraphs.25.subparagraphs.2</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The Obliged Entity obtains data and information so as to verify that the third person is subject to professional registration in accordance with the competent l...</small></td>
+              <td class="center dist">0.697</td>
+            </tr>
+
+            <tr>
+              <td class="center">34</td>
+              <td class="center">36-38</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not address the required actions if a customer fails or refuses to submit verification data within a reasonable timeframe.<br><small class="node">part_5.json.PART_V.paragraphs.20.subparagraphs.2</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.77</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>If, during the business relationship, a customer fails or refuses to submit, within a reasonable timeframe, the required verification data and information accor...</small></td>
+              <td class="center dist">0.768</td>
+            </tr>
+
+            <tr>
+              <td class="center">35</td>
+              <td class="center">37-39</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly mention verifying the identity of directors, partners, beneficial owners, and other authorized individuals in unincorporated businesses.<br><small class="node">appendix_5.json.paragraphs.5.points.a</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.78</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>In the case of unincorporated businesses, partnerships and other persons with no legal substance, the identity of the directors, partners, beneficial owners and...</small></td>
+              <td class="center dist">0.778</td>
+            </tr>
+
+            <tr>
+              <td class="center">38</td>
+              <td class="center">42-44</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not provide specific procedures for ascertaining the true identity of natural persons who are residents of Cyprus.<br><small class="node">appendix_5.json.paragraphs.1.points.a</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.77</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The Obliged Entity ascertain the true identity of natural persons who are residents of the Republic Cyprus by obtaining the following information:...</small></td>
+              <td class="center dist">0.769</td>
+            </tr>
+
+            <tr>
+              <td class="center">40</td>
+              <td class="center">44-46</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not mention checking with the Ministry of Foreign Affairs regarding UN Security Council Resolutions or EU Council Decisions.<br><small class="node">part_4.json.PART_IV.paragraphs.17.points.h</small><br><span class="flag likelyfp" title="5/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>the Ministry of Foreign Affairs regarding the United Nations Security Council Resolutions or Decisions (Sanctions) or/and the European Union Council Decisions a...</small></td>
+              <td class="center dist">0.637</td>
+            </tr>
+
+            <tr>
+              <td class="center">41</td>
+              <td class="center">45-47</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not define suspicious transactions or provide a list of examples as required by the rule.<br><small class="node">part_6.json.PART_VI.paragraphs.28.subparagraphs.1</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The definition of a suspicious transaction as well as the types of suspicious transactions which may be used for money laundering and terrorist financing are al...</small></td>
+              <td class="center dist">0.478</td>
+            </tr>
+
+            <tr>
+              <td class="center">42</td>
+              <td class="center">46-48</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy lacks a comprehensive list of examples of suspicious transactions/activities related to money laundering and terrorist financing.<br><small class="node">part_6.json.PART_VI.paragraphs.28.subparagraphs.2</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>A list containing examples of what might constitute suspicious transactions/activities related to money laundering and terrorist financing is attached to the Th...</small></td>
+              <td class="center dist">0.442</td>
+            </tr>
+
+            <tr>
+              <td class="center">45</td>
+              <td class="center">50-52</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not specify procedures for further investigation and seeking additional information upon detecting transactions contained in the Third Appendix.<br><small class="node">part_6.json.PART_VI.paragraphs.28.subparagraphs.2</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.82</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The detection by the Obliged Entity of any of the transactions contained in the Third Appendix prompts further investigation and constitutes a valid cause for s...</small></td>
+              <td class="center dist">0.822</td>
+            </tr>
+
+            <tr>
+              <td class="center">48</td>
+              <td class="center">53-55</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not include procedures for telephone contact with the customer at his home or office using a verified telephone number.<br><small class="node">appendix_4.json.paragraphs.2.points.iii</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Telephone contact with the customer at his home or office, on a telephone number which has been verified from independent and reliable sources.During the teleph...</small></td>
+              <td class="center dist">0.575</td>
+            </tr>
+
+            <tr>
+              <td class="center">50</td>
+              <td class="center">55-57</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not determine which departments and employees need further training and education for preventing money laundering and terrorist financing.<br><small class="node">part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.o</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Determines the Obliged Entity ’s departments and employees that need further training and education for the purpose of preventing money laundering and terrorist...</small></td>
+              <td class="center dist">0.485</td>
+            </tr>
+
+            <tr>
+              <td class="center">51</td>
+              <td class="center">56-58</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not explicitly address information on high risk customers and their country of origin as required by CYSEC AML rules.<br><small class="node">part_3.json.PART_III.paragraphs.10.subparagraphs.4.points.g</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.87</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Information on the policy, measures, practices, procedures and controls applied by the Obliged Entity in relation to high risk customers as well as the number a...</small></td>
+              <td class="center dist">0.872</td>
+            </tr>
+
+            <tr>
+              <td class="center">52</td>
+              <td class="center">57-59</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy lacks information on inspections and reviews performed by the compliance officer, including material deficiencies and weaknesses identified.<br><small class="node">part_3.json.PART_III.paragraphs.10.subparagraphs.4.points.b</small><br><span class="flag lowconf">LOW CONFIDENCE dist=0.75</span> <span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>Information on the inspections and reviews performed by the compliance officer, reporting the material deficiencies and weaknesses identified in the policy, pra...</small></td>
+              <td class="center dist">0.754</td>
+            </tr>
+
+            <tr>
+              <td class="center">53</td>
+              <td class="center">58-61</td>
+              <td><span class="sev" style="background:#c0392b">MANDATORY</span></td>
+              <td>Policy does not include the Monthly Prevention Statement with details on total cash deposits as required by CYSEC AML rules.<br><small class="node">part_3.json.PART_III.paragraphs.11</small><br><span class="flag likelyfp" title="6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended.">LIKELY FALSE POSITIVE</span></td>
+              <td><small>The compliance officer prepares and submits to the Commission, according to paragraph 9(1)(p), on a monthly basis, the Monthly Prevention Statement, which inclu...</small></td>
+              <td class="center dist">0.728</td>
+            </tr>
+  </tbody>
+</table>
+
+<h2>Pipeline Quality Issues</h2>
+<div class="mistakes">
+  <strong>Issues detected in this evaluation run:</strong>
+  <ul>
+    <li><strong>Duplicate GAPs (0 instances):</strong> The same compliance gap was flagged
+        on multiple overlapping page windows. This is a known architectural side-effect of the
+        sliding window approach — post-verdict deduplication by gap description is not yet
+        implemented. Treat duplicate-flagged rows as one finding.</li>
+    <li><strong>Low-confidence matches (8 GAPs):</strong> These findings have a
+        semantic distance &gt; 0.75 between the policy text and the matched law node.
+        This means the match is weak and the GAP verdict may be a false positive.
+        Manual review recommended for all LOW CONFIDENCE flagged rows.</li>
+    <li><strong>Anonymization skipped (--skip-anon):</strong> This run sent raw policy text
+        to the external API. For production use on real client documents, Ollama anonymization
+        must be enabled to strip PII before any external API call.</li>
+    <li><strong>Single jurisdiction only:</strong> This evaluation covers CySEC rules only.
+        Multi-jurisdiction support (EU AMLD5/6, FATF) is architecturally ready but not yet
+        populated in the vector database.</li>
+  </ul>
+</div>
+
+<h3>Compliant Sections (27)</h3>
+<table>
+  <thead>
+    <tr><th>#</th><th>Pages</th><th>Law Node</th><th>Distance</th></tr>
+  </thead>
+  <tbody>
+    
+            <tr>
+              <td class="center">3</td>
+              <td class="center">4-6</td>
+              <td><small class="node">part_6.json.PART_VI.paragraphs.27</small></td>
+              <td class="center dist">0.929</td>
+            </tr>
+
+            <tr>
+              <td class="center">4</td>
+              <td class="center">6-8</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.17.points.b</small></td>
+              <td class="center dist">0.755</td>
+            </tr>
+
+            <tr>
+              <td class="center">5</td>
+              <td class="center">7-9</td>
+              <td><small class="node">appendix_3.json.sections.terrorist_financing.indicators.0</small></td>
+              <td class="center dist">0.406</td>
+            </tr>
+
+            <tr>
+              <td class="center">8</td>
+              <td class="center">10-12</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.17.points.b</small></td>
+              <td class="center dist">0.898</td>
+            </tr>
+
+            <tr>
+              <td class="center">12</td>
+              <td class="center">14-16</td>
+              <td><small class="node">part_3.json.PART_III.paragraphs.11</small></td>
+              <td class="center dist">0.860</td>
+            </tr>
+
+            <tr>
+              <td class="center">14</td>
+              <td class="center">16-18</td>
+              <td><small class="node">part_2.json.PART_II.paragraphs.5A</small></td>
+              <td class="center dist">0.944</td>
+            </tr>
+
+            <tr>
+              <td class="center">16</td>
+              <td class="center">18-20</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.12.subparagraphs.3</small></td>
+              <td class="center dist">0.667</td>
+            </tr>
+
+            <tr>
+              <td class="center">19</td>
+              <td class="center">21-23</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.13.subparagraphs.5.points.f</small></td>
+              <td class="center dist">0.952</td>
+            </tr>
+
+            <tr>
+              <td class="center">20</td>
+              <td class="center">22-24</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.12.subparagraphs.2.points.a</small></td>
+              <td class="center dist">0.697</td>
+            </tr>
+
+            <tr>
+              <td class="center">21</td>
+              <td class="center">23-25</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.13.subparagraphs.5.points.i</small></td>
+              <td class="center dist">0.887</td>
+            </tr>
+
+            <tr>
+              <td class="center">22</td>
+              <td class="center">24-26</td>
+              <td><small class="node">part_3.json.PART_III.paragraphs.10.subparagraphs.4.points.b</small></td>
+              <td class="center dist">0.870</td>
+            </tr>
+
+            <tr>
+              <td class="center">23</td>
+              <td class="center">25-27</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.14.subparagraphs.5</small></td>
+              <td class="center dist">0.730</td>
+            </tr>
+
+            <tr>
+              <td class="center">25</td>
+              <td class="center">27-29</td>
+              <td><small class="node">appendix_4.json.paragraphs.2.points.ii</small></td>
+              <td class="center dist">0.805</td>
+            </tr>
+
+            <tr>
+              <td class="center">28</td>
+              <td class="center">30-32</td>
+              <td><small class="node">part_5.json.PART_V.paragraphs.21.subparagraphs.5</small></td>
+              <td class="center dist">0.633</td>
+            </tr>
+
+            <tr>
+              <td class="center">30</td>
+              <td class="center">32-34</td>
+              <td><small class="node">appendix_5.json.paragraphs.1.points.b</small></td>
+              <td class="center dist">0.828</td>
+            </tr>
+
+            <tr>
+              <td class="center">31</td>
+              <td class="center">33-35</td>
+              <td><small class="node">appendix_5.json.paragraphs.8.points.a</small></td>
+              <td class="center dist">0.823</td>
+            </tr>
+
+            <tr>
+              <td class="center">33</td>
+              <td class="center">35-37</td>
+              <td><small class="node">appendix_5.json.paragraphs.10.points.b</small></td>
+              <td class="center dist">0.475</td>
+            </tr>
+
+            <tr>
+              <td class="center">36</td>
+              <td class="center">38-42</td>
+              <td><small class="node">appendix_4.json.paragraphs.2</small></td>
+              <td class="center dist">0.698</td>
+            </tr>
+
+            <tr>
+              <td class="center">37</td>
+              <td class="center">41-43</td>
+              <td><small class="node">part_5.json.PART_V.paragraphs.26.subparagraphs.2</small></td>
+              <td class="center dist">0.687</td>
+            </tr>
+
+            <tr>
+              <td class="center">39</td>
+              <td class="center">43-45</td>
+              <td><small class="node">part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.k</small></td>
+              <td class="center dist">0.577</td>
+            </tr>
+
+            <tr>
+              <td class="center">43</td>
+              <td class="center">47-49</td>
+              <td><small class="node">part_3.json.PART_III.paragraphs.9.subparagraphs.1.points.e</small></td>
+              <td class="center dist">0.562</td>
+            </tr>
+
+            <tr>
+              <td class="center">44</td>
+              <td class="center">48-51</td>
+              <td><small class="node">part_5.json.PART_V.paragraphs.26.subparagraphs.2</small></td>
+              <td class="center dist">0.450</td>
+            </tr>
+
+            <tr>
+              <td class="center">46</td>
+              <td class="center">51-53</td>
+              <td><small class="node">part_5.json.PART_V.paragraphs.26.subparagraphs.4</small></td>
+              <td class="center dist">0.817</td>
+            </tr>
+
+            <tr>
+              <td class="center">47</td>
+              <td class="center">52-54</td>
+              <td><small class="node">part_2.json.PART_II.paragraphs.5.points.e</small></td>
+              <td class="center dist">0.798</td>
+            </tr>
+
+            <tr>
+              <td class="center">49</td>
+              <td class="center">54-56</td>
+              <td><small class="node">part_5.json.PART_V.paragraphs.21.subparagraphs.5</small></td>
+              <td class="center dist">0.873</td>
+            </tr>
+
+            <tr>
+              <td class="center">54</td>
+              <td class="center">60-64</td>
+              <td><small class="node">part_4.json.PART_IV.paragraphs.17.points.b</small></td>
+              <td class="center dist">0.709</td>
+            </tr>
+
+            <tr>
+              <td class="center">55</td>
+              <td class="center">63-65</td>
+              <td><small class="node">appendix_5.json.paragraphs.2.points.c</small></td>
+              <td class="center dist">0.987</td>
+            </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

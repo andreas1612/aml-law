@@ -1,0 +1,379 @@
+{
+  "client_id": "poc_client_001",
+  "document": "AML Manual V8.0_Reviewed(Draft).docx.pdf",
+  "evaluated_at": "2026-04-28T14:30:52.444237",
+  "total_pages": 65,
+  "total_findings": 55,
+  "verdicts": [
+    {
+      "id": 1,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention inspections and reviews performed by the compliance officer, nor does it report material deficiencies and weaknesses identified in the policy, practices, measures, procedures, and control.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 2,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks specific procedures for identifying and assessing money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 3,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 4,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 5,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 6,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the identification of beneficial owners of legal persons, particularly trusts set up in the Republic or abroad.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 7,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide advice and guidance to employees on subjects related to money laundering and terrorist financing.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 8,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 9,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention the implementation of financial sanctions imposed against various persons.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 10,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not take into account the Joint Guidelines when assessing money laundering and terrorist financing risks and applying risk-based measures and procedures.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 11,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify the procedure for submitting reports to MOKAS through the electronic page g as required by the rule.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 12,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 13,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks provision of advice and guidance to employees on subjects related to money laundering and terrorist financing.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 14,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 15,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention the requirement for the internal audit department to review and evaluate the policy, practices, measures, procedures at least annually.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 16,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 17,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly identify and assess the money laundering and terrorist financing risks emanating from particular customers, financial instruments, services, and geographical areas of operation.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 18,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide information on the number and country of origin of high risk customers.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 19,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 20,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 21,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 22,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 23,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 24,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention MONEYVAL as a source for risk assessment information.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 25,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 26,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention assessing risks from financial instruments, services, and geographical areas.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 27,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify adaptation of CDD procedures based on assessed ML/TF risk.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "4/5 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 28,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 29,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not establish procedures to ensure completeness, validity, and reliability of electronic verification information.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "5/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 30,
+      "verdict": "COMPLIANT",
+      "severity": "informational",
+      "gap": null
+    },
+    {
+      "id": 31,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 32,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention obtaining data and information to verify professional registration of third persons.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 33,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 34,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not address the required actions if a customer fails or refuses to submit verification data within a reasonable timeframe.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 35,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly mention verifying the identity of directors, partners, beneficial owners, and other authorized individuals in unincorporated businesses.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 36,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 37,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 38,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not provide specific procedures for ascertaining the true identity of natural persons who are residents of Cyprus.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 39,
+      "verdict": "COMPLIANT",
+      "severity": "mandatory",
+      "gap": null
+    },
+    {
+      "id": 40,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not mention checking with the Ministry of Foreign Affairs regarding UN Security Council Resolutions or EU Council Decisions.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "5/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 41,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not define suspicious transactions or provide a list of examples as required by the rule.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 42,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks a comprehensive list of examples of suspicious transactions/activities related to money laundering and terrorist financing.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 43,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 44,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 45,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not specify procedures for further investigation and seeking additional information upon detecting transactions contained in the Third Appendix.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 46,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 47,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 48,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include procedures for telephone contact with the customer at his home or office using a verified telephone number.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 49,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 50,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not determine which departments and employees need further training and education for preventing money laundering and terrorist financing.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 51,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not explicitly address information on high risk customers and their country of origin as required by CYSEC AML rules.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 52,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy lacks information on inspections and reviews performed by the compliance officer, including material deficiencies and weaknesses identified.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 53,
+      "verdict": "GAP",
+      "severity": "mandatory",
+      "gap": "Policy does not include the Monthly Prevention Statement with details on total cash deposits as required by CYSEC AML rules.",
+      "cross_check": "LIKELY_COMPLIANT",
+      "cross_check_note": "6/6 gap keywords found in full document. Policy may address this requirement in a different section. Manual review recommended."
+    },
+    {
+      "id": 54,
+      "verdict": "COMPLIANT",
+      "gap": null
+    },
+    {
+      "id": 55,
+      "verdict": "COMPLIANT",
+      "gap": null
+    }
+  ]
+}

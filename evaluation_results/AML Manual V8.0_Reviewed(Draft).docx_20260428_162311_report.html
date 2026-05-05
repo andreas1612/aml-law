@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AML Compliance Report — AML Manual V8.0_Reviewed(Draft).docx.pdf</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f4f6f9; color: #1a1a2e; font-size: 14px; line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Header ── */
+.report-header {
+  background: #1a1a2e; color: #fff;
+  padding: 24px 40px; display: flex; justify-content: space-between; align-items: center;
+}
+.report-header .title { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; }
+.report-header .subtitle { font-size: 0.82rem; color: #8892b0; margin-top: 4px; }
+.header-meta { text-align: right; font-size: 0.8rem; color: #8892b0; line-height: 1.8; }
+.print-btn {
+  background: transparent; border: 1px solid #8892b0; color: #ccd6f6;
+  padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+  margin-top: 8px;
+}
+.print-btn:hover { background: rgba(255,255,255,0.08); }
+
+/* ── Main layout ── */
+.main { max-width: 1140px; margin: 0 auto; padding: 32px 24px; }
+
+/* ── KPI bar ── */
+.kpi-bar {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px; margin-bottom: 32px;
+}
+.kpi {
+  background: #fff; border-radius: 8px; padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); text-align: center;
+  border-top: 3px solid #ddd;
+}
+.kpi.red   { border-color: #c0392b; }
+.kpi.orange{ border-color: #d35400; }
+.kpi.green { border-color: #27ae60; }
+.kpi.gray  { border-color: #95a5a6; }
+.kpi .num  { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.kpi.red   .num { color: #c0392b; }
+.kpi.orange .num{ color: #d35400; }
+.kpi.green .num { color: #27ae60; }
+.kpi.gray  .num { color: #95a5a6; }
+.kpi .lbl  { font-size: 0.74rem; color: #666; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── Section cards ── */
+.section-card {
+  background: #fff; border-radius: 8px; margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); overflow: hidden;
+}
+.section-header {
+  padding: 16px 24px; border-bottom: 1px solid #eee;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.section-header h2 {
+  font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 10px;
+}
+.section-dot {
+  width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+}
+.section-body { padding: 0; }
+
+/* ── Priority section ── */
+.priority-banner {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2c3e50 100%);
+  color: #fff; border-radius: 8px; padding: 24px; margin-bottom: 24px;
+}
+.priority-banner h2 {
+  font-size: 1rem; font-weight: 700; color: #e74c3c; margin-bottom: 4px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.priority-banner .sub { font-size: 0.8rem; color: #8892b0; margin-bottom: 16px; }
+
+/* ── Filters ── */
+.filter-bar { padding: 12px 24px; border-bottom: 1px solid #eee; display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 4px 14px; border-radius: 20px; border: 1px solid #ddd;
+  background: #fff; cursor: pointer; font-size: 0.78rem; font-weight: 600;
+  color: #555; transition: all .15s;
+}
+.filter-btn:hover { background: #f0f0f0; }
+.filter-btn.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+
+/* ── Tables ── */
+table { width: 100%; border-collapse: collapse; }
+th {
+  background: #f8f9fa; padding: 10px 16px; text-align: left;
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: #666; border-bottom: 2px solid #eee; font-weight: 600;
+}
+td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbfc; }
+.pg-cell { color: #888; font-size: 0.82rem; white-space: nowrap; width: 70px; }
+.rank-cell { color: #c0392b; font-weight: 700; font-size: 1.1rem; width: 36px; text-align: center; }
+.desc-cell { max-width: 600px; }
+.desc-text { font-size: 0.88rem; color: #1a1a2e; margin-bottom: 6px; line-height: 1.5; }
+.ref-line  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.ref { font-size: 0.75rem; color: #3498db; font-family: monospace; font-weight: 600; }
+.rule-label { font-size: 0.7rem; font-weight: 700; color: #3498db;
+               text-transform: uppercase; letter-spacing: 0.06em; margin-top: 10px; }
+.rule-text { font-size: 0.82rem; color: #333; background: #f0f4f8; padding: 12px 14px;
+              border-left: 3px solid #3498db; border-radius: 0 4px 4px 0;
+              line-height: 1.75; white-space: pre-wrap; margin-top: 4px; }
+.expand-btn {
+  background: #eef4fb; border: 1px solid #c5d8ef; color: #2980b9; cursor: pointer;
+  font-size: 0.74rem; padding: 3px 10px; margin-top: 6px; border-radius: 4px;
+  font-weight: 600; display: inline-block;
+}
+.expand-btn:hover { background: #ddeaf8; }
+.empty { color: #aaa; font-style: italic; text-align: center; padding: 24px; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-block; padding: 2px 9px; border-radius: 4px;
+  color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.badge.outline {
+  background: transparent; border: 1.5px solid; font-size: 0.68rem;
+}
+
+/* ── Confidence bar ── */
+.conf-bar-wrap {
+  background: #eee; border-radius: 3px; height: 5px; width: 80px;
+  display: inline-block; vertical-align: middle; margin-right: 6px;
+}
+.conf-bar { height: 5px; border-radius: 3px; }
+.conf-val { font-size: 0.75rem; color: #888; font-family: monospace; vertical-align: middle; }
+
+/* ── Details/summary ── */
+details { margin-bottom: 16px; }
+details > summary {
+  background: #fff; border-radius: 8px; padding: 14px 24px;
+  cursor: pointer; font-weight: 600; font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07); list-style: none;
+  display: flex; align-items: center; gap: 10px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: '▶'; font-size: 0.7rem; color: #888; transition: transform .2s; }
+details[open] > summary::before { transform: rotate(90deg); }
+details .section-card { border-radius: 0 0 8px 8px; margin-top: 0; }
+
+/* ── Technical notes ── */
+.tech-notes { font-size: 0.82rem; color: #555; padding: 16px 24px; line-height: 1.8; }
+.tech-notes li { margin: 6px 0; }
+
+/* ── Print ── */
+@media print {
+  body { background: #fff; }
+  .print-btn, .expand-btn, .filter-bar { display: none; }
+  .rule-expand { display: block !important; }
+  details { open: true; }
+  details > summary::before { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="report-header">
+  <div>
+    <div class="title">AML Compliance Audit Report</div>
+    <div class="subtitle">CySEC Consolidated AML Directive — Automated Gap Analysis</div>
+  </div>
+  <div class="header-meta">
+    <div>AML Manual V8.0_Reviewed(Draft).docx.pdf</div>
+    <div>Client: poc_client_001 &nbsp;·&nbsp; 65 pages</div>
+    <div>Evaluated: 2026-04-28 16:23:48</div>
+    <button class="print-btn" onclick="window.print()">&#x2398; Export PDF</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- KPI Bar -->
+<div class="kpi-bar">
+  <div class="kpi red">
+    <div class="num">0</div>
+    <div class="lbl">Confirmed Gaps</div>
+  </div>
+  <div class="kpi red">
+    <div class="num">0</div>
+    <div class="lbl">Mandatory</div>
+  </div>
+  <div class="kpi orange">
+    <div class="num">0</div>
+    <div class="lbl">Manual Review</div>
+  </div>
+  <div class="kpi green">
+    <div class="num">0</div>
+    <div class="lbl">Compliant</div>
+  </div>
+  <div class="kpi gray">
+    <div class="num">146</div>
+    <div class="lbl">Findings Assessed</div>
+  </div>
+  <div class="kpi gray">
+    <div class="num">0</div>
+    <div class="lbl">Filtered / Noise</div>
+  </div>
+</div>
+
+<!-- Priority Remediation -->
+<div class="priority-banner">
+  <h2>&#x26A0; Priority Remediation</h2>
+  <div class="sub">Minimum gaps covering maximum regulatory exposure — act on these first</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="color:#8892b0">#</th>
+        <th style="color:#8892b0">Pages</th>
+        <th style="color:#8892b0">Severity</th>
+        <th style="color:#8892b0">Gap &amp; Reference</th>
+      </tr>
+    </thead>
+    <tbody style="color:#fff">
+      
+    </tbody>
+  </table>
+</div>
+
+<!-- Confirmed Gaps -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>
+      <span class="section-dot" style="background:#c0392b"></span>
+      Confirmed Gaps
+      <span style="font-weight:400;color:#888;font-size:0.85rem">(0 total — 0 mandatory, 0 recommended, 0 informational)</span>
+    </h2>
+  </div>
+  <div class="filter-bar" id="conf-filters">
+    <button class="filter-btn active" onclick="filterTable('conf-table','all',this)">All (0)</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','mandatory',this)">Mandatory (0)</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','recommended',this)">Recommended (0)</button>
+    <button class="filter-btn" onclick="filterTable('conf-table','informational',this)">Info (0)</button>
+  </div>
+  <div class="section-body">
+    <table id="conf-table">
+      <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+      <tbody><tr><td colspan="4" class="empty">No findings in this category.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Manual Review -->
+<div class="section-card">
+  <div class="section-header">
+    <h2>
+      <span class="section-dot" style="background:#d35400"></span>
+      Manual Review Required
+      <span style="font-weight:400;color:#888;font-size:0.85rem">(0 borderline findings — semantic distance 0.45–0.55)</span>
+    </h2>
+  </div>
+  <div class="section-body">
+    <table>
+      <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+      <tbody><tr><td colspan="4" class="empty">No findings in this category.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Likely Compliant (from GAP verdicts that cross-check reversed) -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#27ae60;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Reversed by Cross-Check — Likely Compliant (0)
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+        <tbody><tr><td colspan="4" class="empty">No findings in this category.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Kimi COMPLIANT verdicts -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#27ae60;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Compliant Sections — Kimi Verdict (0)
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Law Reference</th><th>Match Strength</th></tr></thead>
+        <tbody><tr><td colspan="3" class="empty">None.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Noise / Filtered -->
+<details>
+  <summary>
+    <span class="section-dot" style="background:#95a5a6;display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px"></span>
+    Filtered Findings — Noise &amp; Duplicates (0)
+  </summary>
+  <div class="section-card">
+    <div class="section-body">
+      <table>
+        <thead><tr><th>Pages</th><th>Severity</th><th>Gap Description &amp; Reference</th><th>Match Strength</th></tr></thead>
+        <tbody><tr><td colspan="4" class="empty">No findings in this category.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+<!-- Technical Notes -->
+<details>
+  <summary>Technical Run Notes</summary>
+  <div class="section-card">
+    <ul class="tech-notes">
+      <li><strong>Pipeline:</strong> 146 findings assessed &nbsp;·&nbsp; EGDR entropy-gated retrieval (k=1/3) &nbsp;·&nbsp; Bidirectional ChromaDB cross-check</li>
+      <li><strong>Anonymization:</strong> Skipped (--skip-anon). Raw policy text sent to external API. Enable for production use.</li>
+      <li><strong>Jurisdiction:</strong> CySEC Consolidated AML Directive only. EU AMLD5/6 and FATF collections not yet populated.</li>
+      <li><strong>Noise filtering:</strong> Findings with detection distance &gt; 0.75 marked LOW_CONFIDENCE_NOISE and excluded from confirmed count. Semantic duplicates (Jaccard &gt; 0.6) collapsed.</li>
+      <li><strong>Distance thresholds:</strong> Cross-check CONFIRMED &gt; 0.55 &nbsp;·&nbsp; MANUAL_REVIEW 0.45–0.55 &nbsp;·&nbsp; LIKELY_COMPLIANT &lt; 0.45</li>
+    </ul>
+  </div>
+</details>
+
+</div><!-- /main -->
+
+<script>
+function toggle(id, btn) {
+  var el = document.getElementById(id);
+  var isHidden = el.style.display === 'none';
+  el.style.display = isHidden ? 'block' : 'none';
+  var ref = btn.textContent.replace(/^[▲▼][ ]*/, '');
+  btn.innerHTML = (isHidden ? '&#x25B2; ' : '&#x25BC; ') + ref;
+}
+function filterTable(tableId, sev, btn) {
+  var table = document.getElementById(tableId);
+  if (!table) return;
+  var rows = table.querySelectorAll('tbody tr');
+  rows.forEach(function(r) {
+    r.style.display = (sev === 'all' || r.dataset.sev === sev) ? '' : 'none';
+  });
+  var btns = btn.parentElement.querySelectorAll('.filter-btn');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
