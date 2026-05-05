@@ -67,11 +67,12 @@ For each item below you are given:
 Decide: do any of the policy sections satisfy this legal obligation?
 
 Return ONLY a JSON array, no markdown, no extra text. One object per item.
-SCHEMA: [{{"id":1,"verdict":"GAP","severity":"mandatory","policy_area":"CDD","missing":"one sentence — what specific element is absent"}}]
+SCHEMA: [{{"id":1,"verdict":"GAP","severity":"mandatory","policy_area":"CDD","missing":"one sentence — what specific element is absent","recommended_action":"one sentence — what clause or procedure should be added"}}]
 verdict: GAP or COMPLIANT
 severity: mandatory, recommended, or informational
 policy_area: one of: CDD, PEP, sanctions, training, monitoring, reporting, governance, risk_assessment, other
 missing: null if COMPLIANT, one concise sentence if GAP describing the missing element
+recommended_action: null if COMPLIANT, one concise sentence stating exactly what policy clause or procedure should be added or amended to close this gap
 
 ITEMS:
 {findings_json}

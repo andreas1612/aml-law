@@ -907,7 +907,8 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path, c
             node     = fin.get("node_path", "")
             rule     = fin.get("matched_rule", "").replace("<","&lt;").replace(">","&gt;").replace("&","&amp;") if fin.get("matched_rule") else ""
             sev      = g.get("severity", "informational")
-            desc     = g.get("gap", "").replace("<","&lt;").replace(">","&gt;")
+            desc     = (g.get("gap","") or g.get("missing","")).replace("<","&lt;").replace(">","&gt;")
+            action   = (g.get("recommended_action","") or "").replace("<","&lt;").replace(">","&gt;")
             cc       = g.get("cross_check", "")
             covered  = str(g.get("covered_on_page", g.get("closest_page", "")))
             rule_id  = f"rule-{g.get('id','x')}"
@@ -922,12 +923,16 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path, c
             else:
                 dropdown = ""
 
+            action_html = (f'<div class="action-text"><span class="action-label">Fix:</span> {action}</div>'
+                           if action else "")
+
             rows.append(f"""
             <tr data-sev="{sev}">
               <td class="pg-cell">{pg_text}</td>
               <td>{sev_badge(sev)}</td>
               <td class="desc-cell">
                 <div class="desc-text">{desc}</div>
+                {action_html}
                 <div class="ref-line">
                   {"" if not ref else f'<span class="ref">{ref}</span>'}
                   {status_badge(cc, covered)}
@@ -955,18 +960,21 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path, c
     def priority_rows_html():
         rows = []
         for i, g in enumerate(priority_gaps, 1):
-            fin  = get_finding(g)
-            pr   = fin.get("page_range", ["?","?"])
-            node = fin.get("node_path","")
-            sev  = g.get("severity","informational")
-            desc = g.get("gap","")
-            ref  = _format_law_node(node)
+            fin    = get_finding(g)
+            pr     = fin.get("page_range", ["?","?"])
+            node   = fin.get("node_path","")
+            sev    = g.get("severity","informational")
+            desc   = (g.get("gap","") or g.get("missing","")).replace("<","&lt;").replace(">","&gt;")
+            action = (g.get("recommended_action","") or "").replace("<","&lt;").replace(">","&gt;")
+            ref    = _format_law_node(node)
+            action_html = (f'<div class="action-text"><span class="action-label">Fix:</span> {action}</div>'
+                           if action else "")
             rows.append(f"""
             <tr>
               <td class="rank-cell">{i}</td>
               <td class="pg-cell">p.{pr[0]}–{pr[1]}</td>
               <td>{sev_badge(sev)}</td>
-              <td><div class="desc-text">{desc}</div><span class="ref">{ref}</span></td>
+              <td><div class="desc-text">{desc}</div>{action_html}<span class="ref">{ref}</span></td>
             </tr>""")
         return "\n".join(rows)
 
@@ -1113,6 +1121,9 @@ tr:hover td {{ background: #fafbfc; }}
 .rank-cell {{ color: #c0392b; font-weight: 700; font-size: 1.1rem; width: 36px; text-align: center; }}
 .desc-cell {{ max-width: 600px; }}
 .desc-text {{ font-size: 0.88rem; color: #1a1a2e; margin-bottom: 6px; line-height: 1.5; }}
+.action-text {{ font-size: 0.82rem; color: #1a6b3c; background: #f0faf4; border-left: 3px solid #27ae60;
+                padding: 4px 8px; margin-bottom: 6px; border-radius: 0 4px 4px 0; line-height: 1.45; }}
+.action-label {{ font-weight: 700; color: #1a6b3c; margin-right: 4px; }}
 .ref-line  {{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }}
 .ref {{ font-size: 0.75rem; color: #3498db; font-family: monospace; font-weight: 600; }}
 .rule-label {{ font-size: 0.7rem; font-weight: 700; color: #3498db;

@@ -25,7 +25,7 @@ def _latest_json() -> str:
     jsons = sorted(results_dir.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
     return str(jsons[0]) if jsons else ""
 
-JSON_PATH  = r"evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_114818.json"
+JSON_PATH  = r"evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_144408.json"
 JSON_PATH  = str(_REPO_ROOT / JSON_PATH) if not os.path.isabs(JSON_PATH) else JSON_PATH
 
 # XLSX — ground truth (not in repo; set path for your machine)

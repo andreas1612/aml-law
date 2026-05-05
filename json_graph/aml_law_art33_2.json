@@ -1,0 +1,35 @@
+{
+  "AML_LAW_ART33_2": {
+    "title": "Electronic Database Compliance Conditions for Customer Identification (AML Law Art. 33(2))",
+    "paragraphs": {
+      "1": {
+        "title": "Conditions for use of electronic databases in customer identification",
+        "subparagraphs": {
+          "1": {
+            "text": "An Obliged Entity that uses an electronic database to verify customer identity for the purposes of customer due diligence must ensure that the database satisfies the conditions set out in Article 33(2) of the Prevention and Suppression of Money Laundering and Terrorist Financing Law. The database must draw on multiple reliable and independent data sources and must be updated on a regular basis to ensure accuracy and currency of the information it holds."
+          },
+          "2": {
+            "text": "The electronic database used for identity verification must provide a level of assurance equivalent to or greater than that achieved through face-to-face documentary verification. The Obliged Entity must assess each electronic verification tool or service against the Article 33(2) conditions before use and must document this assessment as part of its AML/CFT policy framework. A new assessment must be performed whenever the tool or its underlying data sources materially change."
+          },
+          "3": {
+            "text": "To satisfy Article 33(2), the electronic database must be capable of: (a) positively confirming the existence of the individual being identified; (b) confirming that the identity information provided by the customer matches records held in reliable, independent sources; (c) detecting discrepancies, inconsistencies or indicators of fraud or identity misrepresentation; and (d) generating an auditable record of each verification performed, including the data sources consulted and the outcome of the check."
+          }
+        }
+      },
+      "2": {
+        "title": "Vendor due diligence and ongoing compliance",
+        "subparagraphs": {
+          "1": {
+            "text": "The Obliged Entity must conduct due diligence on any third-party provider of electronic verification services — including commercial database providers such as GBG and equivalent electronic KYC platforms — to confirm that the provider's database and methodology satisfy the Article 33(2) conditions on an ongoing basis. This review must cover the provider's data sources, update frequency, geographic and population coverage, fraud-detection capabilities, and compliance certifications, and must be repeated at least annually."
+          },
+          "2": {
+            "text": "Where the Obliged Entity relies on an electronic database for identity verification of remote or digitally on-boarded customers, it must apply enhanced monitoring during the initial phase of the business relationship as required for non-face-to-face identification. Reliance on an Article 33(2)-compliant electronic database does not remove the obligation to apply enhanced due diligence where required by the customer's risk classification or by applicable CySEC directives."
+          },
+          "3": {
+            "text": "The Obliged Entity's AML/CFT policies must explicitly identify which electronic verification tools are approved for use in customer identification, specify the circumstances and customer types for which each tool is used, and document how each tool has been assessed as satisfying the Article 33(2) conditions. CySEC may request evidence of this assessment and of ongoing vendor monitoring at any time."
+          }
+        }
+      }
+    }
+  }
+}

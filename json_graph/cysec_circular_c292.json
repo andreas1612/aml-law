@@ -1,0 +1,46 @@
+{
+  "CIRCULAR_C292": {
+    "title": "Business-Wide Risk Assessment and National Risk Assessment Integration (CySEC Circular C292)",
+    "paragraphs": {
+      "1": {
+        "title": "Obligation to conduct a Business-Wide Risk Assessment",
+        "subparagraphs": {
+          "1": {
+            "text": "Every Obliged Entity must identify, assess, understand and document the money laundering and terrorist financing risks to which it is exposed. The assessment must take into account risk factors including the nature and profile of customers served, countries or geographic areas of operation, products and services offered, transaction types and volumes, and delivery channels used. This documented assessment constitutes the Business-Wide Risk Assessment (BWRA)."
+          },
+          "2": {
+            "text": "The BWRA must take into account the findings and conclusions of the National Risk Assessment (NRA) published by the Republic of Cyprus and any supranational risk assessments published by the European Commission. Where the NRA identifies specific sectors, products, services or customer types as presenting elevated ML/TF risk, the Obliged Entity must reflect those findings in its own BWRA and in the calibration of its risk-based AML/CFT controls."
+          },
+          "3": {
+            "text": "The BWRA must be proportionate to the nature, scale and complexity of the Obliged Entity's activities. It must be reviewed and updated at least annually and immediately upon any material change to the Obliged Entity's business model, customer base, product or service offering, geographic exposure, or following a significant revision to the NRA or applicable CySEC guidance."
+          }
+        }
+      },
+      "2": {
+        "title": "Content requirements of the Business-Wide Risk Assessment",
+        "subparagraphs": {
+          "1": {
+            "text": "The BWRA must assess ML/TF risk across the following dimensions as a minimum: (a) customer risk — including customer types, geographic origins, presence of PEPs, high-net-worth individuals and high-risk third-country nationals; (b) product and service risk — including transaction complexity, anonymity features and potential for layering; (c) geographic risk — covering countries of customer residence, corporate incorporation and transaction origin; (d) delivery channel risk — including remote or non-face-to-face on-boarding, digital platforms and intermediary relationships."
+          },
+          "2": {
+            "text": "The BWRA must include a documented methodology for combining the identified risk factors into an overall inherent risk rating for the business as a whole. It must also describe the AML/CFT controls applied to mitigate inherent risks, and must derive a residual risk rating that reflects the effectiveness of those controls. The residual risk rating must be used to calibrate the Obliged Entity's policies, procedures, resource allocation and enhanced due diligence triggers."
+          },
+          "3": {
+            "text": "The BWRA must identify any gaps between the risks identified and the controls currently in place, and must include a documented action plan with timelines for addressing those gaps. Where the Obliged Entity concludes that a particular risk category is not applicable to its business, this conclusion must be documented and supported by reasoning."
+          }
+        }
+      },
+      "3": {
+        "title": "Governance, approval and record keeping",
+        "subparagraphs": {
+          "1": {
+            "text": "The BWRA must be formally approved by the Obliged Entity's board of directors or equivalent senior governing body. Responsibility for preparing, maintaining and updating the BWRA must be explicitly assigned in the Obliged Entity's internal governance framework, typically to the Compliance Officer in coordination with senior management."
+          },
+          "2": {
+            "text": "The Obliged Entity must be able to demonstrate to CySEC, upon request, that its BWRA is current, comprehensive and consistent with NRA findings and regulatory expectations. CySEC may require the Obliged Entity to revise its BWRA where it is considered inadequate. The BWRA and all superseded versions must be retained in accordance with the record-keeping requirements of the AML Law."
+          }
+        }
+      }
+    }
+  }
+}

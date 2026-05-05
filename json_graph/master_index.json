@@ -53,6 +53,38 @@
       "entities": ["Repeal", "Entry into Force"]
     }
   },
+  "circulars_and_supplementary": {
+    "CIRCULAR_C292": {
+      "title": "BUSINESS-WIDE RISK ASSESSMENT — NRA INTEGRATION",
+      "file": "cysec_circular_c292.json",
+      "entities": ["Business-Wide Risk Assessment", "National Risk Assessment", "BWRA", "Inherent Risk", "Residual Risk"]
+    },
+    "CIRCULAR_C315": {
+      "title": "AML/CFT STAFF TRAINING OBLIGATIONS",
+      "file": "cysec_circular_c315.json",
+      "entities": ["Staff Training", "Training Programme", "Training Records"]
+    },
+    "CIRCULAR_C318": {
+      "title": "CUSTOMER IDENTIFICATION — DOCUMENT VERIFICATION",
+      "file": "cysec_circular_c318.json",
+      "entities": ["Passport Screening", "Electronic Verification", "Document Refresh"]
+    },
+    "CIRCULAR_C398": {
+      "title": "INACTIVE AND DORMANT ACCOUNT PROCEDURES",
+      "file": "cysec_circular_c398.json",
+      "entities": ["Dormant Accounts", "Reactivation", "Risk Reassessment"]
+    },
+    "AML_LAW_ART58": {
+      "title": "MANDATORY INDUCTION TRAINING FOR NEW STAFF",
+      "file": "aml_law_art58.json",
+      "entities": ["Induction Training", "New Employees", "AML Law Art. 58"]
+    },
+    "AML_LAW_ART33_2": {
+      "title": "ELECTRONIC DATABASE CONDITIONS FOR CUSTOMER IDENTIFICATION",
+      "file": "aml_law_art33_2.json",
+      "entities": ["Electronic Database", "GBG", "Art. 33(2)", "Electronic KYC", "Identity Verification"]
+    }
+  },
   "appendices": {
     "FIRST_APPENDIX": {
       "title": "INTERNAL SUSPICION REPORT",
