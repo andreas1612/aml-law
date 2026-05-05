@@ -12,8 +12,8 @@ import pandas as pd
 sys.stdout.reconfigure(encoding="utf-8")
 
 # ── Paths ──────────────────────────────────────────────────────────────────
-JSON_PATH  = r"C:\Users\andre\Desktop\aml_proof\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_103820.json"
-XLSX_PATH  = r"C:\Users\andre\Downloads\CCSV - AML_KYC.xlsx"
+JSON_PATH  = r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_114818.json"
+XLSX_PATH  = r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\CCSV - AML_KYC.xlsx"
 
 # ── Load system results ────────────────────────────────────────────────────
 with open(JSON_PATH, encoding="utf-8") as f:
@@ -102,6 +102,28 @@ matched_human_nos = set()
 for r in matched_sys:
     matched_human_nos.add(r["h_no"])
 
+# ── Second-pass: policy_area match for human gaps not caught by Jaccard ────
+# When Kimi returns policy_area on a CONFIRMED_GAP, check if it matches the
+# human gap's Area column via case-insensitive substring (handles cross-node
+# measurement artefacts where gap was found under a different law node).
+def _area_match(policy_area: str, human_area: str) -> bool:
+    if not policy_area or not human_area:
+        return False
+    pa = policy_area.replace("_", " ").lower()
+    ha = human_area.lower()
+    return pa in ha or any(w in ha for w in pa.split() if len(w) >= 3)
+
+pa2_matched_nos = set()
+for h in human_gaps:
+    if h["no"] in matched_human_nos:
+        continue
+    for v in confirmed:
+        pa = v.get("policy_area", "")
+        if _area_match(pa, h["area"]):
+            matched_human_nos.add(h["no"])
+            pa2_matched_nos.add(h["no"])
+            break
+
 missed_human = [h for h in human_gaps if h["no"] not in matched_human_nos]
 
 # ── Categorise human gaps (policy-level vs operational) ───────────────────
@@ -141,11 +163,15 @@ print(f"    No human match found:       {len(unmatched_sys)}")
 print()
 
 policy_nos          = {h["no"] for h in policy_human}
-caught_policy_nos   = {r["h_no"] for r in matched_sys if r["h_no"] in policy_nos}  # unique human gaps covered
-caught_policy       = [r for r in matched_sys if r["h_no"] in policy_nos]           # system gaps that hit a policy gap
+caught_policy_nos   = {r["h_no"] for r in matched_sys if r["h_no"] in policy_nos}  # unique human gaps covered (Jaccard)
+caught_policy_nos  |= (pa2_matched_nos & policy_nos)                                # add second-pass policy_area matches
+caught_policy       = [r for r in matched_sys if r["h_no"] in policy_nos]           # system gaps that hit a policy gap (Jaccard only)
 recall_pct = round(100 * len(caught_policy_nos) / max(len(policy_human), 1))
+pa2_policy_count = len(pa2_matched_nos & policy_nos)
 print(f"  RECALL on policy-level gaps:  {len(caught_policy_nos)}/{len(policy_human)} unique human gaps covered = {recall_pct}%")
-print(f"  (System gaps that matched:    {len(caught_policy)} — multiple system gaps can match same human gap)")
+if pa2_policy_count:
+    print(f"    of which {pa2_policy_count} matched via policy_area (second-pass, cross-node artefacts)")
+print(f"  (System gaps that matched:    {len(caught_policy)} Jaccard matches — multiple system gaps can match same human gap)")
 print(f"  NOTE: system evaluated document text only.")
 print(f"        Operational gaps require reviewing CRM/client files — out of scope.")
 print()

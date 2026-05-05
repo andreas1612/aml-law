@@ -1,0 +1,40 @@
+{
+  "AML_LAW_ART58": {
+    "title": "Mandatory AML Induction Training for New Staff (AML Law Article 58)",
+    "paragraphs": {
+      "1": {
+        "title": "AML induction obligation for newly hired employees",
+        "subparagraphs": {
+          "1": {
+            "text": "Every employee of the Obliged Entity whose role involves, or may involve, customer contact, transaction processing, compliance monitoring, or management oversight must complete AML/CFT induction training before or within a specified period of commencing their duties. The maximum permitted period between commencement of duties and completion of induction training must not exceed the period prescribed by the Obliged Entity's training policy, which must be set out in writing."
+          },
+          "2": {
+            "text": "AML induction training for new employees must be completed within thirty days of the commencement of their employment or engagement, unless a shorter period is required by applicable CySEC guidance. Until induction training is completed, new employees must not independently perform functions that directly involve customer due diligence, transaction monitoring, or suspicious activity reporting without adequate supervision."
+          }
+        }
+      },
+      "2": {
+        "title": "Mandatory content of AML induction",
+        "subparagraphs": {
+          "1": {
+            "text": "AML induction training for new staff must cover as a minimum: an overview of the AML Law and the CySEC Consolidated AML Directive; the Obliged Entity's AML/CFT policies and internal procedures; the employee's personal legal obligations regarding reporting suspicions of money laundering or terrorist financing; the identity and contact details of the Compliance Officer; the internal process for submitting an Internal Suspicion Report; and the legal protections available to employees who report in good faith."
+          },
+          "2": {
+            "text": "Induction training must be delivered in a format that permits assessment of the employee's understanding, such as a written test, online assessment, or supervised practical exercise. The Obliged Entity must not deem induction training complete until the employee has demonstrated satisfactory understanding of the key obligations."
+          }
+        }
+      },
+      "3": {
+        "title": "Sign-off and record-keeping requirements",
+        "subparagraphs": {
+          "1": {
+            "text": "Upon completion of AML induction training, each new employee must sign a written acknowledgement confirming that they have received and understood the training. The acknowledgement must specify the date of training, the content covered, and the employee's acceptance of their AML/CFT obligations. A copy of the signed acknowledgement must be retained on the employee's personnel file and in the Compliance Officer's training records."
+          },
+          "2": {
+            "text": "The Compliance Officer must maintain a register of all new employees, their AML induction training completion date, assessment result, and confirmation of sign-off. The register must be available for inspection by CySEC and must be reconciled against the Obliged Entity's HR records at least annually to identify any employees who have not completed induction training within the required period."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "CIRCULAR_C398": {
+    "title": "Inactive and Dormant Account Procedures (CySEC Circular C398)",
+    "paragraphs": {
+      "1": {
+        "title": "Definition and identification of dormant accounts",
+        "subparagraphs": {
+          "1": {
+            "text": "An account or business relationship is classified as dormant or inactive when there has been no customer-initiated transaction or communication for a period defined in the Obliged Entity's policies, which must not exceed twenty-four months. The Obliged Entity must maintain a clear and documented definition of dormancy in its internal procedures."
+          },
+          "2": {
+            "text": "The Obliged Entity must implement automated or manual controls to identify accounts that meet the dormancy criteria and must flag such accounts for review by the Compliance Officer. The identification process must be performed at least annually and must capture all account types, including investment accounts, payment accounts, and custody accounts."
+          }
+        }
+      },
+      "2": {
+        "title": "Review and risk reassessment of dormant accounts",
+        "subparagraphs": {
+          "1": {
+            "text": "Upon identifying a dormant or inactive account, the Obliged Entity must reassess the customer's risk classification and re-verify the customer's identity and source of funds where the existing information on file is outdated or insufficient. The review must be documented and retained on the customer file."
+          },
+          "2": {
+            "text": "Dormant accounts belonging to customers classified as high-risk must be subject to enhanced due diligence review triggers. Any dormant high-risk account that subsequently shows transaction activity must be escalated immediately to the Compliance Officer for assessment of whether a suspicious activity report is required."
+          },
+          "3": {
+            "text": "The Obliged Entity must define and document review triggers for dormant accounts, including: the expiry of a specified dormancy period; a change in the customer's risk classification; receipt of updated information about the customer; commencement of new transaction activity; and regulatory or law enforcement requests."
+          }
+        }
+      },
+      "3": {
+        "title": "Reactivation process",
+        "subparagraphs": {
+          "1": {
+            "text": "Before reactivating a dormant account, the Obliged Entity must perform customer due diligence appropriate to the customer's current risk classification. For standard-risk customers, this must include re-verification of identity documents if those on file have expired and confirmation of the source of funds. For high-risk customers, full enhanced due diligence must be completed before reactivation is permitted."
+          },
+          "2": {
+            "text": "The Obliged Entity must maintain a record of all dormant account reviews and reactivations, including the date of reactivation, the due diligence measures performed, and the identity of the employee and supervisor who approved reactivation. These records must be retained in accordance with the record-keeping requirements of the AML Law."
+          }
+        }
+      }
+    }
+  }
+}

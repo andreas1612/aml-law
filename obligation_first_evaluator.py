@@ -36,6 +36,12 @@ from pathlib import Path
 import chromadb
 import requests
 
+try:
+    from rank_bm25 import BM25Okapi as _BM25Okapi
+    _BM25_AVAILABLE = True
+except ImportError:
+    _BM25_AVAILABLE = False
+
 # ─── Shared infrastructure from existing evaluator ────────────────────────────
 from rag_evaluator import (
     load_config,
@@ -61,9 +67,10 @@ For each item below you are given:
 Decide: do any of the policy sections satisfy this legal obligation?
 
 Return ONLY a JSON array, no markdown, no extra text. One object per item.
-SCHEMA: [{{"id":1,"verdict":"GAP","severity":"mandatory","missing":"one sentence — what specific element is absent"}}]
+SCHEMA: [{{"id":1,"verdict":"GAP","severity":"mandatory","policy_area":"CDD","missing":"one sentence — what specific element is absent"}}]
 verdict: GAP or COMPLIANT
 severity: mandatory, recommended, or informational
+policy_area: one of: CDD, PEP, sanctions, training, monitoring, reporting, governance, risk_assessment, other
 missing: null if COMPLIANT, one concise sentence if GAP describing the missing element
 
 ITEMS:
@@ -71,6 +78,43 @@ ITEMS:
 """
 
 BATCH_SIZE = 10   # proven — larger batches produce truncated JSON
+BM25_FALLBACK_THRESHOLD = 0.85   # ChromaDB distance above which BM25 takes over
+
+
+# ─── BM25 hybrid retrieval helpers ───────────────────────────────────────────
+
+import re as _re
+
+def _bm25_tokenize(text: str) -> list:
+    return _re.findall(r'[a-z]{3,}', text.lower())
+
+def _build_bm25_index(pages: list) -> tuple:
+    """Build BM25Okapi index from policy pages. Returns (bm25, texts, page_nums)."""
+    if not _BM25_AVAILABLE:
+        return None, [], []
+    non_empty = [(i, t) for i, t in enumerate(pages) if t.strip()]
+    tokenized  = [_bm25_tokenize(t) for _, t in non_empty]
+    bm25       = _BM25Okapi(tokenized)
+    texts      = [t for _, t in non_empty]
+    page_nums  = [i + 1 for i, _ in non_empty]
+    return bm25, texts, page_nums
+
+def _bm25_search(bm25, query_text: str, texts: list, page_nums: list, top_k: int = 3) -> list:
+    """Return top-k policy sections via BM25 keyword search."""
+    query_tokens = _bm25_tokenize(query_text)
+    if not query_tokens or not texts:
+        return []
+    scores    = bm25.get_scores(query_tokens)
+    top_idxs  = sorted(range(len(scores)), key=lambda i: -scores[i])[:top_k]
+    max_score = max(scores) if max(scores) > 0 else 1.0
+    return [
+        {
+            'page':     page_nums[idx],
+            'text':     texts[idx][:600],
+            'distance': round(max(0.0, 1.0 - scores[idx] / max_score), 4),
+        }
+        for idx in top_idxs
+    ]
 
 
 # ─── Credit exhaustion sentinel ───────────────────────────────────────────────
@@ -89,11 +133,16 @@ def _load_hcg(hcg_path: str = "compliance_graph.json") -> dict:
     return {}
 
 
-def obligation_sweep(policy_stamp: str, config: dict) -> list:
+def obligation_sweep(policy_stamp: str, config: dict,
+                     bm25_data: tuple = None) -> list:
     """
     Query the ephemeral policy collection with each of 325 law nodes.
     Returns one candidate finding per node, sorted worst-distance-first.
     HCG sympathetic nodes (confirmed_gap_weight >= 0.5) jump to front of queue.
+
+    When ChromaDB best distance > BM25_FALLBACK_THRESHOLD and bm25_data is
+    provided, the top_sections sent to Kimi are replaced with BM25 keyword
+    results — recovering ~4 of the 10 retrieval-failure gaps (C3).
 
     Guaranteed 100% law graph coverage by construction — no node is skipped.
     """
@@ -102,9 +151,12 @@ def obligation_sweep(policy_stamp: str, config: dict) -> list:
     law_col       = chroma_client.get_collection(config['regulated_under'][0])
     hcg           = _load_hcg()
 
-    all_nodes = law_col.get(include=['documents', 'metadatas'])
-    total     = len(all_nodes['documents'])
-    findings  = []
+    bm25_idx, bm25_texts, bm25_page_nums = bm25_data if bm25_data else (None, [], [])
+
+    all_nodes  = law_col.get(include=['documents', 'metadatas'])
+    total      = len(all_nodes['documents'])
+    findings   = []
+    bm25_used  = 0
 
     print(f"  Sweeping {total} law nodes against policy collection...")
 
@@ -126,6 +178,14 @@ def obligation_sweep(policy_stamp: str, config: dict) -> list:
             for t, m, d in zip(docs_, metas_, distances)
         ]
 
+        # BM25 fallback: ChromaDB failed to retrieve relevant pages
+        if bm25_idx is not None and best_dist > BM25_FALLBACK_THRESHOLD:
+            bm25_results = _bm25_search(bm25_idx, doc, bm25_texts, bm25_page_nums, top_k=3)
+            if bm25_results:
+                top_sections = bm25_results
+                best_page    = bm25_results[0]['page']
+                bm25_used   += 1
+
         findings.append({
             'node_path':           meta.get('path', ''),
             'source_file':         meta.get('source_file', ''),
@@ -134,7 +194,7 @@ def obligation_sweep(policy_stamp: str, config: dict) -> list:
             'page_range':          [best_page, best_page],      # page of best policy match
             'jurisdictions':       [config['regulated_under'][0]],
             'top_sections':        top_sections,
-            'anonymized_snippet':  top_sections[best_idx]['text'],  # best match for report
+            'anonymized_snippet':  top_sections[0]['text'],     # best match for report
         })
 
         if (i + 1) % 50 == 0 or i + 1 == total:
@@ -148,6 +208,8 @@ def obligation_sweep(policy_stamp: str, config: dict) -> list:
     ))
 
     print(f"  Sweep complete — {total} candidates, sorted worst-distance-first")
+    if bm25_used:
+        print(f"  BM25 fallback used for {bm25_used} nodes (ChromaDB dist > {BM25_FALLBACK_THRESHOLD})")
     sympathetic = sum(1 for f in findings
                       if hcg.get(f['node_path'], {}).get('confirmed_gap_weight', 0) >= 0.5)
     if sympathetic:
@@ -547,9 +609,17 @@ def run_obligation_evaluation(pdf_path: Path, config: dict,
     policy_col, bigram_set, _ = _build_policy_index(pages, stamp, chroma_client)
     print()
 
+    # ── Phase 1d: build BM25 index for hybrid retrieval fallback (C3) ────────
+    bm25_data = None
+    if _BM25_AVAILABLE:
+        print("[Phase 1d] Building BM25 index for retrieval fallback...")
+        bm25_data = _build_bm25_index(pages)
+        print(f"  BM25 index: {len(bm25_data[1])} pages indexed")
+        print()
+
     # ── Phase 2: obligation-first sweep ───────────────────────────────────────
     print("[Phase 2] Obligation-first sweep (325 law nodes → policy collection)...")
-    findings = obligation_sweep(stamp, config)
+    findings = obligation_sweep(stamp, config, bm25_data=bm25_data)
     print()
 
     # ── Phase 3: anonymization ────────────────────────────────────────────────

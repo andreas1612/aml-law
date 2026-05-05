@@ -1,0 +1,43 @@
+{
+  "CIRCULAR_C315": {
+    "title": "AML/CFT Staff Training Obligations (CySEC Circular C315)",
+    "paragraphs": {
+      "1": {
+        "title": "Mandatory AML training for all staff",
+        "subparagraphs": {
+          "1": {
+            "text": "All employees of the Obliged Entity whose duties are relevant to the prevention of money laundering and terrorist financing must receive mandatory AML/CFT training. Training must be provided to all new employees before they begin their duties and to all existing employees on a regular and recurring basis."
+          },
+          "2": {
+            "text": "The Obliged Entity must maintain a documented training programme that specifies the content, frequency and target audience of AML/CFT training. The programme must be reviewed and updated whenever there are material changes to AML/CFT legislation, CySEC directives, or the Obliged Entity's own risk profile."
+          },
+          "3": {
+            "text": "The frequency of AML/CFT training must be sufficient to ensure all relevant staff remain aware of current legal obligations, typologies of money laundering and terrorist financing, and the Obliged Entity's internal procedures. As a minimum, training must be repeated at least annually for staff in client-facing, compliance, and senior management roles."
+          }
+        }
+      },
+      "2": {
+        "title": "Training content requirements",
+        "subparagraphs": {
+          "1": {
+            "text": "AML/CFT training content must cover, as a minimum: the legal and regulatory framework applicable to the Obliged Entity; the Obliged Entity's internal AML/CFT policies, procedures and controls; how to recognise suspicious transactions and activities; the employee's obligation to report suspicions internally; whistleblowing protections; and the consequences of non-compliance."
+          },
+          "2": {
+            "text": "Training content must be tailored to the specific roles and responsibilities of each employee group. Front-office and client-facing staff must receive training on customer due diligence, PEP identification, and transaction monitoring. Compliance staff must receive training on regulatory developments, risk assessment methodologies, and suspicious activity reporting to MOKAS."
+          }
+        }
+      },
+      "3": {
+        "title": "Records of training completion",
+        "subparagraphs": {
+          "1": {
+            "text": "The Obliged Entity must maintain records of all AML/CFT training completed by each employee. Records must include the date of training, content covered, delivery method, and evidence of completion or assessment result. Training records must be retained for a minimum period consistent with the record-keeping requirements of the AML Law and must be available for inspection by CySEC upon request."
+          },
+          "2": {
+            "text": "The Compliance Officer is responsible for ensuring that training records are kept up to date and for reporting on training completion to senior management and the board of directors as part of the annual compliance report."
+          }
+        }
+      }
+    }
+  }
+}

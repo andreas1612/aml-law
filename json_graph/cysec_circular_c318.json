@@ -1,0 +1,46 @@
+{
+  "CIRCULAR_C318": {
+    "title": "Customer Identification — Document Verification Procedures (CySEC Circular C318)",
+    "paragraphs": {
+      "1": {
+        "title": "Passport and identity document screening",
+        "subparagraphs": {
+          "1": {
+            "text": "The Obliged Entity must verify the identity of every customer using official identity documents before or at the time of establishing a business relationship or executing an occasional transaction above the applicable threshold. Acceptable documents for natural persons include a valid passport, national identity card, or other government-issued photographic identity document."
+          },
+          "2": {
+            "text": "All identity documents presented by customers must be checked for validity, including the expiry date, visible security features, and consistency with other information provided by the customer. Expired identity documents must not be accepted as valid identification unless expressly permitted under an applicable CySEC exemption."
+          },
+          "3": {
+            "text": "The Obliged Entity must maintain procedures to verify that the identity document belongs to the person presenting it, including comparison of the photograph and physical description on the document with the individual. Where the business relationship is established without face-to-face contact, enhanced verification measures must be applied."
+          }
+        }
+      },
+      "2": {
+        "title": "Physical versus electronic verification",
+        "subparagraphs": {
+          "1": {
+            "text": "Where customer identification is performed in person (physical verification), the Obliged Entity must inspect original identity documents and retain certified copies or scanned images. The employee performing the verification must record the document type, number, issuing authority, and expiry date in the customer file."
+          },
+          "2": {
+            "text": "Where customer identification is performed electronically (remote or digital on-boarding), the Obliged Entity must apply electronic identity verification measures that provide an equivalent level of assurance to physical verification. Electronic verification tools must be capable of detecting forged or altered documents and must be validated against authoritative data sources."
+          },
+          "3": {
+            "text": "Customers identified by electronic means must be subject to enhanced monitoring during the early stages of the business relationship. The Obliged Entity must document the electronic verification method used for each customer and retain evidence sufficient to demonstrate to CySEC that the verification was performed correctly."
+          }
+        }
+      },
+      "3": {
+        "title": "Validity checks and ongoing document refresh",
+        "subparagraphs": {
+          "1": {
+            "text": "The Obliged Entity must establish procedures for refreshing customer identity documents that have expired during the course of the business relationship. The frequency of document refresh must be proportionate to the customer's risk classification: high-risk customers must have their identity documents reviewed and updated at every enhanced due diligence review; standard-risk customers must have identity documents refreshed at least every five years or upon expiry, whichever is sooner."
+          },
+          "2": {
+            "text": "Where a customer fails to provide updated identity documentation when requested, the Obliged Entity must consider whether to restrict or terminate the business relationship in accordance with its customer exit procedures, and must assess whether a suspicious activity report to MOKAS is warranted."
+          }
+        }
+      }
+    }
+  }
+}
