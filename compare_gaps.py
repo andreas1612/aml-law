@@ -12,7 +12,7 @@ import pandas as pd
 sys.stdout.reconfigure(encoding="utf-8")
 
 # ── Paths ──────────────────────────────────────────────────────────────────
-JSON_PATH  = r"C:\Users\andre\Desktop\aml_proof\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260428_163428.json"
+JSON_PATH  = r"C:\Users\andre\Desktop\aml_proof\evaluation_results\AML Manual V8.0_Reviewed(Draft).docx_20260505_100819.json"
 XLSX_PATH  = r"C:\Users\andre\Downloads\CCSV - AML_KYC.xlsx"
 
 # ── Load system results ────────────────────────────────────────────────────
@@ -72,14 +72,15 @@ MATCH_THRESHOLD = 0.06   # Jaccard — tune if needed
 
 sys_results = []
 for v in confirmed:
-    f   = get_finding(v["id"])
-    skw = keywords(v["gap"] + " " + f.get("matched_rule", ""))
+    f       = get_finding(v["id"])
+    gap_txt = v.get("gap") or v.get("missing") or ""
+    skw = keywords(gap_txt + " " + f.get("matched_rule", ""))
     scored = [(jaccard(skw, h["kw"]), h) for h in human_gaps]
     scored.sort(key=lambda x: -x[0])
     best_score, best_h = scored[0]
     sys_results.append({
         "sys_id":    v["id"],
-        "sys_gap":   v["gap"],
+        "sys_gap":   gap_txt,
         "sys_node":  f.get("node_path", ""),
         "sys_rule":  f.get("matched_rule", ""),
         "sys_sev":   v["severity"],
@@ -139,10 +140,12 @@ print(f"    Matched a human gap:        {len(matched_sys)}  (score >= {MATCH_THR
 print(f"    No human match found:       {len(unmatched_sys)}")
 print()
 
-policy_nos   = {h["no"] for h in policy_human}
-caught_policy = [r for r in matched_sys if r["h_no"] in policy_nos]
-recall_pct = round(100 * len(caught_policy) / max(len(policy_human), 1))
-print(f"  RECALL on policy-level gaps:  {len(caught_policy)}/{len(policy_human)} = {recall_pct}%")
+policy_nos          = {h["no"] for h in policy_human}
+caught_policy_nos   = {r["h_no"] for r in matched_sys if r["h_no"] in policy_nos}  # unique human gaps covered
+caught_policy       = [r for r in matched_sys if r["h_no"] in policy_nos]           # system gaps that hit a policy gap
+recall_pct = round(100 * len(caught_policy_nos) / max(len(policy_human), 1))
+print(f"  RECALL on policy-level gaps:  {len(caught_policy_nos)}/{len(policy_human)} unique human gaps covered = {recall_pct}%")
+print(f"  (System gaps that matched:    {len(caught_policy)} — multiple system gaps can match same human gap)")
 print(f"  NOTE: system evaluated document text only.")
 print(f"        Operational gaps require reviewing CRM/client files — out of scope.")
 print()

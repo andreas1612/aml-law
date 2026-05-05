@@ -498,6 +498,14 @@ def run_obligation_evaluation(pdf_path: Path, config: dict,
         bigram_set = set(f"{words[i]} {words[i+1]}" for i in range(len(words) - 1))
         print()
 
+        # If no verdicts in saved JSON (e.g. keyless run), call Kimi now
+        if not verdicts:
+            print("[Phase 4] No verdicts in saved JSON — running Kimi now...")
+            verdicts, credit_exhausted = call_verdict_api(findings, config)
+            print()
+        else:
+            credit_exhausted = False
+
         print("[Phase 4b] Obligation cross-check (sweep distances)...")
         verdicts = obligation_cross_check(verdicts, findings, bigram_set)
         print()
@@ -506,7 +514,8 @@ def run_obligation_evaluation(pdf_path: Path, config: dict,
         critical_nodes = _update_hcg(verdicts, findings)
         print()
 
-        result   = {**saved, "verdicts": verdicts, "evaluated_at": datetime.now().isoformat()}
+        result   = {**saved, "verdicts": verdicts, "evaluated_at": datetime.now().isoformat(),
+                    "credit_exhausted": credit_exhausted}
         out_path = _save(result, pdf_path, stamp)
 
         print("[Phase 5] Generating report...")
