@@ -536,6 +536,7 @@ def _update_hcg(verdicts: list, findings: list,
         idx = v.get('id', 0) - 1
         return findings[idx] if 0 <= idx < len(findings) else {}
 
+    updated_this_run = set()
     for v in verdicts:
         if not isinstance(v, dict):
             continue
@@ -556,14 +557,19 @@ def _update_hcg(verdicts: list, findings: list,
             entry['confirmed_gap_weight'] = min(1.0, entry['confirmed_gap_weight'] + 0.1)
         elif cc == 'LIKELY_COMPLIANT':
             entry['compliant_weight'] = min(1.0, entry['compliant_weight'] + 0.1)
-        entry['documents_evaluated'] += 1
+        if node not in updated_this_run:
+            entry['documents_evaluated'] += 1
+            updated_this_run.add(node)
         entry['last_seen'] = datetime.now().isoformat()[:10]
 
     with open(hcg_file, 'w', encoding='utf-8') as f:
         json.dump(hcg, f, indent=2)
 
-    high_gap = sum(1 for e in hcg.values() if e.get('confirmed_gap_weight', 0) >= 0.5)
-    print(f"  HCG updated: {len(hcg)} nodes tracked, {high_gap} high-weight confirmed gaps")
+    critical_nodes = {n: e for n, e in hcg.items() if e.get('confirmed_gap_weight', 0) >= 0.5}
+    print(f"  HCG updated: {len(hcg)} nodes tracked, {len(critical_nodes)} high-weight confirmed gaps")
+    if critical_nodes:
+        print(f"  CRITICAL: {len(critical_nodes)} nodes at confirmed_gap_weight >= 0.5")
+    return critical_nodes
 
 # ─── Post-Kimi Gap Description Deduplication ─────────────────────────────────
 
@@ -619,7 +625,7 @@ def _greedy_priority_gaps(gaps: list, get_finding_fn,
 
 # ─── Orchestrator ─────────────────────────────────────────────────────────────
 
-def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
+def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False, verdict_only: str = None):
     RESULTS_DIR.mkdir(exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -630,6 +636,60 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
     print(f"  Law       : {', '.join(config['regulated_under'])}")
     print(f"  Anon mode : {'SKIP (raw text to API — PoC only)' if skip_anon else 'Ollama ' + config['ollama_model']}")
     print("="*60 + "\n")
+
+    # ── Verdict-only: reload saved JSON, skip extraction + Kimi ──
+    if verdict_only:
+        print(f"[--verdict-only] Loading saved results from: {verdict_only}")
+        with open(verdict_only, encoding='utf-8') as f:
+            saved = json.load(f)
+        findings = saved.get('findings', [])
+        verdicts = saved.get('verdicts', [])
+        # Strip previous cross-check fields so re-run is clean
+        for v in verdicts:
+            for field in ('cross_check', 'cross_check_note', 'covered_on_page',
+                          'closest_page', 'coverage_distance'):
+                v.pop(field, None)
+        print(f"  {len(findings)} findings, {len(verdicts)} verdicts loaded.\n")
+
+        print("[Phase 1a] Re-extracting pages for policy index rebuild...")
+        pages = extract_pages(pdf_path)
+        print(f"  Total pages: {len(pages)}\n")
+
+        print("[Phase 1c] Rebuilding ephemeral policy index...")
+        chroma_client = chromadb.PersistentClient(path=str(DB_PATH))
+        policy_col, bigram_set, _ = _build_policy_index(pages, stamp, chroma_client)
+        print()
+
+        print("[Phase 4b-pre] Deduplicating gap descriptions...")
+        verdicts = _deduplicate_gap_descriptions(verdicts)
+        print()
+
+        print("[Phase 4b] Bidirectional cross-check...")
+        verdicts = _bidirectional_cross_check(verdicts, findings, policy_col, bigram_set)
+        print()
+
+        print("[Phase 4c] Updating Hebbian Compliance Graph...")
+        critical_nodes = _update_hcg(verdicts, findings)
+        print()
+
+        result = {**saved, "verdicts": verdicts, "evaluated_at": datetime.now().isoformat()}
+        out_path = _save(result, pdf_path, stamp)
+
+        print("[Phase 5] Generating report...")
+        report_path = _generate_report(result, findings, stamp, pdf_path, critical_nodes)
+        print()
+
+        try:
+            chroma_client.delete_collection(f"policy_{stamp}")
+        except Exception:
+            pass
+
+        print("="*60)
+        print(f"  VERDICT-ONLY COMPLETE")
+        print(f"  JSON   -> {out_path}")
+        print(f"  Report -> {report_path}")
+        print("="*60 + "\n")
+        return
 
     # ── Phase 1a: extract ─────────────────────────────────────────
     print("[Phase 1a] Extracting pages...")
@@ -697,7 +757,7 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
 
     # ── Phase 4c: Hebbian Compliance Graph ────────────────────────
     print("[Phase 4c] Updating Hebbian Compliance Graph...")
-    _update_hcg(verdicts, findings)
+    critical_nodes = _update_hcg(verdicts, findings)
     print()
 
     result = {
@@ -713,7 +773,7 @@ def run_evaluation(pdf_path: Path, config: dict, skip_anon: bool = False):
 
     # ── Phase 5: HTML report ──────────────────────────────────────
     print("[Phase 5] Generating report...")
-    report_path = _generate_report(result, findings, stamp, pdf_path)
+    report_path = _generate_report(result, findings, stamp, pdf_path, critical_nodes)
     print()
 
     # ── Cleanup: delete ephemeral policy index ────────────────────
@@ -765,7 +825,7 @@ def _format_law_node(node_path: str) -> str:
     return f"{part} {ref}".strip() if (part or ref) else node_path
 
 
-def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -> Path:
+def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path, critical_nodes: dict = None) -> Path:
     """
     Generates a self-contained professional HTML compliance report.
     Sections: header, KPI bar, priority remediation, confirmed gaps,
@@ -916,6 +976,37 @@ def _generate_report(result: dict, findings: list, stamp: str, pdf_path: Path) -
     n_conf_info = sum(1 for g in confirmed_gaps if g.get("severity") == "informational")
 
     eval_date = result['evaluated_at'][:19].replace('T', ' ')
+
+    if critical_nodes:
+        crit_rows = []
+        for node, entry in sorted(critical_nodes.items(), key=lambda x: -x[1].get('confirmed_gap_weight', 0)):
+            ref  = _format_law_node(node)
+            w    = entry.get('confirmed_gap_weight', 0)
+            docs = entry.get('documents_evaluated', 0)
+            last = entry.get('last_seen') or '—'
+            crit_rows.append(
+                f'<tr><td><span class="ref" style="color:#c0392b">{ref}</span></td>'
+                f'<td style="color:#c0392b;font-weight:700;font-family:monospace">{w:.1f}</td>'
+                f'<td style="color:#555">{docs}</td>'
+                f'<td style="color:#555">{last}</td></tr>'
+            )
+        critical_html = f"""
+<div class="section-card" style="border-left:4px solid #c0392b;margin-bottom:24px">
+  <div class="section-header" style="background:#fff5f5">
+    <h2><span class="section-dot" style="background:#c0392b"></span>
+      CRITICAL &#x2014; Systemic Gaps &nbsp;
+      <span style="font-weight:400;color:#888;font-size:0.85rem">({len(critical_nodes)} obligations confirmed absent across multiple documents)</span>
+    </h2>
+  </div>
+  <div class="section-body">
+    <table>
+      <thead><tr><th>Law Reference</th><th>Gap Weight</th><th>Docs Evaluated</th><th>Last Seen</th></tr></thead>
+      <tbody>{"".join(crit_rows)}</tbody>
+    </table>
+  </div>
+</div>"""
+    else:
+        critical_html = ""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -1100,6 +1191,7 @@ details .section-card {{ border-radius: 0 0 8px 8px; margin-top: 0; }}
 
 <div class="main">
 
+{critical_html}
 <!-- KPI Bar -->
 <div class="kpi-bar">
   <div class="kpi red">
@@ -1283,9 +1375,10 @@ function filterTable(tableId, sev, btn) {{
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AML Compliance Auditor — Sliding Window Evaluator")
-    parser.add_argument("--pdf",       type=str,  default=None,                help="PDF filename inside test_transactions/")
-    parser.add_argument("--config",    type=str,  default="client_config.json", help="Client config JSON")
-    parser.add_argument("--skip-anon", action="store_true",                     help="Skip Ollama anonymization (PoC only — sends raw text to API)")
+    parser.add_argument("--pdf",          type=str,  default=None,                help="PDF filename inside test_transactions/")
+    parser.add_argument("--config",       type=str,  default="client_config.json", help="Client config JSON")
+    parser.add_argument("--skip-anon",    action="store_true",                     help="Skip Ollama anonymization (PoC only — sends raw text to API)")
+    parser.add_argument("--verdict-only", type=str,  default=None,                help="Path to existing result JSON. Re-run cross-check and report without calling Kimi.")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -1304,4 +1397,4 @@ if __name__ == "__main__":
         print(f"ERROR: File not found — {pdf_path}")
         sys.exit(1)
 
-    run_evaluation(pdf_path, cfg, skip_anon=args.skip_anon)
+    run_evaluation(pdf_path, cfg, skip_anon=args.skip_anon, verdict_only=args.verdict_only)
