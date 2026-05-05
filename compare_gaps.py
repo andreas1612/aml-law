@@ -1,14 +1,11 @@
-"""
-compare_gaps.py
-Compares system CONFIRMED_GAPs against human expert XLSX findings.
-
-PATHS: Set JSON_PATH to the evaluation result you want to measure.
-       Set XLSX_PATH to wherever CCSV - AML_KYC.xlsx lives on your machine.
-
-  X1 Carbon:    JSON_PATH points to evaluation_results/ in this repo
-                XLSX_PATH = r"C:\Users\andre\Downloads\CCSV - AML_KYC.xlsx"
-  Work laptop:  XLSX_PATH = r"C:\Users\Andreas.Pi\OneDrive - K.Treppides & Co\Desktop\amllaw\CCSV - AML_KYC.xlsx"
-"""
+# compare_gaps.py
+# Compares system CONFIRMED_GAPs against human expert XLSX findings.
+#
+# PATHS: JSON_PATH  — evaluation result to measure (relative or absolute)
+#        XLSX_PATH  — auto-detected from _XLSX_CANDIDATES; add your path if needed
+#
+#   X1 Carbon:   C:/Users/andre/Downloads/CCSV - AML_KYC.xlsx
+#   Work laptop: C:/Users/Andreas.Pi/OneDrive - K.Treppides & Co/Desktop/amllaw/CCSV - AML_KYC.xlsx
 
 import json
 import os
